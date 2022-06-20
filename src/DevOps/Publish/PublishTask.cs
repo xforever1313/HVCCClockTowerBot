@@ -54,6 +54,7 @@ namespace DevOps.Publish
             context.DotNetCorePublish( servicePath.ToString(), publishOptions );
             context.Information( string.Empty );
 
+            CopyRootFile( context, "Readme.md" );
             CopyRootFile( context, "Credits.md" );
             CopyRootFile( context, "LICENSE.txt" );
         }
