@@ -43,6 +43,7 @@ namespace DevOps
             this.Solution = this.SrcDir.CombineWithFilePath( "HvccClock.sln" );
             this.DistFolder = this.RepoRoot.Combine( "dist" );
             this.LooseFilesDistFolder = this.DistFolder.Combine( "files" );
+            this.ZipFilesDistFolder = this.DistFolder.Combine( "zip" );
             this.TestResultsFolder = this.RepoRoot.Combine( "TestResults" );
             this.TestCsProj = this.SrcDir.CombineWithFilePath( "HvccClock.Tests/HvccClock.Tests.csproj" );
         }
@@ -60,6 +61,8 @@ namespace DevOps
         public DirectoryPath LooseFilesDistFolder { get; private set; }
 
         public DirectoryPath TestResultsFolder { get; private set; }
+
+        public DirectoryPath ZipFilesDistFolder { get; private set; }
 
         public FilePath TestCsProj { get; private set; }
 
