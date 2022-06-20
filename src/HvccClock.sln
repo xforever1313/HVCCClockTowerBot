@@ -7,7 +7,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HvccClock", "HvccClock\Hvcc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HvccClock.Tests", "HvccClock.Tests\HvccClock.Tests.csproj", "{BD93EBE7-4ACA-4C1A-9C41-195947174789}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seth.CakeLib", "..\SethCS\Seth.CakeLib\Seth.CakeLib.csproj", "{EC6194BB-3E95-4BB3-AEB2-59A2188FA912}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibSethCS", "..\SethCS\LibSethCS\LibSethCS.csproj", "{7EC18BB9-A06B-4799-8202-0581B512392C}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SethCS", "..\SethCS\SethCS\SethCS.shproj", "{52089274-B9A2-4A47-A221-C321DEE1CE7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevOps", "DevOps\DevOps.csproj", "{A3FCFF67-B434-4DC0-A028-6863CC0F86F4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seth.Analyzer", "..\SethCS\Seth.Analyzer\Seth.Analyzer.csproj", "{81E3569B-212E-45A1-B349-CFC1551FC809}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\SethCS\SethCS\SethCS.projitems*{52089274-b9a2-4a47-a221-c321dee1ce7f}*SharedItemsImports = 13
+		..\SethCS\SethCS\SethCS.projitems*{7ec18bb9-a06b-4799-8202-0581b512392c}*SharedItemsImports = 5
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -21,6 +35,22 @@ Global
 		{BD93EBE7-4ACA-4C1A-9C41-195947174789}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD93EBE7-4ACA-4C1A-9C41-195947174789}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD93EBE7-4ACA-4C1A-9C41-195947174789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC6194BB-3E95-4BB3-AEB2-59A2188FA912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC6194BB-3E95-4BB3-AEB2-59A2188FA912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC6194BB-3E95-4BB3-AEB2-59A2188FA912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC6194BB-3E95-4BB3-AEB2-59A2188FA912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EC18BB9-A06B-4799-8202-0581B512392C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EC18BB9-A06B-4799-8202-0581B512392C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EC18BB9-A06B-4799-8202-0581B512392C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EC18BB9-A06B-4799-8202-0581B512392C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3FCFF67-B434-4DC0-A028-6863CC0F86F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3FCFF67-B434-4DC0-A028-6863CC0F86F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3FCFF67-B434-4DC0-A028-6863CC0F86F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3FCFF67-B434-4DC0-A028-6863CC0F86F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81E3569B-212E-45A1-B349-CFC1551FC809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81E3569B-212E-45A1-B349-CFC1551FC809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81E3569B-212E-45A1-B349-CFC1551FC809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81E3569B-212E-45A1-B349-CFC1551FC809}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
