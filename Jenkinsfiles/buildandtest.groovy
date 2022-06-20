@@ -104,7 +104,7 @@ pipeline
                     {
                         always
                         {
-                            X13ParseNUnit3Results(
+                            X13ParseMsTestResults(
                                 filePattern: "checkout/TestResults/HvccClock.Tests/*.xml",
                                 abortOnFail: true
                             );
