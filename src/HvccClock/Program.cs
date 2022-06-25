@@ -17,9 +17,13 @@
 //
 
 using HvccClock;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Prometheus;
 using Quartz;
 
-IHost host = Host.CreateDefaultBuilder( args )
+var host = WebHost.CreateDefaultBuilder( args )
     .ConfigureServices(
         services =>
         {
@@ -60,6 +64,19 @@ IHost host = Host.CreateDefaultBuilder( args )
                 }
             );
         }
-    ).Build();
+    ).UseUrls( "http://0.0.0.0:9100" )
+    .Configure(
+        ( app ) =>
+        {
+            app.UseRouting();
+            app.UseEndpoints(
+                endpoints =>
+                {
+                    endpoints.MapMetrics( "/Metrics" );
+                }
+            );
+        }
+    )
+    .Build();
 
 await host.RunAsync();
