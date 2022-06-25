@@ -23,6 +23,14 @@ using Microsoft.AspNetCore.Hosting;
 using Prometheus;
 using Quartz;
 
+var config = new HvccClockConfig();
+if( config.TryValidate( out string error ) == false )
+{
+    Console.WriteLine( "Bot is misconfigured" );
+    Console.WriteLine( error );
+    return 1;
+}
+
 var host = WebHost.CreateDefaultBuilder( args )
     .ConfigureServices(
         services =>
@@ -80,3 +88,5 @@ var host = WebHost.CreateDefaultBuilder( args )
     .Build();
 
 await host.RunAsync();
+
+return 0;
