@@ -26,29 +26,42 @@ namespace HvccClock
     {
         // ---------------- Fields ----------------
 
+        public static event Action? OnSuccess;
+
+        public static event Action<Exception>? OnException;
+
         private readonly Stopwatch stopWatch = new Stopwatch();
 
         // ---------------- Functions ----------------
 
         public async Task Execute( IJobExecutionContext context )
         {
-            DateTime timeStamp = TimeZoneInfo.ConvertTimeFromUtc(
-                context.FireTimeUtc.DateTime,
-                TimeZoneInfo.FindSystemTimeZoneById( "America/New_York" )
-            );
-
-            if( stopWatch.IsRunning )
+            try
             {
-                if( stopWatch.Elapsed <= new TimeSpan( 0, 55, 0 ) )
+                DateTime timeStamp = TimeZoneInfo.ConvertTimeFromUtc(
+                    context.FireTimeUtc.DateTime,
+                    TimeZoneInfo.FindSystemTimeZoneById( "America/New_York" )
+                );
+
+                if( stopWatch.IsRunning )
                 {
-                    Console.WriteLine( $"Fired {timeStamp} too quickly, ignoring." );
-                    return;
+                    if( stopWatch.Elapsed <= new TimeSpan( 0, 55, 0 ) )
+                    {
+                        Console.WriteLine( $"Fired {timeStamp} too quickly, ignoring." );
+                        return;
+                    }
                 }
+
+                stopWatch.Restart();
+
+                Console.Write( GetTweetString( timeStamp ) );
+
+                OnSuccess?.Invoke();
             }
-
-            stopWatch.Restart();
-
-            Console.Write( GetTweetString( timeStamp ) );
+            catch( Exception e )
+            {
+                OnException?.Invoke( e );
+            }
 
             await Task.Delay( 1 );
         }

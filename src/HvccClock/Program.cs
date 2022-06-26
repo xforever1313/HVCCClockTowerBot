@@ -31,6 +31,17 @@ if( config.TryValidate( out string error ) == false )
     return 1;
 }
 
+try
+{
+    TweetJob.OnSuccess += TweetJob_OnSuccess;
+    TweetJob.OnException += TweetJob_OnException;
+}
+finally
+{
+    TweetJob.OnSuccess -= TweetJob_OnSuccess;
+    TweetJob.OnException -= TweetJob_OnException;
+}
+
 var host = WebHost.CreateDefaultBuilder( args )
     .ConfigureServices(
         services =>
@@ -88,5 +99,20 @@ var host = WebHost.CreateDefaultBuilder( args )
     .Build();
 
 await host.RunAsync();
+
+void TweetJob_OnSuccess()
+{
+    HvccClockMetrics.RecordSuccess();
+}
+
+void TweetJob_OnException( Exception obj )
+{
+    HvccClockMetrics.RecordException();
+
+    Console.Error.WriteLine( "***************" );
+    Console.Error.WriteLine( $"Exception thrown at {DateTime.Now}:" );
+    Console.Error.WriteLine( obj.ToString() );
+    Console.Error.WriteLine( "***************" );
+}
 
 return 0;
