@@ -18,6 +18,7 @@
 
 using System.Diagnostics;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
 namespace HvccClock
@@ -32,7 +33,33 @@ namespace HvccClock
 
         private readonly Stopwatch stopWatch = new Stopwatch();
 
+        private static readonly HttpClient httpClient;
+
+        // ---------------- Constructor ----------------
+
+        public TweetJob()
+        {
+        }
+
+        static TweetJob()
+        {
+            var socketsHandler = new SocketsHttpHandler
+            {
+                // We only send one request per hour,
+                // we can set this to a bigger value, such as
+                // 30 minutes.
+                PooledConnectionLifetime = TimeSpan.FromMinutes( 30 )
+            };
+
+            httpClient = new HttpClient( socketsHandler );
+        }
+
         // ---------------- Functions ----------------
+
+        public static void DisposeHttpClient()
+        {
+            httpClient?.Dispose();
+        }
 
         public async Task Execute( IJobExecutionContext context )
         {
@@ -45,7 +72,7 @@ namespace HvccClock
 
                 if( stopWatch.IsRunning )
                 {
-                    if( stopWatch.Elapsed <= new TimeSpan( 0, 55, 0 ) )
+                    if( stopWatch.Elapsed <= TimeSpan.FromMinutes( 55 ) )
                     {
                         Console.WriteLine( $"Fired {timeStamp} too quickly, ignoring." );
                         return;
@@ -54,7 +81,8 @@ namespace HvccClock
 
                 stopWatch.Restart();
 
-                Console.Write( GetTweetString( timeStamp ) );
+                string tweet = GetTweetString( timeStamp );
+                await SendTweet( tweet );
 
                 OnSuccess?.Invoke();
             }
@@ -62,8 +90,12 @@ namespace HvccClock
             {
                 OnException?.Invoke( e );
             }
+        }
 
-            await Task.Delay( 1 );
+        private async Task SendTweet( string tweet )
+        {
+            // TODO
+            await Task.Delay( 10 );
         }
 
         public static string GetTweetString( DateTime time )

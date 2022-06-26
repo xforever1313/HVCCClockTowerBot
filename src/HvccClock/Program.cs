@@ -35,70 +35,77 @@ try
 {
     TweetJob.OnSuccess += TweetJob_OnSuccess;
     TweetJob.OnException += TweetJob_OnException;
+
+    var host = WebHost.CreateDefaultBuilder( args )
+        .ConfigureServices(
+            services =>
+            {
+                services.AddQuartz(
+                    q =>
+                    {
+                        JobKey jobKey = JobKey.Create( nameof( TweetJob ) );
+                        q.AddJob<TweetJob>( jobKey );
+
+                        q.AddTrigger(
+                            ( ITriggerConfigurator config ) =>
+                            {
+                                config.WithCronSchedule(
+                                    $"0 0 * * * ?", // Fire every hour on the hour.
+                                    ( CronScheduleBuilder cronBuilder ) =>
+                                    {
+                                        // HVCC is in NY.
+                                        cronBuilder.InTimeZone( TimeZoneInfo.FindSystemTimeZoneById( "America/New_York" ) );
+                                        // If we misfire, just do nothing.  This isn't exactly
+                                        // the most important application
+                                        cronBuilder.WithMisfireHandlingInstructionDoNothing();
+                                        cronBuilder.Build();
+                                    }
+                                );
+                                config.WithDescription( $"Chime!" );
+                                config.ForJob( jobKey );
+                                config.StartNow();
+                            }
+                        );
+                    }
+                );
+
+                services.AddQuartzHostedService(
+                    options =>
+                    {
+                        options.AwaitApplicationStarted = true;
+                        options.WaitForJobsToComplete = true;
+                    }
+                );
+            }
+        ).UseUrls( "http://0.0.0.0:9100" )
+        .Configure(
+            ( app ) =>
+            {
+                app.UseRouting();
+                app.UseEndpoints(
+                    endpoints =>
+                    {
+                        endpoints.MapMetrics( "/Metrics" );
+                    }
+                );
+            }
+        )
+        .Build();
+
+    await host.RunAsync();
+}
+catch( Exception e )
+{
+    Console.Error.WriteLine( "FATAL ERROR:" );
+    Console.Error.WriteLine( e.ToString() );
+    return 2;
 }
 finally
 {
+    TweetJob.DisposeHttpClient();
     TweetJob.OnSuccess -= TweetJob_OnSuccess;
     TweetJob.OnException -= TweetJob_OnException;
 }
-
-var host = WebHost.CreateDefaultBuilder( args )
-    .ConfigureServices(
-        services =>
-        {
-            services.AddQuartz(
-                q =>
-                {
-                    JobKey jobKey = JobKey.Create( nameof( TweetJob ) );
-                    q.AddJob<TweetJob>( jobKey );
-
-                    q.AddTrigger(
-                        ( ITriggerConfigurator config ) =>
-                        {
-                            config.WithCronSchedule(
-                                $"0 0 * * * ?", // Fire every hour on the hour.
-                                ( CronScheduleBuilder cronBuilder ) =>
-                                {
-                                    // HVCC is in NY.
-                                    cronBuilder.InTimeZone( TimeZoneInfo.FindSystemTimeZoneById( "America/New_York" ) );
-                                    // If we misfire, just do nothing.  This isn't exactly
-                                    // the most important application
-                                    cronBuilder.WithMisfireHandlingInstructionDoNothing();
-                                    cronBuilder.Build();
-                                }
-                            );
-                            config.WithDescription( $"Chime!" );
-                            config.ForJob( jobKey );
-                            config.StartNow();
-                        }
-                    );
-                }
-            );
-
-            services.AddQuartzHostedService(
-                options =>
-                {
-                    options.AwaitApplicationStarted = true;
-                    options.WaitForJobsToComplete = true;
-                }
-            );
-        }
-    ).UseUrls( "http://0.0.0.0:9100" )
-    .Configure(
-        ( app ) =>
-        {
-            app.UseRouting();
-            app.UseEndpoints(
-                endpoints =>
-                {
-                    endpoints.MapMetrics( "/Metrics" );
-                }
-            );
-        }
-    )
-    .Build();
-
-await host.RunAsync();
 
 void TweetJob_OnSuccess()
 {
