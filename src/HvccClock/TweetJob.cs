@@ -17,8 +17,11 @@
 //
 
 using System.Diagnostics;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
-using Microsoft.Extensions.DependencyInjection;
+using IdentityModel.Client;
+using Newtonsoft.Json;
 using Quartz;
 
 namespace HvccClock
@@ -34,6 +37,11 @@ namespace HvccClock
         private readonly Stopwatch stopWatch = new Stopwatch();
 
         private static readonly HttpClient httpClient;
+
+        private const string requestTokenUrl = "https://api.twitter.com/oauth/request_token";
+        private const string baseAuthUrl = "https://api.twitter.com/oauth/authorize";
+        private const string accessTokenUrl = "https://api.twitter.com/oauth/access_token";
+        private const string tweetUrl = "https://api.twitter.com/2/tweets";
 
         // ---------------- Constructor ----------------
 
@@ -52,6 +60,14 @@ namespace HvccClock
             };
 
             httpClient = new HttpClient( socketsHandler );
+
+            string version = typeof( TweetJob ).Assembly.GetName()?.Version?.ToString( 3 ) ?? "Unkown Version";
+
+            var productValue = new ProductInfoHeaderValue( "HvccClock", version );
+            var productComment = new ProductInfoHeaderValue( "@HVCC_Clock - https://github.com/xforever1313/HVCCClockTowerBot" );
+
+            httpClient.DefaultRequestHeaders.UserAgent.Add( productValue );
+            httpClient.DefaultRequestHeaders.UserAgent.Add( productComment );
         }
 
         // ---------------- Functions ----------------
@@ -82,7 +98,7 @@ namespace HvccClock
                 stopWatch.Restart();
 
                 string tweet = GetTweetString( timeStamp );
-                await SendTweet( tweet );
+                await SendTweet( tweet, context.CancellationToken );
 
                 OnSuccess?.Invoke();
             }
@@ -92,10 +108,34 @@ namespace HvccClock
             }
         }
 
-        private async Task SendTweet( string tweet )
+        private async Task SendTweet( string tweetText, CancellationToken cancelToken )
         {
-            // TODO
-            await Task.Delay( 10 );
+            var hvccConfig = new HvccClockConfig();
+
+            var data = new Dictionary<string, string>()
+            {
+                { "text", tweetText }
+            };
+
+            var jsonData = JsonConvert.SerializeObject( data );
+
+            using( StringContent content = new StringContent( jsonData.ToString() ) )
+            {
+                var request = new ClientCredentialsTokenRequest
+                {
+                    Address = tweetUrl,
+                    ClientId = hvccConfig.ClientId,
+                    ClientSecret = hvccConfig.ClientSecret,
+                    Content = content,
+                    Method = HttpMethod.Post
+                };
+
+                TokenResponse response = await httpClient.RequestClientCredentialsTokenAsync( request );
+                if( response.IsError )
+                {
+                    throw new Exception( response.Error );
+                }
+            }
         }
 
         public static string GetTweetString( DateTime time )

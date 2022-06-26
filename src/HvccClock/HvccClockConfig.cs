@@ -28,15 +28,27 @@ namespace HvccClock
 
         public HvccClockConfig()
         {
-            this.ApiKey = Environment.GetEnvironmentVariable( "TWITTER_API_KEY" ) ?? string.Empty;
-            this.ApiSecret = Environment.GetEnvironmentVariable( "TWITTER_API_SECRET" ) ?? string.Empty;
+            this.ConsumerKey = Environment.GetEnvironmentVariable( "TWITTER_CONSUMER_KEY" ) ?? string.Empty;
+            this.ConsumerSecret = Environment.GetEnvironmentVariable( "TWITTER_CONSUMER_SECRET" ) ?? string.Empty;
+            this.AccessToken = Environment.GetEnvironmentVariable( "TWITTER_ACCESS_TOKEN" ) ?? string.Empty;
+            this.AccessTokenSecret = Environment.GetEnvironmentVariable( "TWITTER_ACCESS_TOKEN_SECRET" ) ?? string.Empty;
+            this.ClientId = Environment.GetEnvironmentVariable( "TWITTER_CLIENT_ID" ) ?? string.Empty;
+            this.ClientSecret = Environment.GetEnvironmentVariable( "TWITTER_CLIENT_SECRET" ) ?? string.Empty;
         }
 
         // ---------------- Properties ----------------
 
-        public string ApiKey { get; private set; }
+        public string ConsumerKey { get; private set; }
 
-        public string ApiSecret { get; private set; }
+        public string ConsumerSecret { get; private set; }
+
+        public string AccessToken { get; private set; }
+
+        public string AccessTokenSecret { get; private set; }
+
+        public string ClientId { get; private set; }
+
+        public string ClientSecret { get; private set; }
 
         // ---------------- Functions ----------------
 
@@ -44,14 +56,34 @@ namespace HvccClock
         {
             var errors = new List<string>();
 
-            if( string.IsNullOrWhiteSpace( this.ApiKey ) )
+            if( string.IsNullOrWhiteSpace( this.ConsumerKey ) )
             {
-                errors.Add( "TWITTER_API_KEY env var not specfied" );
+                errors.Add( "TWITTER_CONSUMER_KEY env var not specfied" );
             }
 
-            if( string.IsNullOrEmpty( this.ApiSecret ) )
+            if( string.IsNullOrEmpty( this.ConsumerSecret ) )
             {
-                errors.Add( "TWITTER_API_SECRET env var not specified" );
+                errors.Add( "TWITTER_CONSUMER_SECRET env var not specified" );
+            }
+
+            if( string.IsNullOrEmpty( this.AccessToken ) )
+            {
+                errors.Add( "TWITTER_ACCESS_TOKEN env var not specified" );
+            }
+
+            if( string.IsNullOrEmpty( this.AccessTokenSecret ) )
+            {
+                errors.Add( "TWITTER_ACCESS_TOKEN_SECRET env var not specified" );
+            }
+
+            if( string.IsNullOrEmpty( this.ClientId ) )
+            {
+                errors.Add( "TWITTER_CLIENT_ID env var not specified" );
+            }
+
+            if( string.IsNullOrEmpty( this.ClientSecret ) )
+            {
+                errors.Add( "TWITTER_CLIENT_SECRET env var not specified" );
             }
 
             if( errors.Any() )
