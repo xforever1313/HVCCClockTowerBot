@@ -19,6 +19,7 @@
 using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Security.Cryptography;
 using System.Text;
 using IdentityModel.Client;
 using Newtonsoft.Json;
@@ -64,7 +65,7 @@ namespace HvccClock
             string version = typeof( TweetJob ).Assembly.GetName()?.Version?.ToString( 3 ) ?? "Unkown Version";
 
             var productValue = new ProductInfoHeaderValue( "HvccClock", version );
-            var productComment = new ProductInfoHeaderValue( "@HVCC_Clock - https://github.com/xforever1313/HVCCClockTowerBot" );
+            var productComment = new ProductInfoHeaderValue( "(+@HVCC_Clock - https://github.com/xforever1313/HVCCClockTowerBot)" );
 
             httpClient.DefaultRequestHeaders.UserAgent.Add( productValue );
             httpClient.DefaultRequestHeaders.UserAgent.Add( productComment );
@@ -112,6 +113,36 @@ namespace HvccClock
         {
             var hvccConfig = new HvccClockConfig();
 
+            var pkce = new Pkce();
+
+            var request = new AuthorizationCodeTokenRequest
+            {
+                Address = "https://api.twitter.com/2/oauth2/authorize",
+                ClientId = hvccConfig.ClientId,
+                ClientSecret = hvccConfig.ClientSecret,
+                Code = pkce.CodeChallenge,
+                CodeVerifier = pkce.CodeVerifier,
+                GrantType = "authorization_code",
+                Method = HttpMethod.Post,
+                RedirectUri = $"http://127.0.0.1:{hvccConfig.Port}/Callback/",
+                Parameters =
+                {
+                    { "code_challenge_method", "S256" }
+                }
+            };
+
+            TokenResponse authResponse = await httpClient.RequestAuthorizationCodeTokenAsync( request );
+            if( authResponse.IsError )
+            {
+                string httpResponseStr = await authResponse.HttpResponse.Content.ReadAsStringAsync();
+
+                throw new Exception(
+                    "Error when authenticating." + Environment.NewLine +
+                    authResponse.Error + Environment.NewLine +
+                    httpResponseStr
+                );
+            }
+
             var data = new Dictionary<string, string>()
             {
                 { "text", tweetText }
@@ -121,19 +152,14 @@ namespace HvccClock
 
             using( StringContent content = new StringContent( jsonData.ToString() ) )
             {
-                var request = new ClientCredentialsTokenRequest
+                content.Headers.Add( "Authentication", authResponse.AccessToken );
+                var response = await httpClient.PostAsync( tweetUrl, content );
+                if( response.IsSuccessStatusCode == false )
                 {
-                    Address = tweetUrl,
-                    ClientId = hvccConfig.ClientId,
-                    ClientSecret = hvccConfig.ClientSecret,
-                    Content = content,
-                    Method = HttpMethod.Post
-                };
-
-                TokenResponse response = await httpClient.RequestClientCredentialsTokenAsync( request );
-                if( response.IsError )
-                {
-                    throw new Exception( response.Error );
+                    string responseText = await response.Content.ReadAsStringAsync();
+                    throw new Exception(
+                        "Error when sending tweet: " + Environment.NewLine + responseText
+                     );
                 }
             }
         }

@@ -16,7 +16,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-
 using SethCS.Exceptions;
 using SethCS.Extensions;
 
@@ -38,6 +37,8 @@ namespace HvccClock
 
         // ---------------- Properties ----------------
 
+        public int Port => 9100;
+
         public string ConsumerKey { get; private set; }
 
         public string ConsumerSecret { get; private set; }
@@ -56,6 +57,7 @@ namespace HvccClock
         {
             var errors = new List<string>();
 
+#if false
             if( string.IsNullOrWhiteSpace( this.ConsumerKey ) )
             {
                 errors.Add( "TWITTER_CONSUMER_KEY env var not specfied" );
@@ -75,7 +77,7 @@ namespace HvccClock
             {
                 errors.Add( "TWITTER_ACCESS_TOKEN_SECRET env var not specified" );
             }
-
+#endif
             if( string.IsNullOrEmpty( this.ClientId ) )
             {
                 errors.Add( "TWITTER_CLIENT_ID env var not specified" );
