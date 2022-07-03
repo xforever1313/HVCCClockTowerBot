@@ -23,6 +23,8 @@ using Microsoft.AspNetCore.Hosting;
 using Prometheus;
 using Quartz;
 
+Console.WriteLine( $"Version: {typeof( HvccClockConfig ).Assembly.GetName()?.Version?.ToString( 3 ) ?? string.Empty}." );
+
 var config = new HvccClockConfig();
 if( config.TryValidate( out string error ) == false )
 {
