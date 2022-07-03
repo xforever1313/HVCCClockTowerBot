@@ -17,7 +17,6 @@
 //
 
 using System.Diagnostics;
-using System.Net.Http.Headers;
 using System.Text;
 using Quartz;
 using Tweetinvi;
@@ -33,15 +32,11 @@ namespace HvccClock
 
         public static event Action<Exception>? OnException;
 
-        private static readonly HttpClient httpClient;
         private static readonly Stopwatch stopWatch = new Stopwatch();
 
-        private const string requestTokenUrl = "https://api.twitter.com/oauth/request_token";
-        private const string baseAuthUrl = "https://api.twitter.com/oauth/authorize";
-        private const string accessTokenUrl = "https://api.twitter.com/oauth/access_token";
-        private const string tweetUrl = "https://api.twitter.com/2/tweets";
+        private static readonly HvccClockConfig hvccConfig;
 
-        private static readonly HvccClockConfig hvccConfig = new HvccClockConfig();
+        private static readonly TwitterClient client;
 
         // ---------------- Constructor ----------------
 
@@ -51,31 +46,17 @@ namespace HvccClock
 
         static TweetJob()
         {
-            var socketsHandler = new SocketsHttpHandler
-            {
-                // We only send one request per hour,
-                // we can set this to a bigger value, such as
-                // 30 minutes.
-                PooledConnectionLifetime = TimeSpan.FromMinutes( 30 )
-            };
+            hvccConfig = new HvccClockConfig();
 
-            httpClient = new HttpClient( socketsHandler );
-
-            string version = typeof( TweetJob ).Assembly.GetName()?.Version?.ToString( 3 ) ?? "Unkown Version";
-
-            var productValue = new ProductInfoHeaderValue( "HvccClock", version );
-            var productComment = new ProductInfoHeaderValue( "(+@HVCC_Clock - https://github.com/xforever1313/HVCCClockTowerBot)" );
-
-            httpClient.DefaultRequestHeaders.UserAgent.Add( productValue );
-            httpClient.DefaultRequestHeaders.UserAgent.Add( productComment );
+            client = new TwitterClient(
+                hvccConfig.ConsumerKey,
+                hvccConfig.ConsumerSecret,
+                hvccConfig.AccessToken,
+                hvccConfig.AccessTokenSecret
+            );
         }
 
         // ---------------- Functions ----------------
-
-        public static void DisposeHttpClient()
-        {
-            httpClient?.Dispose();
-        }
 
         public async Task Execute( IJobExecutionContext context )
         {
@@ -110,14 +91,6 @@ namespace HvccClock
 
         private async Task SendTweet( string tweetText, CancellationToken cancelToken )
         {
-            var hvccConfig = new HvccClockConfig();
-            var client = new TwitterClient(
-                hvccConfig.ConsumerKey,
-                hvccConfig.ConsumerSecret,
-                hvccConfig.AccessToken,
-                hvccConfig.AccessTokenSecret
-            );
-
             var poster = new TweetsV2Poster( client );
 
             ITwitterResult result = await poster.PostTweet(

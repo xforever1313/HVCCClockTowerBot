@@ -102,7 +102,6 @@ catch( Exception e )
 }
 finally
 {
-    TweetJob.DisposeHttpClient();
     TweetJob.OnSuccess -= TweetJob_OnSuccess;
     TweetJob.OnException -= TweetJob_OnException;
 }
