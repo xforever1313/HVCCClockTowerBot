@@ -35,6 +35,8 @@ if( config.TryValidate( out string error ) == false )
 
 try
 {
+    HvccClockMetrics.Init();
+
     TweetJob.OnSuccess += TweetJob_OnSuccess;
     TweetJob.OnException += TweetJob_OnException;
 

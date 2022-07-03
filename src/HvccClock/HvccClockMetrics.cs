@@ -21,6 +21,12 @@ namespace HvccClock
 
         // ---------------- Functions ----------------
 
+        public static void Init()
+        {
+            // Does nothing - Once this method is called,
+            // the static class kicks in and metrics are created.
+        }
+
         public static void RecordSuccess()
         {
             ExceptionsInARow.Set( 0 );
