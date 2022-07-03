@@ -18,8 +18,6 @@
 
 using System.Diagnostics;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Security.Cryptography;
 using System.Text;
 using IdentityModel.Client;
 using Newtonsoft.Json;
@@ -35,14 +33,15 @@ namespace HvccClock
 
         public static event Action<Exception>? OnException;
 
-        private readonly Stopwatch stopWatch = new Stopwatch();
-
         private static readonly HttpClient httpClient;
+        private static readonly Stopwatch stopWatch = new Stopwatch();
 
         private const string requestTokenUrl = "https://api.twitter.com/oauth/request_token";
         private const string baseAuthUrl = "https://api.twitter.com/oauth/authorize";
         private const string accessTokenUrl = "https://api.twitter.com/oauth/access_token";
         private const string tweetUrl = "https://api.twitter.com/2/tweets";
+
+        private static readonly HvccClockConfig hvccConfig = new HvccClockConfig();
 
         // ---------------- Constructor ----------------
 
@@ -111,27 +110,35 @@ namespace HvccClock
 
         private async Task SendTweet( string tweetText, CancellationToken cancelToken )
         {
-            var hvccConfig = new HvccClockConfig();
-
             var pkce = new Pkce();
+
+            // Twitter needs the following parameters:
+            // response_type
+            // client_id
+            // redirect_uri
+            // state
+            // code_challenge
+            // code_challenge_method.
 
             var request = new AuthorizationCodeTokenRequest
             {
                 Address = "https://api.twitter.com/2/oauth2/authorize",
                 ClientId = hvccConfig.ClientId,
-                ClientSecret = hvccConfig.ClientSecret,
+                //ClientSecret = hvccConfig.ClientSecret,
                 Code = pkce.CodeChallenge,
-                CodeVerifier = pkce.CodeVerifier,
-                GrantType = "authorization_code",
-                Method = HttpMethod.Post,
+                //CodeVerifier = pkce.CodeVerifier,
+                Method = HttpMethod.Get,
                 RedirectUri = $"http://127.0.0.1:{hvccConfig.Port}/Callback/",
                 Parameters =
                 {
-                    { "code_challenge_method", "S256" }
+                    { "scope", "tweet.write" },
+                    // { "state", "HVCC_CLOCK" },
+                    { "code_challenge_method", "S256" },
+                    { "response_type", "code" },
                 }
             };
 
-            TokenResponse authResponse = await httpClient.RequestAuthorizationCodeTokenAsync( request );
+            TokenResponse authResponse = await httpClient.RequestAuthorizationCodeTokenAsync( request, cancelToken );
             if( authResponse.IsError )
             {
                 string httpResponseStr = await authResponse.HttpResponse.Content.ReadAsStringAsync();
@@ -142,6 +149,13 @@ namespace HvccClock
                     httpResponseStr
                 );
             }
+            else
+            {
+                string httpResponseStr = await authResponse.HttpResponse.Content.ReadAsStringAsync();
+                Console.WriteLine( httpResponseStr );
+                Console.WriteLine( "Access token: " + authResponse.AccessToken );
+            }
+            return;
 
             var data = new Dictionary<string, string>()
             {
