@@ -19,9 +19,9 @@
 using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text;
-using IdentityModel.Client;
-using Newtonsoft.Json;
 using Quartz;
+using Tweetinvi;
+using Tweetinvi.Core.Web;
 
 namespace HvccClock
 {
@@ -110,71 +110,28 @@ namespace HvccClock
 
         private async Task SendTweet( string tweetText, CancellationToken cancelToken )
         {
-            var pkce = new Pkce();
+            var hvccConfig = new HvccClockConfig();
+            var client = new TwitterClient(
+                hvccConfig.ConsumerKey,
+                hvccConfig.ConsumerSecret,
+                hvccConfig.AccessToken,
+                hvccConfig.AccessTokenSecret
+            );
 
-            // Twitter needs the following parameters:
-            // response_type
-            // client_id
-            // redirect_uri
-            // state
-            // code_challenge
-            // code_challenge_method.
+            var poster = new TweetsV2Poster( client );
 
-            var request = new AuthorizationCodeTokenRequest
-            {
-                Address = "https://api.twitter.com/2/oauth2/authorize",
-                ClientId = hvccConfig.ClientId,
-                //ClientSecret = hvccConfig.ClientSecret,
-                Code = pkce.CodeChallenge,
-                //CodeVerifier = pkce.CodeVerifier,
-                Method = HttpMethod.Get,
-                RedirectUri = $"http://127.0.0.1:{hvccConfig.Port}/Callback/",
-                Parameters =
+            ITwitterResult result = await poster.PostTweet(
+                new TweetV2PostRequest
                 {
-                    { "scope", "tweet.write" },
-                    // { "state", "HVCC_CLOCK" },
-                    { "code_challenge_method", "S256" },
-                    { "response_type", "code" },
+                    Text = tweetText
                 }
-            };
+            );
 
-            TokenResponse authResponse = await httpClient.RequestAuthorizationCodeTokenAsync( request, cancelToken );
-            if( authResponse.IsError )
+            if( result.Response.IsSuccessStatusCode == false )
             {
-                string httpResponseStr = await authResponse.HttpResponse.Content.ReadAsStringAsync();
-
                 throw new Exception(
-                    "Error when authenticating." + Environment.NewLine +
-                    authResponse.Error + Environment.NewLine +
-                    httpResponseStr
+                    "Error when posting tweet: " + Environment.NewLine + result.Content
                 );
-            }
-            else
-            {
-                string httpResponseStr = await authResponse.HttpResponse.Content.ReadAsStringAsync();
-                Console.WriteLine( httpResponseStr );
-                Console.WriteLine( "Access token: " + authResponse.AccessToken );
-            }
-            return;
-
-            var data = new Dictionary<string, string>()
-            {
-                { "text", tweetText }
-            };
-
-            var jsonData = JsonConvert.SerializeObject( data );
-
-            using( StringContent content = new StringContent( jsonData.ToString() ) )
-            {
-                content.Headers.Add( "Authentication", authResponse.AccessToken );
-                var response = await httpClient.PostAsync( tweetUrl, content );
-                if( response.IsSuccessStatusCode == false )
-                {
-                    string responseText = await response.Content.ReadAsStringAsync();
-                    throw new Exception(
-                        "Error when sending tweet: " + Environment.NewLine + responseText
-                     );
-                }
             }
         }
 

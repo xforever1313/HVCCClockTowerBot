@@ -57,7 +57,6 @@ namespace HvccClock
         {
             var errors = new List<string>();
 
-#if false
             if( string.IsNullOrWhiteSpace( this.ConsumerKey ) )
             {
                 errors.Add( "TWITTER_CONSUMER_KEY env var not specfied" );
@@ -77,7 +76,8 @@ namespace HvccClock
             {
                 errors.Add( "TWITTER_ACCESS_TOKEN_SECRET env var not specified" );
             }
-#endif
+
+#if false
             if( string.IsNullOrEmpty( this.ClientId ) )
             {
                 errors.Add( "TWITTER_CLIENT_ID env var not specified" );
@@ -87,7 +87,7 @@ namespace HvccClock
             {
                 errors.Add( "TWITTER_CLIENT_SECRET env var not specified" );
             }
-
+#endif
             if( errors.Any() )
             {
                 error = errors.ToListString( "-" );

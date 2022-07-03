@@ -77,7 +77,7 @@ try
                     }
                 );
             }
-        ).UseUrls( "http://0.0.0.0:9100" )
+        ).UseUrls( $"http://0.0.0.0:{config.Port}" )
         .Configure(
             ( app ) =>
             {
