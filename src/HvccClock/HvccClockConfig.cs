@@ -31,8 +31,6 @@ namespace HvccClock
             this.ConsumerSecret = Environment.GetEnvironmentVariable( "TWITTER_CONSUMER_SECRET" ) ?? string.Empty;
             this.AccessToken = Environment.GetEnvironmentVariable( "TWITTER_ACCESS_TOKEN" ) ?? string.Empty;
             this.AccessTokenSecret = Environment.GetEnvironmentVariable( "TWITTER_ACCESS_TOKEN_SECRET" ) ?? string.Empty;
-            this.ClientId = Environment.GetEnvironmentVariable( "TWITTER_CLIENT_ID" ) ?? string.Empty;
-            this.ClientSecret = Environment.GetEnvironmentVariable( "TWITTER_CLIENT_SECRET" ) ?? string.Empty;
         }
 
         // ---------------- Properties ----------------
@@ -46,10 +44,6 @@ namespace HvccClock
         public string AccessToken { get; private set; }
 
         public string AccessTokenSecret { get; private set; }
-
-        public string ClientId { get; private set; }
-
-        public string ClientSecret { get; private set; }
 
         // ---------------- Functions ----------------
 
@@ -77,17 +71,6 @@ namespace HvccClock
                 errors.Add( "TWITTER_ACCESS_TOKEN_SECRET env var not specified" );
             }
 
-#if false
-            if( string.IsNullOrEmpty( this.ClientId ) )
-            {
-                errors.Add( "TWITTER_CLIENT_ID env var not specified" );
-            }
-
-            if( string.IsNullOrEmpty( this.ClientSecret ) )
-            {
-                errors.Add( "TWITTER_CLIENT_SECRET env var not specified" );
-            }
-#endif
             if( errors.Any() )
             {
                 error = errors.ToListString( "-" );
