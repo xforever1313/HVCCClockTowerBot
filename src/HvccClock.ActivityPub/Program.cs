@@ -16,21 +16,80 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
+using dotenv.net;
 using HvccClock.ActivityPub;
 using HvccClock.Common;
+using Mono.Options;
 using Serilog;
 
-Console.WriteLine( $"Version: {typeof( HvccClockConfig ).Assembly.GetName()?.Version?.ToString( 3 ) ?? string.Empty}." );
+bool showHelp = false;
+bool showVersion = false;
+bool showLicense = false;
+bool showCredits = false;
+string envFile = string.Empty;
+
+var options = new OptionSet
+{
+    {
+        "h|help",
+        "Shows thie mesage and exits.",
+        v => showHelp = ( v is not null )
+    },
+    {
+        "version",
+        "Shows the version and exits.",
+        v => showVersion = ( v is not null )
+    },
+    {
+        "print_license",
+        "Prints the software license and exits.",
+        v => showLicense = ( v is not null )
+    },
+    {
+        "print_credits",
+        "Prints the third-party notices and credits.",
+        v => showCredits = ( v is not null )
+    },
+    {
+        "env=",
+        "The .env file that contains the environment variable settings.",
+        v => envFile = v
+    }
+};
 
 Serilog.ILogger? log = null;
 
-void OnTelegramFailure( Exception e )
-{
-    log?.Warning( $"Telegram message did not send:{Environment.NewLine}{e}" );
-}
-
 try
 {
+    options.Parse( args );
+
+    if( showHelp )
+    {
+        PrintHelp();
+        return 0;
+    }
+    else if( showVersion )
+    {
+        PrintVersion();
+        return 0;
+    }
+    else if( showLicense )
+    {
+        PrintLicense();
+        return 0;
+    }
+    else if( showCredits )
+    {
+        PrintCredits();
+        return 0;
+    }
+
+    if( string.IsNullOrWhiteSpace( envFile ) == false )
+    {
+        Console.WriteLine( $"Using .env file located at '{envFile}'" );
+        DotEnv.Load( new DotEnvOptions( envFilePaths: new string[] { envFile } ) );
+    }
+
     HvccClockConfig config = HvccClockConfigExtensions.FromEnvVar();
 
     log = HostingExtensions.CreateLog( config, OnTelegramFailure );
@@ -82,3 +141,28 @@ finally
 }
 
 return 0;
+
+void OnTelegramFailure( Exception e )
+{
+    log?.Warning( $"Telegram message did not send:{Environment.NewLine}{e}" );
+}
+
+void PrintHelp()
+{
+    options.WriteOptionDescriptions( Console.Out );
+}
+
+void PrintVersion()
+{
+    Console.WriteLine( typeof( Program ).Assembly.GetName().Version?.ToString( 3 ) ?? "Unknown Version" );
+}
+
+void PrintLicense()
+{
+    Console.WriteLine( "NOT IMPLEMENTED YET!" );
+}
+
+void PrintCredits()
+{
+    Console.WriteLine( "NOT IMPLEMENTED YET!" );
+}

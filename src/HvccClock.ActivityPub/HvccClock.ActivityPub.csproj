@@ -8,6 +8,7 @@
 
   <ItemGroup>
 	<PackageReference Include="dotenv.net" />
+	<PackageReference Include="Mono.Options" />
 	<PackageReference Include="Newtonsoft.Json" />
 	<PackageReference Include="Quartz.Extensions.Hosting" />
 	<PackageReference Include="Serilog" />
