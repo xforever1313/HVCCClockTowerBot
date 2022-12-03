@@ -1,5 +1,5 @@
 ﻿//
-// HvccClock - A Twitter bot that chimes the time every hour.
+// HvccClock - A bot that chimes the time every hour.
 // Copyright (C) 2022 Seth Hendrick
 // 
 // This program is free software: you can redistribute it and/or modify
