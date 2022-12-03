@@ -57,7 +57,7 @@ namespace HvccClock.ActivityPub
             bool NotNull( string envName, out string envValue )
             {
                 envValue = Environment.GetEnvironmentVariable( envName ) ?? "";
-                return string.IsNullOrWhiteSpace( envValue );
+                return string.IsNullOrWhiteSpace( envValue ) == false;
             }
 
             var settings = new HvccClockConfig
