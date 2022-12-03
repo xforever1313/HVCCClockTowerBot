@@ -60,7 +60,7 @@ namespace HvccClock.Common
 
                 stopWatch.Restart();
 
-                string tweet = GetTweetString( timeStamp );
+                string tweet = GetMessageString( timeStamp );
                 await SendMessage( tweet, context.CancellationToken );
             }
             catch( Exception e )
@@ -71,7 +71,7 @@ namespace HvccClock.Common
 
         protected abstract Task SendMessage( string text, CancellationToken cancelToken );
 
-        public static string GetTweetString( DateTime time )
+        public static string GetMessageString( DateTime time )
         {
             var tweet = new StringBuilder();
             int hour = time.Hour;

@@ -16,12 +16,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-using HvccClock.Twitter;
+using HvccClock.Common;
 
 namespace HvccClock.Tests
 {
     [TestClass]
-    public class TweetCheckerTests
+    public class MessageCheckerTests
     {
         // ---------------- Tests ----------------
 
@@ -39,7 +39,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Wednesday, September 21 2022, 12:00AM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Monday, June 20 2022, 11:00AM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Tuesday, February 1 2022, 10:00AM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Sunday, January 16 2022, 9:00AM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -95,7 +95,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Sunday, December 25 2022, 8:00AM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -107,7 +107,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Thursday, May 5 2022, 7:00AM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -119,7 +119,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Monday, July 4 2022, 6:00AM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -131,7 +131,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Saturday, August 27 2022, 5:00AM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -143,7 +143,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Monday, October 31 2022, 4:00AM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -155,7 +155,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Sunday, March 13 2022, 3:00AM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -167,7 +167,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Sunday, November 20 2022, 2:00AM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -179,7 +179,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Sunday, June 19 2022, 1:00AM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Wednesday, September 21 2022, 12:00PM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Monday, June 20 2022, 11:00PM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Tuesday, February 1 2022, 10:00PM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -240,7 +240,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Sunday, January 16 2022, 9:00PM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -252,7 +252,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Sunday, December 25 2022, 8:00PM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -264,7 +264,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Thursday, May 5 2022, 7:00PM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -276,7 +276,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Monday, July 4 2022, 6:00PM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -288,7 +288,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Saturday, August 27 2022, 5:00PM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -300,7 +300,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Monday, October 31 2022, 4:00PM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -312,7 +312,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Sunday, March 13 2022, 3:00PM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -324,7 +324,7 @@ namespace HvccClock.Tests
             const string timeStamp = "Sunday, November 20 2022, 2:00PM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         [TestMethod]
@@ -336,27 +336,27 @@ namespace HvccClock.Tests
             const string timeStamp = "Sunday, June 19 2022, 1:00PM";
 
             // Act / Check
-            DoGetTweetStringTest( time, bongs, timeStamp );
+            DoGetMessageStringTest( time, bongs, timeStamp );
         }
 
         // ---------------- Test Helpers ----------------
 
-        private void DoGetTweetStringTest(
+        private void DoGetMessageStringTest(
             DateTime expectedTime,
             string bongPortion,
             string timestampPortion
         )
         {
-            string expectedTweet =
+            string expectedMessage =
 @$"{bongPortion}
 
 The time at HVCC currently is: {timestampPortion}.";
 
-            string actualTweet = TweetJob.GetTweetString( expectedTime );
-            Assert.AreEqual( expectedTweet, actualTweet );
+            string actualMessage = BaseMessageJob.GetMessageString( expectedTime );
+            Assert.AreEqual( expectedMessage, actualMessage );
 
-            // Tweets must be less than 160 characters.
-            Assert.IsTrue( actualTweet.Length <= 160 );
+            // Messages must be less than 160 characters.
+            Assert.IsTrue( actualMessage.Length <= 160 );
         }
     }
 }
