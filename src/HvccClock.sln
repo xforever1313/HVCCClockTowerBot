@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seth.Analyzer", "..\SethCS\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HvccClock.Common", "HvccClock.Common\HvccClock.Common.csproj", "{90D7F236-580D-4B12-AC1F-C42F9F89C295}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HvccClock.ActivityPub", "HvccClock.ActivityPub\HvccClock.ActivityPub.csproj", "{703305A5-5D23-49DB-A463-41383986D8BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{90D7F236-580D-4B12-AC1F-C42F9F89C295}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90D7F236-580D-4B12-AC1F-C42F9F89C295}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90D7F236-580D-4B12-AC1F-C42F9F89C295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{703305A5-5D23-49DB-A463-41383986D8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{703305A5-5D23-49DB-A463-41383986D8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{703305A5-5D23-49DB-A463-41383986D8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{703305A5-5D23-49DB-A463-41383986D8BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
