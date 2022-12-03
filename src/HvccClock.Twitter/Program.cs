@@ -37,9 +37,6 @@ try
 {
     HvccClockMetrics.Init();
 
-    TweetJob.OnSuccess += TweetJob_OnSuccess;
-    TweetJob.OnException += TweetJob_OnException;
-
     var host = WebHost.CreateDefaultBuilder( args )
         .ConfigureServices(
             services =>
@@ -47,6 +44,8 @@ try
                 services.AddQuartz(
                     q =>
                     {
+                        q.UseMicrosoftDependencyInjectionJobFactory();
+
                         JobKey jobKey = JobKey.Create( nameof( TweetJob ) );
                         q.AddJob<TweetJob>( jobKey );
 
@@ -103,26 +102,6 @@ catch( Exception e )
     Console.Error.WriteLine( "FATAL ERROR:" );
     Console.Error.WriteLine( e.ToString() );
     return 2;
-}
-finally
-{
-    TweetJob.OnSuccess -= TweetJob_OnSuccess;
-    TweetJob.OnException -= TweetJob_OnException;
-}
-
-void TweetJob_OnSuccess()
-{
-    HvccClockMetrics.RecordSuccess();
-}
-
-void TweetJob_OnException( Exception obj )
-{
-    HvccClockMetrics.RecordException();
-
-    Console.Error.WriteLine( "***************" );
-    Console.Error.WriteLine( $"Exception thrown at {DateTime.Now}:" );
-    Console.Error.WriteLine( obj.ToString() );
-    Console.Error.WriteLine( "***************" );
 }
 
 return 0;

@@ -16,39 +16,24 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-using System.Diagnostics;
-using System.Text;
-using Quartz;
+using HvccClock.Common;
 using Tweetinvi;
 using Tweetinvi.Core.Web;
 
 namespace HvccClock.Twitter
 {
-    public class TweetJob : IJob
+    public class TweetJob : BaseMessageJob
     {
         // ---------------- Fields ----------------
 
-        public static event Action? OnSuccess;
-
-        public static event Action<Exception>? OnException;
-
-        private static readonly Stopwatch stopWatch = new Stopwatch();
-
-        private static readonly HvccClockConfig hvccConfig;
-
-        private static readonly TwitterClient client;
+        private readonly TwitterClient client;
 
         // ---------------- Constructor ----------------
 
-        public TweetJob()
+        public TweetJob( Serilog.ILogger log, HvccClockConfig hvccConfig ) :
+            base( log )
         {
-        }
-
-        static TweetJob()
-        {
-            hvccConfig = new HvccClockConfig();
-
-            client = new TwitterClient(
+            this.client = new TwitterClient(
                 hvccConfig.ConsumerKey,
                 hvccConfig.ConsumerSecret,
                 hvccConfig.AccessToken,
@@ -58,38 +43,7 @@ namespace HvccClock.Twitter
 
         // ---------------- Functions ----------------
 
-        public async Task Execute( IJobExecutionContext context )
-        {
-            try
-            {
-                DateTime timeStamp = TimeZoneInfo.ConvertTimeFromUtc(
-                    context.FireTimeUtc.DateTime,
-                    TimeZoneInfo.FindSystemTimeZoneById( "America/New_York" )
-                );
-
-                if( stopWatch.IsRunning )
-                {
-                    if( stopWatch.Elapsed <= TimeSpan.FromMinutes( 55 ) )
-                    {
-                        Console.WriteLine( $"Fired {timeStamp} too quickly, ignoring." );
-                        return;
-                    }
-                }
-
-                stopWatch.Restart();
-
-                string tweet = GetTweetString( timeStamp );
-                await SendTweet( tweet, context.CancellationToken );
-
-                OnSuccess?.Invoke();
-            }
-            catch( Exception e )
-            {
-                OnException?.Invoke( e );
-            }
-        }
-
-        private async Task SendTweet( string tweetText, CancellationToken cancelToken )
+        protected override async Task SendMessage( string tweetText, CancellationToken cancelToken )
         {
             var poster = new TweetsV2Poster( client );
 
@@ -106,32 +60,6 @@ namespace HvccClock.Twitter
                     "Error when posting tweet: " + Environment.NewLine + result.Content
                 );
             }
-        }
-
-        public static string GetTweetString( DateTime time )
-        {
-            var tweet = new StringBuilder();
-            int hour = time.Hour;
-            if( hour == 0 )
-            {
-                hour = 12;
-            }
-            else if( hour >= 13 )
-            {
-                hour = hour - 12;
-            }
-
-            for( int i = 0; i < hour; ++i )
-            {
-                tweet.Append( "BONG! " );
-            }
-
-            tweet.Remove( tweet.Length - 1, 1 );
-            tweet.AppendLine();
-            tweet.AppendLine();
-            tweet.Append( $"The time at HVCC currently is: {time.ToString( "dddd, MMMM d yyyy, h:00tt")}." );
-
-            return tweet.ToString();
         }
     }
 }

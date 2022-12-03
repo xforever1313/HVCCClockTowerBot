@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<PackageReference Include="Serilog" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Quartz.Extensions.Hosting" />
@@ -17,5 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\SethCS\LibSethCS\LibSethCS.csproj" />
+    <ProjectReference Include="..\HvccClock.Common\HvccClock.Common.csproj" />
   </ItemGroup>
 </Project>
