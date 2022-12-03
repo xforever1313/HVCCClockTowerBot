@@ -46,5 +46,7 @@ namespace HvccClock.Common
         /// If null, no Telegram logging will take place.
         /// </summary>
         string? TelegramChatId { get; }
+
+        string ApplicationContext { get; }
     }
 }

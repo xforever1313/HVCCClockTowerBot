@@ -76,6 +76,8 @@ namespace HvccClock.Twitter
 
         public string? TelegramChatId { get; private set; }
 
+        public string ApplicationContext => "Twitter Bot";
+
         // ---------------- Functions ----------------
 
         public bool TryValidate( out string error )

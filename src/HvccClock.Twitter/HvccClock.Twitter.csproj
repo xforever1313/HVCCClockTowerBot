@@ -8,11 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="Serilog" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Quartz.Extensions.Hosting" />
     <PackageReference Include="prometheus-net.AspNetCore" />
+	<PackageReference Include="Serilog" />
+	<PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="TweetinviAPI" />
   </ItemGroup>
 

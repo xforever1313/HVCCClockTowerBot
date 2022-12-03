@@ -16,12 +16,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
+using HvccClock.Common;
 using HvccClock.Twitter;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Prometheus;
-using Quartz;
+using Serilog;
 
 Console.WriteLine( $"Version: {typeof( HvccClockConfig ).Assembly.GetName()?.Version?.ToString( 3 ) ?? string.Empty}." );
 
@@ -33,75 +33,41 @@ if( config.TryValidate( out string error ) == false )
     return 1;
 }
 
+Serilog.ILogger? log = null;
 try
 {
-    HvccClockMetrics.Init();
+    log = HostingExtensions.CreateLog( config );
 
-    var host = WebHost.CreateDefaultBuilder( args )
-        .ConfigureServices(
-            services =>
-            {
-                services.AddSingleton<HvccClockConfig>( config );
-                services.AddQuartz(
-                    q =>
-                    {
-                        q.UseMicrosoftDependencyInjectionJobFactory();
+    WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
-                        JobKey jobKey = JobKey.Create( nameof( TweetJob ) );
-                        q.AddJob<TweetJob>( jobKey );
+    builder.Logging.ClearProviders();
+    builder.Services.AddControllersWithViews();
+    builder.Host.UseSerilog( log );
+    builder.Services.ConfigureHvccServices<TweetJob, HvccClockConfig>( config );
+    builder.WebHost.UseUrls( $"http://0.0.0.0:{config.Port}" );
 
-                        q.AddTrigger(
-                            ( ITriggerConfigurator config ) =>
-                            {
-                                config.WithCronSchedule(
-                                    $"0 0 * * * ?", // Fire every hour on the hour.
-                                    ( CronScheduleBuilder cronBuilder ) =>
-                                    {
-                                        // HVCC is in NY.
-                                        cronBuilder.InTimeZone( TimeZoneInfo.FindSystemTimeZoneById( "America/New_York" ) );
-                                        // If we misfire, just do nothing.  This isn't exactly
-                                        // the most important application
-                                        cronBuilder.WithMisfireHandlingInstructionDoNothing();
-                                        cronBuilder.Build();
-                                    }
-                                );
-                                config.WithDescription( $"Chime!" );
-                                config.ForJob( jobKey );
-                                config.StartNow();
-                            }
-                        );
-                    }
-                );
+    WebApplication app = builder.Build();
+    app.UseRouting();
+    app.UseEndpoints(
+        endpoints =>
+        {
+            endpoints.MapMetrics( "/Metrics" );
+        }
+    );
 
-                services.AddQuartzHostedService(
-                    options =>
-                    {
-                        options.AwaitApplicationStarted = true;
-                        options.WaitForJobsToComplete = true;
-                    }
-                );
-            }
-        ).UseUrls( $"http://0.0.0.0:{config.Port}" )
-        .Configure(
-            ( app ) =>
-            {
-                app.UseRouting();
-                app.UseEndpoints(
-                    endpoints =>
-                    {
-                        endpoints.MapMetrics( "/Metrics" );
-                    }
-                );
-            }
-        )
-        .Build();
-
-    await host.RunAsync();
+    app.Run();
 }
 catch( Exception e )
 {
-    Console.Error.WriteLine( "FATAL ERROR:" );
-    Console.Error.WriteLine( e.ToString() );
+    if( log is null )
+    {
+        Console.Error.WriteLine( "FATAL ERROR:" );
+        Console.Error.WriteLine( e.ToString() );
+    }
+    else
+    {
+        log.Fatal( "FATAL ERROR:" + Environment.NewLine + e );
+    }
     return 2;
 }
 
