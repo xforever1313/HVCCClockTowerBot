@@ -16,7 +16,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-using Cake.Common.Tools.DotNetCore.MSBuild;
+using Cake.Common.Tools.DotNet.MSBuild;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Frosting;
@@ -68,9 +68,9 @@ namespace DevOps
 
         // ---------------- Functions ----------------
 
-        public DotNetCoreMSBuildSettings GetBuildSettings()
+        public DotNetMSBuildSettings GetBuildSettings()
         {
-            var settings = new DotNetCoreMSBuildSettings();
+            var settings = new DotNetMSBuildSettings();
 
             settings.WithProperty( "Version", Version )
                 .WithProperty( "AssemblyVersion", Version )

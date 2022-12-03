@@ -18,8 +18,8 @@
 
 using Cake.Common.Diagnostics;
 using Cake.Common.IO;
-using Cake.Common.Tools.DotNetCore;
-using Cake.Common.Tools.DotNetCore.Publish;
+using Cake.Common.Tools.DotNet;
+using Cake.Common.Tools.DotNet.Publish;
 using Cake.Core.IO;
 using Cake.Frosting;
 
@@ -40,7 +40,7 @@ namespace DevOps.Publish
 
             context.Information( "Publishing App" );
 
-            var publishOptions = new DotNetCorePublishSettings
+            var publishOptions = new DotNetPublishSettings
             {
                 Configuration = "Release",
                 OutputDirectory = looseFilesDir.ToString(),
@@ -51,7 +51,7 @@ namespace DevOps.Publish
                 "HvccClock.Twitter/HvccClock.Twitter.csproj"
             );
 
-            context.DotNetCorePublish( servicePath.ToString(), publishOptions );
+            context.DotNetPublish( servicePath.ToString(), publishOptions );
             context.Information( string.Empty );
 
             CopyRootFile( context, "Readme.md" );
