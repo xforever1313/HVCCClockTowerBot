@@ -25,14 +25,21 @@ namespace HvccClock.Common
 {
     public static class HostingExtensions
     {
-        public static ILogger CreateLog( IHvccClockConfig config )
+        public static ILogger CreateLog(
+            IHvccClockConfig config,
+            Action<Exception> onTelegramFailure
+        )
         {
             var logger = new LoggerConfiguration()
                 .WriteTo.Console( Serilog.Events.LogEventLevel.Information );
 
+            bool useFileLogger = false;
+            bool useTelegramLogger = false;
+
             FileInfo? logFile = config.LogFile;
             if( logFile is not null )
             {
+                useFileLogger = true;
                 logger.WriteTo.File(
                     logFile.FullName,
                     restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information,
@@ -49,20 +56,25 @@ namespace HvccClock.Common
                 ( string.IsNullOrWhiteSpace( telegramChatId ) == false )
             )
             {
+                useTelegramLogger = true;
                 var telegramOptions = new TelegramSinkOptions(
                     botToken: telegramBotToken,
                     chatId: telegramChatId,
                     dateFormat: "dd.MM.yyyy HH:mm:sszzz",
-                    applicationName: config.ApplicationContext
+                    applicationName: config.ApplicationContext,
+                    failureCallback: onTelegramFailure
                 );
-
                 logger.WriteTo.Telegram(
                     telegramOptions,
                     restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning
                 );
             }
 
-            return logger.CreateLogger();
+            ILogger log = logger.CreateLogger();
+            log.Information( $"Using File Logging: {useFileLogger}." );
+            log.Information( $"Using Telegram Logging: {useTelegramLogger}." );
+
+            return log;
         }
 
         public static IServiceCollection ConfigureHvccServices<TJob, TConfig>(

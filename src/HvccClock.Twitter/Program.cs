@@ -34,9 +34,15 @@ if( config.TryValidate( out string error ) == false )
 }
 
 Serilog.ILogger? log = null;
+
+void OnTelegramFailure( Exception e )
+{
+    log?.Warning( $"Telegram message did not send:{Environment.NewLine}{e}" );
+}
+
 try
 {
-    log = HostingExtensions.CreateLog( config );
+    log = HostingExtensions.CreateLog( config, OnTelegramFailure );
 
     WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
@@ -55,6 +61,8 @@ try
         }
     );
 
+    log.Information( "Application Running..." );
+
     app.Run();
 }
 catch( Exception e )
@@ -69,6 +77,10 @@ catch( Exception e )
         log.Fatal( "FATAL ERROR:" + Environment.NewLine + e );
     }
     return 2;
+}
+finally
+{
+    log?.Information( "Application Exiting" );
 }
 
 return 0;
