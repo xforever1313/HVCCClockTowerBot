@@ -41,6 +41,7 @@ try
         .ConfigureServices(
             services =>
             {
+                services.AddSingleton<HvccClockConfig>( config );
                 services.AddQuartz(
                     q =>
                     {

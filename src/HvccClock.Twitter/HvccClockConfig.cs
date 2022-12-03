@@ -16,12 +16,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
+using HvccClock.Common;
 using SethCS.Exceptions;
 using SethCS.Extensions;
 
 namespace HvccClock.Twitter
 {
-    public class HvccClockConfig
+    public class HvccClockConfig : IHvccClockConfig
     {
         // ---------------- Constructor ----------------
 
@@ -31,6 +32,30 @@ namespace HvccClock.Twitter
             this.ConsumerSecret = Environment.GetEnvironmentVariable( "TWITTER_CONSUMER_SECRET" ) ?? string.Empty;
             this.AccessToken = Environment.GetEnvironmentVariable( "TWITTER_ACCESS_TOKEN" ) ?? string.Empty;
             this.AccessTokenSecret = Environment.GetEnvironmentVariable( "TWITTER_ACCESS_TOKEN_SECRET" ) ?? string.Empty;
+
+            {
+                string logFile = Environment.GetEnvironmentVariable( "LOG_FILE" ) ?? string.Empty;
+                if( string.IsNullOrWhiteSpace( logFile ) == false )
+                {
+                    this.LogFile = new FileInfo( logFile );
+                }
+            }
+
+            {
+                string telegramBotToken = Environment.GetEnvironmentVariable( "TELEGRAM_BOT_TOKEN" ) ?? string.Empty;
+                if( string.IsNullOrWhiteSpace( telegramBotToken ) == false )
+                {
+                    this.TelegramBotToken = telegramBotToken;
+                }
+            }
+
+            {
+                string telegramChatId = Environment.GetEnvironmentVariable( "TELEGRAM_CHAT_ID" ) ?? string.Empty;
+                if( string.IsNullOrWhiteSpace( telegramChatId ) == false )
+                {
+                    this.TelegramChatId = telegramChatId;
+                }
+            }
         }
 
         // ---------------- Properties ----------------
@@ -44,6 +69,12 @@ namespace HvccClock.Twitter
         public string AccessToken { get; private set; }
 
         public string AccessTokenSecret { get; private set; }
+
+        public FileInfo? LogFile { get; private set; }
+
+        public string? TelegramBotToken { get; private set; }
+
+        public string? TelegramChatId { get; private set; }
 
         // ---------------- Functions ----------------
 
