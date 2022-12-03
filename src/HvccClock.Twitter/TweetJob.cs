@@ -22,7 +22,7 @@ using Quartz;
 using Tweetinvi;
 using Tweetinvi.Core.Web;
 
-namespace HvccClock
+namespace HvccClock.Twitter
 {
     public class TweetJob : IJob
     {

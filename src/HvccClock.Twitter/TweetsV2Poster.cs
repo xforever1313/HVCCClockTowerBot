@@ -22,7 +22,7 @@ using Tweetinvi;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 
-namespace HvccClock
+namespace HvccClock.Twitter
 {
     public class TweetsV2Poster
     {

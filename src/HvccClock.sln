@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HvccClock", "HvccClock\HvccClock.csproj", "{B190FD61-0A10-4445-A8A2-8287CFD76FD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HvccClock.Twitter", "HvccClock.Twitter\HvccClock.Twitter.csproj", "{B190FD61-0A10-4445-A8A2-8287CFD76FD4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HvccClock.Tests", "HvccClock.Tests\HvccClock.Tests.csproj", "{BD93EBE7-4ACA-4C1A-9C41-195947174789}"
 EndProject

@@ -48,7 +48,7 @@ namespace DevOps.Publish
             };
 
             FilePath servicePath = context.SrcDir.CombineWithFilePath(
-                "HvccClock/HvccClock.csproj"
+                "HvccClock.Twitter/HvccClock.Twitter.csproj"
             );
 
             context.DotNetCorePublish( servicePath.ToString(), publishOptions );

@@ -7,7 +7,7 @@
 
 using Prometheus;
 
-namespace HvccClock
+namespace HvccClock.Twitter
 {
     internal static class HvccClockMetrics
     {

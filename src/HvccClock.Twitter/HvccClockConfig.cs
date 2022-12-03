@@ -19,7 +19,7 @@
 using SethCS.Exceptions;
 using SethCS.Extensions;
 
-namespace HvccClock
+namespace HvccClock.Twitter
 {
     public class HvccClockConfig
     {

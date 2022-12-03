@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HvccClock\HvccClock.csproj" />
+    <ProjectReference Include="..\HvccClock.Twitter\HvccClock.Twitter.csproj" />
   </ItemGroup>
 
 </Project>
