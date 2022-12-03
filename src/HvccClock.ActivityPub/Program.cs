@@ -22,8 +22,6 @@ using Serilog;
 
 Console.WriteLine( $"Version: {typeof( HvccClockConfig ).Assembly.GetName()?.Version?.ToString( 3 ) ?? string.Empty}." );
 
-var config = new HvccClockConfig();
-
 Serilog.ILogger? log = null;
 
 void OnTelegramFailure( Exception e )
@@ -33,6 +31,8 @@ void OnTelegramFailure( Exception e )
 
 try
 {
+    HvccClockConfig config = HvccClockConfigExtensions.FromEnvVar();
+
     log = HostingExtensions.CreateLog( config, OnTelegramFailure );
     using( var api = new HvccClockApi( log, config ) )
     {

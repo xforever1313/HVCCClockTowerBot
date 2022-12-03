@@ -16,19 +16,22 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
+using HvccClock.ActivityPub.Models;
 using HvccClock.Common;
 
 namespace HvccClock.ActivityPub
 {
     public record HvccClockConfig : IHvccClockConfig
     {
+        // ---------------- Properties ----------------
+
+        // -------- Application Settings --------
+
         /// <summary>
         /// How many messages to cache.
         /// Defaulted to 10 days worth.
         /// </summary>
         public int MessagesToKeep { get; init; } = 240;
-
-        public string BaseUrl { get; init; } = "https://activitypub.shendrick.net/@HVCC_Clock";
 
         public string Urls { get; init; } = "http://127.0.0.1:9913";
 
@@ -39,5 +42,50 @@ namespace HvccClock.ActivityPub
         public string? TelegramChatId { get; init; } = null;
 
         public string ApplicationContext => "HVCC Activity Pub";
+
+        // -------- ActivityPub Settings --------
+
+        public Profile Profile { get; init; } = new Profile();
+    }
+
+    internal static class HvccClockConfigExtensions
+    {
+        // ---------------- Functions ----------------
+
+        public static HvccClockConfig FromEnvVar()
+        {
+            bool NotNull( string envName, out string envValue )
+            {
+                envValue = Environment.GetEnvironmentVariable( envName ) ?? "";
+                return string.IsNullOrWhiteSpace( envValue );
+            }
+
+            var settings = new HvccClockConfig
+            {
+                Profile = ProfileExtensions.FromEnvVar()
+            };
+
+            if( NotNull( "ASPNETCORE_URLS", out string urls ) )
+            {
+                settings = settings with { Urls = urls };
+            }
+
+            if( NotNull( "APP_LOG_FILE", out string logFile ) )
+            {
+                settings = settings with { LogFile = new FileInfo( logFile ) };
+            }
+
+            if( NotNull( "APP_TELEGRAM_BOT_TOKEN", out string tgBotToken ) )
+            {
+                settings = settings with { TelegramBotToken = tgBotToken };
+            }
+
+            if( NotNull( "APP_TELEGRAM_CHAT_ID", out string tgChatId ) )
+            {
+                settings = settings with { TelegramChatId = tgChatId };
+            }
+
+            return settings;
+        }
     }
 }
