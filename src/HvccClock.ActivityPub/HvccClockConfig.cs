@@ -26,7 +26,7 @@ namespace HvccClock.ActivityPub
         /// How many messages to cache.
         /// Defaulted to 10 days worth.
         /// </summary>
-        public uint MessagesToKeep { get; init; } = 240;
+        public int MessagesToKeep { get; init; } = 240;
 
         public string BaseUrl { get; init; } = "https://activitypub.shendrick.net/@HVCC_Clock";
 

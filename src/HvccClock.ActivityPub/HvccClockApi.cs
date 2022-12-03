@@ -16,15 +16,15 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-using Serilog;
-
 namespace HvccClock.ActivityPub
 {
     public interface IHvccClockApi
     {
+        HvccClockDatabase Database { get; }
+
         Serilog.ILogger Log { get; }
 
-        HvccClockConfig Settings { get;  }
+        HvccClockConfig Settings { get; }
     }
 
     public sealed class HvccClockApi : IHvccClockApi, IDisposable
@@ -35,9 +35,13 @@ namespace HvccClock.ActivityPub
         {
             this.Log = log;
             this.Settings = config;
+
+            this.Database = new HvccClockDatabase( this.Log, config );
         }
 
         // ---------------- Properties ----------------
+
+        public HvccClockDatabase Database { get; private set; }
 
         public Serilog.ILogger Log { get; private set; }
 
@@ -47,6 +51,7 @@ namespace HvccClock.ActivityPub
 
         public void Dispose()
         {
+            this.Database?.Dispose();
         }
     }
 }

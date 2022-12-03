@@ -22,17 +22,23 @@ namespace HvccClock.ActivityPub
 {
     public class UpdateJob : BaseMessageJob
     {
+        // ---------------- Fields ----------------
+
+        private readonly IHvccClockApi api;
+
         // ---------------- Constructor ----------------
 
-        public UpdateJob( Serilog.ILogger log, HvccClockConfig hvccConfig ) :
-            base( log )
+        public UpdateJob( IHvccClockApi api ) :
+            base( api.Log )
         {
+            this.api = api;
         }
 
         // ---------------- Functions ----------------
 
         protected override async Task SendMessage( string tweetText, CancellationToken cancelToken )
         {
+            this.api.Database.AddMessage( tweetText );
             await Task.Delay( 0, cancelToken );
         }
     }
