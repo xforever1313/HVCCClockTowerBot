@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HvccClock.Common", "HvccClo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HvccClock.ActivityPub", "HvccClock.ActivityPub\HvccClock.ActivityPub.csproj", "{703305A5-5D23-49DB-A463-41383986D8BF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KristofferStrube.ActivityStreams", "ActivityStreams\src\KristofferStrube.ActivityStreams\KristofferStrube.ActivityStreams.csproj", "{D5FE28E0-3A7F-4716-8FAF-58F116BD3339}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{703305A5-5D23-49DB-A463-41383986D8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{703305A5-5D23-49DB-A463-41383986D8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{703305A5-5D23-49DB-A463-41383986D8BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5FE28E0-3A7F-4716-8FAF-58F116BD3339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5FE28E0-3A7F-4716-8FAF-58F116BD3339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5FE28E0-3A7F-4716-8FAF-58F116BD3339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5FE28E0-3A7F-4716-8FAF-58F116BD3339}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
