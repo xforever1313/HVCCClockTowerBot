@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<PackageReference Include="Markdig" />
 	<PackageReference Include="Quartz.Extensions.Hosting" />
 	<PackageReference Include="Serilog" />
 	<PackageReference Include="Serilog.AspNetCore" />
@@ -16,7 +17,7 @@
 	<InternalsVisibleTo Include="HvccClock.Tests" />
   </ItemGroup>
 
-	<ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\..\ActivityPubInbox\src\ActivityPub.Inbox.Common\ActivityPub.Inbox.Common.csproj" />
     <ProjectReference Include="..\..\..\ActivityPubInbox\src\ActivityPub.WebBuilder\ActivityPub.WebBuilder.csproj" />
     <ProjectReference Include="..\..\ActivityPub.Inbox\SethCS\LibSethCS\LibSethCS.csproj" />
@@ -26,9 +27,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Documentation\SampleConfig.xml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
+	<EmbeddedResource Include="..\..\Credits.md" Link="Credits.md">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</EmbeddedResource>
+	<EmbeddedResource Include="..\..\License.md" Link="License.md">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</EmbeddedResource>
   </ItemGroup>
 
 </Project>

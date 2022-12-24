@@ -25,6 +25,8 @@ namespace HvccClock.ActivityPub
     {
         // ---------------- Fields ----------------
 
+        private readonly Resources resources;
+
         private HvccClockApi? api;
 
         private ActivityPubInboxApi? inboxApi;
@@ -34,6 +36,7 @@ namespace HvccClock.ActivityPub
         public HvccActivityPubWebBuilder( string[] args ) :
             base( args )
         {
+            this.resources = new Resources();
             // Don't construct the API here, just in case they just
             // want to print the version, we don't want something
             // to not validate.
@@ -66,17 +69,18 @@ namespace HvccClock.ActivityPub
             this.inboxApi = new ActivityPubInboxApi( inboxConfig, this.Log );
             this.api = new HvccClockApi( this.Log );
             builder.Services.AddSingleton( this.api );
+            builder.Services.AddSingleton( this.resources );
             base.ConfigureBuilder( builder );
         }
 
         protected override void PrintCredits()
         {
-            Console.WriteLine( "NOT IMPLEMENTED YET!" );
+            Console.WriteLine( this.resources.GetCredits() );
         }
 
         protected override void PrintLicense()
         {
-            Console.WriteLine( "NOT IMPLEMENTED YET!" );
+            Console.WriteLine( this.resources.GetLicense() );
         }
 
         protected override void PrintVersion()
