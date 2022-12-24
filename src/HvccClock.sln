@@ -25,9 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KristofferStrube.ActivitySt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ActivityPub", "ActivityPub", "{BE0E2314-FAFB-495D-AFAB-18B1BB0A5A8E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPub.Inbox.Common", "..\..\ActivityPubInbox\src\ActivityPub.Inbox.Common\ActivityPub.Inbox.Common.csproj", "{6876CE5E-CB52-4B07-8BAE-539EB86B25F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPub.Inbox.Common", "..\ActivityPub.Inbox\src\ActivityPub.Inbox.Common\ActivityPub.Inbox.Common.csproj", "{6876CE5E-CB52-4B07-8BAE-539EB86B25F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPub.WebBuilder", "..\..\ActivityPubInbox\src\ActivityPub.WebBuilder\ActivityPub.WebBuilder.csproj", "{FF24CB60-9D54-4667-AD98-F11A9B152B85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPub.WebBuilder", "..\ActivityPub.Inbox\src\ActivityPub.WebBuilder\ActivityPub.WebBuilder.csproj", "{FF24CB60-9D54-4667-AD98-F11A9B152B85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
