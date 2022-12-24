@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "About HVCC_Clock ActivityPub Service";
+    ViewData["Description"] = "HVCC_Clock ActivityPub Service";
+    ViewData["keywords"] = "activity,college,community,dotnet,hvcc,hudson,inbox,pub,service,valley";
+}
+
+@model HomeModel;
+
+<h1>Activitypub Inbox Service</h1>
+
+<p>
+    You reached the about page for the ActivityPub service that runs HVCC_Clock.
+</p>
+<p>
+    This service is mainly used by ActivityPub servers to get the bot's latest updates.  If you
+    want to follow the bot, go to your favorite ActivityPub service (such as Mastodon) and search for
+    @@HVCC_Clock@@activitypub.shendrick.net
+</p>
+<p>
+    In the meantime, here is some information about this bot:
+</p>
+
+<ul>
+    <li>
+        <strong>Source Code: </strong>
+        <a href="https://github.com/xforever1313/HVCCClockTowerBot" target="_blank" rel="noopener noreferrer nofollow">
+            https://github.com/xforever1313/HVCCClockTowerBot
+        </a>
+    </li>
+    <li>
+        <strong>Software License: </strong>
+        <a href="/Home/License/">AGPL-3.0</a>
+    </li>
+    <li>
+        <a href="/Home/Credits/">View service's third-party credits</a>
+    </li>
+    <li>
+        <a href="https://activitypub.shendrick.net/about/credits/" target="_blank" rel="noopener noreferrer nofollow">
+            View static websites's third-party credits
+        </a>
+    </li>
+    <li>
+        <a href="https://activitypub.shendrick.net/about/privacy/" target="_blank" rel="noopener noreferrer nofollow">
+            View Privacy Policy
+        </a>
+    </li>
+    <li>
+        <strong>Version: </strong>@Model.BotVersion
+    </li>
+    <li>
+        <strong>Inbox Service Version: </strong>@Model.InboxServiceVersion
+    </li>
+</ul>

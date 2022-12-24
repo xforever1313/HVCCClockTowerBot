@@ -19,27 +19,59 @@
 using HvccClock.ActivityPub.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using ActivityPub.Inbox.Common;
 
 namespace HvccClock.ActivityPub.Controllers
 {
-    public class ProfileController : Controller
+    public class HomeController : Controller
     {
         // ---------------- Fields ----------------
 
-        private readonly IHvccClockApi api;
+        private readonly ActivityPubInboxApi inboxApi;
+
+        private readonly Resources resources;
 
         // ---------------- Constructor ----------------
 
-        public ProfileController( IHvccClockApi api )
+        public HomeController(
+            ActivityPubInboxApi inboxApi,
+            Resources resources
+        )
         {
-            this.api = api;
+            this.inboxApi = inboxApi;
+            this.resources = resources;
         }
 
         // ---------------- Functions ----------------
 
         public IActionResult Index()
         {
-            return View();
+            return View(
+                new HomeModel(
+                    this.inboxApi,
+                    this.resources
+                )
+            );
+        }
+
+        public IActionResult License()
+        {
+            return View(
+                new HomeModel(
+                    this.inboxApi,
+                    this.resources
+                )
+            );
+        }
+
+        public IActionResult Credits()
+        {
+            return View(
+                new HomeModel(
+                    this.inboxApi,
+                    this.resources
+                )
+            );
         }
 
         [ResponseCache( Duration = 0, Location = ResponseCacheLocation.None, NoStore = true )]
