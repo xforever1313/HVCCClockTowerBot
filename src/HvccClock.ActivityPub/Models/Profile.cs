@@ -17,6 +17,8 @@
 //
 
 using System.Globalization;
+using System.Text.Json;
+using KristofferStrube.ActivityStreams;
 
 namespace HvccClock.ActivityPub.Models
 {
@@ -173,6 +175,123 @@ namespace HvccClock.ActivityPub.Models
             }
 
             return profile;
+        }
+
+        public static Service ToActivtyPubService( this Profile profile, string baseUrl )
+        {
+            var service = new Service
+            {
+                Id = baseUrl,
+                Inbox = new Link
+                {
+                    Href = new Uri( $"{baseUrl}/inbox.json" )
+                },
+                Name = new string[]
+                {
+                    profile.Name
+                },
+                Outbox = new Link
+                {
+                    Href = new Uri( $"{baseUrl}/outbox.json" )
+                },
+                PreferredUsername = profile.PreferredUserName,
+                Published = profile.Published,
+                Summary = new string[]
+                {
+                    profile.Summary
+                },
+                Url = new ILink[]
+                {
+                    new Link
+                    {
+                        Href = new Uri( profile.Url )
+                    }
+                }
+            };
+
+            if( string.IsNullOrWhiteSpace( profile.IconUrl ) == false )
+            {
+                service.Icon = new IImageOrLink[]
+                {
+                    new Link
+                    {
+                        Href = new Uri( profile.IconUrl )
+                    }
+                };
+            }
+
+            if( string.IsNullOrWhiteSpace( profile.Image ) == false )
+            {
+                service.Image = new IImageOrLink[]
+                {
+                    new Link
+                    {
+                        Href = new Uri( profile.Image )
+                    }
+                };
+            }
+
+            var profileFields = new List<IObjectOrLink>();
+
+            if( string.IsNullOrEmpty( profile.Website ) == false )
+            {
+                profileFields.Add(
+                    new KristofferStrube.ActivityStreams.Object
+                    {
+                        ExtensionData = new Dictionary<string, JsonElement>
+                        {
+                            ["value"] = JsonSerializer.SerializeToElement(
+                                $@"<a href=""{profile.Website}"" rel=""me nofollow noopener noreferrer"" target=""_blank"">{profile.Website}</a>"
+                            )
+                        },
+                        Name = new string[]
+                        {
+                            "Website"
+                        },
+                        Type = new string[]
+                        {
+                            "PropertyValue"
+                        },
+                        
+                    }
+                );
+            }
+
+            if( string.IsNullOrEmpty( profile.GitHub ) == false )
+            {
+                profileFields.Add(
+                    new KristofferStrube.ActivityStreams.Object
+                    {
+                        ExtensionData = new Dictionary<string, JsonElement>
+                        {
+                            ["value"] = JsonSerializer.SerializeToElement(
+                                $@"<a href=""{profile.GitHub}"" rel=""me nofollow noopener noreferrer"" target=""_blank"">{profile.GitHub}</a>"
+                            )
+                        },
+                        Name = new string[]
+                        {
+                            "GitHub"
+                        },
+                        Type = new string[]
+                        {
+                            "PropertyValue"
+                        }
+                    }
+                );
+            }
+
+            service.ExtensionData = new Dictionary<string, JsonElement>
+            {
+                ["discoverable"] = JsonSerializer.SerializeToElement( profile.Discoverable ),
+                ["manuallyApprovesFollowers"] = JsonSerializer.SerializeToElement( profile.ManuallyApproveFollowers ),
+            };
+
+            if( profileFields.Any() )
+            {
+                service.Attachment = profileFields;
+            }
+
+            return service;
         }
 
         public static string ToJson( this Profile profile )

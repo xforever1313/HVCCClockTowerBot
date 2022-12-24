@@ -9,15 +9,19 @@
   <ItemGroup>
 	<PackageReference Include="dotenv.net" />
 	<PackageReference Include="Mono.Options" />
-	<PackageReference Include="Newtonsoft.Json" />
 	<PackageReference Include="Quartz.Extensions.Hosting" />
 	<PackageReference Include="Serilog" />
 	<PackageReference Include="Serilog.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SethCS\LibSethCS\LibSethCS.csproj" />
-    <ProjectReference Include="..\..\SethCS\Seth.CakeLib\Seth.CakeLib.csproj" />
+	<InternalsVisibleTo Include="HvccClock.Tests" />
+  </ItemGroup>
+
+	<ItemGroup>
+    <ProjectReference Include="..\..\ActivityPub.Inbox\SethCS\LibSethCS\LibSethCS.csproj" />
+    <ProjectReference Include="..\..\ActivityPub.Inbox\SethCS\Seth.CakeLib\Seth.CakeLib.csproj" />
+    <ProjectReference Include="..\..\ActivityPub.Inbox\ActivityStreams\src\KristofferStrube.ActivityStreams\KristofferStrube.ActivityStreams.csproj" />
     <ProjectReference Include="..\HvccClock.Common\HvccClock.Common.csproj" />
   </ItemGroup>
 

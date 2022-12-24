@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SethCS\LibSethCS\LibSethCS.csproj" />
-    <ProjectReference Include="..\..\SethCS\Seth.CakeLib\Seth.CakeLib.csproj" />
+    <ProjectReference Include="..\..\ActivityPub.Inbox\SethCS\LibSethCS\LibSethCS.csproj" />
+    <ProjectReference Include="..\..\ActivityPub.Inbox\SethCS\Seth.CakeLib\Seth.CakeLib.csproj" />
   </ItemGroup>
 
 </Project>

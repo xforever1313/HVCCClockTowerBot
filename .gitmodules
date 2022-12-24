@@ -1,6 +1,3 @@
-[submodule "SethCS"]
-	path = SethCS
-	url = https://github.com/xforever1313/sethcs.git
-[submodule "src/ActivityStreams"]
-	path = src/ActivityStreams
-	url = https://github.com/xforever1313/ActivityStreams.git
+[submodule "ActivityPub.Inbox"]
+	path = ActivityPub.Inbox
+	url = https://github.com/xforever1313/ActivityPub.Inbox.git
