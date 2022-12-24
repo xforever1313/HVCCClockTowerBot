@@ -24,32 +24,17 @@ namespace HvccClock.ActivityPub
 
         private readonly Serilog.ILogger log;
 
-        private readonly HvccClockConfig config;
-
-        private readonly Queue<string> messages;
-
         // ---------------- Constructor ----------------
 
-        public HvccClockDatabase( Serilog.ILogger log, HvccClockConfig config )
+        public HvccClockDatabase( Serilog.ILogger log )
         {
             this.log = log;
-            this.config = config;
-            this.messages = new Queue<string>( config.MessagesToKeep + 1 );
         }
 
         // ---------------- Functions ----------------
 
         public void AddMessage( string message )
         {
-            lock( this.messages )
-            {
-                this.messages.Enqueue( message );
-                if( messages.Count > this.config.MessagesToKeep )
-                {
-                    this.messages.Dequeue();
-                    this.log.Debug( "Maximum messages exceeded, removing oldest" );
-                }
-            }
         }
 
         /// <summary>
@@ -58,10 +43,7 @@ namespace HvccClock.ActivityPub
         /// </summary>
         public IList<string> GetAllMessageTimes()
         {
-            lock( this.messages )
-            {
-                return this.messages.ToList();
-            }
+            return Array.Empty<string>();
         }
 
         public void Dispose()
