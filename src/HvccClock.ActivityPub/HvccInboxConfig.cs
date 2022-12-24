@@ -42,7 +42,8 @@ namespace HvccClock.ActivityPub
 
         public void Validate()
         {
-            this.Sites.First().Validate();
+            ActivityPubSiteConfig site = this.Sites.First();
+            site.Validate();
         }
     }
 
