@@ -54,10 +54,10 @@ namespace HvccClock.ActivityPub.Web
         public static ActivityPubSiteConfig FromEnvVar()
         {
             return new ActivityPubSiteConfig(
+                "HVCC_CLOCK", // <- Only 1 possible ID.
                 new FileInfo( Environment.GetEnvironmentVariable( "APP_PRIVATE_KEY_FILE" ) ?? "" ),
                 new FileInfo( Environment.GetEnvironmentVariable( "APP_PUBLIC_KEY_FILE" ) ?? "" ),
-                new Uri( Environment.GetEnvironmentVariable( "APP_PROFILE_URL" ) ?? "" ),
-                "HVCC_CLOCK" // <- Only 1 possible ID.
+                new Uri( Environment.GetEnvironmentVariable( "APP_PROFILE_URL" ) ?? "" )
             );
         }
     }
