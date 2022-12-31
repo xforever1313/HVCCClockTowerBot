@@ -43,8 +43,15 @@ namespace HvccClock.Twitter
 
         // ---------------- Functions ----------------
 
-        protected override async Task SendMessage( string tweetText, CancellationToken cancelToken )
+        protected override async Task SendMessage( DateTime utcTime, CancellationToken cancelToken )
         {
+            DateTime timeStamp = TimeZoneInfo.ConvertTimeFromUtc(
+                utcTime,
+                TimeZoneInfo.FindSystemTimeZoneById( "America/New_York" )
+            );
+
+            string tweetText = GetMessageString( timeStamp );
+
             var poster = new TweetsV2Poster( client );
 
             ITwitterResult result = await poster.PostTweet(

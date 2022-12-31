@@ -37,9 +37,8 @@ namespace HvccClock.ActivityPub.Web
 
         // ---------------- Functions ----------------
 
-        protected override async Task SendMessage( string tweetText, CancellationToken cancelToken )
+        protected override async Task SendMessage( DateTime utcTime, CancellationToken cancelToken )
         {
-            this.api.Database.AddMessage( tweetText );
             await Task.Delay( 0, cancelToken );
         }
     }

@@ -44,16 +44,13 @@ namespace HvccClock.Common
         {
             try
             {
-                DateTime timeStamp = TimeZoneInfo.ConvertTimeFromUtc(
-                    context.FireTimeUtc.DateTime,
-                    TimeZoneInfo.FindSystemTimeZoneById( "America/New_York" )
-                );
+                DateTime timeStamp = context.FireTimeUtc.DateTime;
 
                 if( stopWatch.IsRunning )
                 {
                     if( stopWatch.Elapsed <= TimeSpan.FromMinutes( 55 ) )
                     {
-                        this.log.Warning( $"Fired {timeStamp} too quickly, ignoring." );
+                        this.log.Warning( $"Fired {timeStamp} (UTC) too quickly, ignoring." );
                         return;
                     }
                 }
@@ -61,7 +58,7 @@ namespace HvccClock.Common
                 stopWatch.Restart();
 
                 string tweet = GetMessageString( timeStamp );
-                await SendMessage( tweet, context.CancellationToken );
+                await SendMessage( timeStamp, context.CancellationToken );
             }
             catch( Exception e )
             {
@@ -69,7 +66,7 @@ namespace HvccClock.Common
             }
         }
 
-        protected abstract Task SendMessage( string text, CancellationToken cancelToken );
+        protected abstract Task SendMessage( DateTime utcTime, CancellationToken cancelToken );
 
         public static string GetMessageString( DateTime time )
         {
