@@ -16,7 +16,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-namespace HvccClock.ActivityPub
+namespace HvccClock.ActivityPub.Api
 {
     public class HvccClockDatabase : IDisposable
     {

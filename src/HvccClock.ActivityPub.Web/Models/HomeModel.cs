@@ -18,7 +18,7 @@
 
 using ActivityPub.Inbox.Common;
 
-namespace HvccClock.ActivityPub.Models
+namespace HvccClock.ActivityPub.Web.Models
 {
     public class HomeModel
     {

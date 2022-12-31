@@ -16,7 +16,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-using HvccClock.ActivityPub;
+using HvccClock.ActivityPub.Web;
 
 var builder = new HvccActivityPubWebBuilder( args );
 return builder.Run();

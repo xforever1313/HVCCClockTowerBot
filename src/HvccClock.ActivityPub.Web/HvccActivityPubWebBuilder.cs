@@ -18,8 +18,9 @@
 
 using ActivityPub.Inbox.Common;
 using ActivityPub.WebBuilder;
+using HvccClock.ActivityPub.Api;
 
-namespace HvccClock.ActivityPub
+namespace HvccClock.ActivityPub.Web
 {
     public class HvccActivityPubWebBuilder : ActivityPubWebBuilder, IDisposable
     {

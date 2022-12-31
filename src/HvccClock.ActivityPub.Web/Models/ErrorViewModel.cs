@@ -1,4 +1,4 @@
-namespace HvccClock.ActivityPub.Models
+namespace HvccClock.ActivityPub.Web.Models
 {
     public class ErrorViewModel
     {

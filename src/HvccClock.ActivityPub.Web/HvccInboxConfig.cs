@@ -18,7 +18,7 @@
 
 using ActivityPub.Inbox.Common;
 
-namespace HvccClock.ActivityPub
+namespace HvccClock.ActivityPub.Web
 {
     public class HvccInboxConfig : IActivityPubInboxConfig
     {

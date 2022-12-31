@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\ActivityPub.Inbox\src\ActivityPub.WebBuilder\ActivityPub.WebBuilder.csproj" />
     <ProjectReference Include="..\..\ActivityPub.Inbox\SethCS\LibSethCS\LibSethCS.csproj" />
     <ProjectReference Include="..\..\ActivityPub.Inbox\ActivityStreams\src\KristofferStrube.ActivityStreams\KristofferStrube.ActivityStreams.csproj" />
+    <ProjectReference Include="..\HvccClock.ActivityPub.Api\HvccClock.ActivityPub.Api.csproj" />
     <ProjectReference Include="..\HvccClock.Common\HvccClock.Common.csproj" />
   </ItemGroup>
 

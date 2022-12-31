@@ -16,9 +16,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
+using HvccClock.ActivityPub.Api;
 using HvccClock.Common;
 
-namespace HvccClock.ActivityPub
+namespace HvccClock.ActivityPub.Web
 {
     public class UpdateJob : BaseMessageJob
     {

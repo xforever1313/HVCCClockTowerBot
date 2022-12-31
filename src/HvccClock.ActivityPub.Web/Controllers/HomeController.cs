@@ -16,12 +16,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-using HvccClock.ActivityPub.Models;
+using HvccClock.ActivityPub.Web.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ActivityPub.Inbox.Common;
 
-namespace HvccClock.ActivityPub.Controllers
+namespace HvccClock.ActivityPub.Web.Controllers
 {
     public class HomeController : Controller
     {

@@ -18,7 +18,7 @@
 
 using SethCS.IO;
 
-namespace HvccClock.ActivityPub
+namespace HvccClock.ActivityPub.Web
 {
     public sealed class Resources
     {
@@ -33,14 +33,14 @@ namespace HvccClock.ActivityPub
         public string GetLicense()
         {
             return AssemblyResourceReader.ReadStringResource(
-                typeof( Resources ).Assembly, $"{nameof( HvccClock )}.{nameof( ActivityPub )}.License.md"
+                typeof( Resources ).Assembly, $"{nameof( HvccClock )}.{nameof( ActivityPub )}.{nameof( Web )}.License.md"
             );
         }
 
         public string GetCredits()
         {
             return AssemblyResourceReader.ReadStringResource(
-                typeof( Resources ).Assembly, $"{nameof( HvccClock )}.{nameof( ActivityPub )}.Credits.md"
+                typeof( Resources ).Assembly, $"{nameof( HvccClock )}.{nameof( ActivityPub )}.{nameof( Web )}.Credits.md"
             );
         }
     }

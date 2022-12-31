@@ -18,7 +18,7 @@
 
 using Markdig;
 
-namespace HvccClock.ActivityPub
+namespace HvccClock.ActivityPub.Web
 {
     public static class MarkdownToHtmlConverter
     {
