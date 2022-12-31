@@ -10,4 +10,11 @@
   	<PackageReference Include="Serilog" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\ActivityPub.Inbox\ActivityStreams\src\KristofferStrube.ActivityStreams\KristofferStrube.ActivityStreams.csproj" />
+    <ProjectReference Include="..\..\ActivityPub.Inbox\SethCS\LibSethCS\LibSethCS.csproj" />
+    <ProjectReference Include="..\..\ActivityPub.Inbox\src\ActivityPub.Inbox.Common\ActivityPub.Inbox.Common.csproj" />
+    <ProjectReference Include="..\HvccClock.Common\HvccClock.Common.csproj" />
+  </ItemGroup>
+
 </Project>
