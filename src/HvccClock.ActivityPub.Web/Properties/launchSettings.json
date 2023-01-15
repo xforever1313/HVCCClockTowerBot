@@ -1,21 +1,14 @@
-﻿{
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:20038",
-      "sslPort": 0
-    }
-  },
+{
   "profiles": {
     "HvccClock.ActivityPub": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
+      "commandLineArgs": "--env=C:\\Users\\xfore.000\\Documents\\Source\\HvccClock\\src\\HvccClock.ActivityPub.Web\\.env",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5088",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5088"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -23,6 +16,14 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:20038",
+      "sslPort": 0
     }
   }
 }

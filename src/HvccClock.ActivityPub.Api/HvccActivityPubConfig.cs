@@ -19,10 +19,9 @@
 using System.Collections.ObjectModel;
 using System.Xml.Linq;
 using ActivityPub.Inbox.Common;
-using HvccClock.ActivityPub.Api;
 using SethCS.Exceptions;
 
-namespace HvccClock.ActivityPub.Web
+namespace HvccClock.ActivityPub.Api
 {
     public class HvccActivityPubConfig : IActivityPubInboxConfig
     {

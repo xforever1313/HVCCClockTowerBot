@@ -20,6 +20,8 @@ namespace HvccClock.ActivityPub.Api
 {
     public interface IHvccClockApi
     {
+        HvccActivityPubConfig ActivityPubConfig { get; }
+
         HvccClockDatabase Database { get; }
 
         Serilog.ILogger Log { get; }
@@ -29,14 +31,17 @@ namespace HvccClock.ActivityPub.Api
     {
         // ---------------- Constructor ----------------
 
-        public HvccClockApi( Serilog.ILogger log )
+        public HvccClockApi( HvccActivityPubConfig config, Serilog.ILogger log )
         {
+            this.ActivityPubConfig = config;
             this.Log = log;
 
             this.Database = new HvccClockDatabase( this.Log );
         }
 
         // ---------------- Properties ----------------
+
+        public HvccActivityPubConfig ActivityPubConfig { get; private set; }
 
         public HvccClockDatabase Database { get; private set; }
 
