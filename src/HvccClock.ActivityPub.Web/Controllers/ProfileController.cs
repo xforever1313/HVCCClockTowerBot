@@ -74,7 +74,7 @@ namespace HvccClock.ActivityPub.Web.Controllers
             }
 
             ClockTowerConfig clockTowerConfig = this.clockBotApi.ActivityPubConfig.ClockTowerConfigs[profileId];
-            return Redirect( clockTowerConfig.SiteConfig.ProfileUrl.ToString() );
+            return RedirectPermanent( clockTowerConfig.SiteConfig.ProfileUrl.ToString() );
         }
 
         [Route( "/Profile/{profileId}/outbox.json" )]
