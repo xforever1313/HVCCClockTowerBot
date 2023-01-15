@@ -1,10 +1,10 @@
 # Credits
 
-HvccClock is made possible by various third-party open source libraries, listed below.
+HvccClock Twitter Bot and ClockBot ActivityPub Service are made possible by various third-party open source libraries, listed below.
 
 ## All Bots
 
-These libraries are used by all HVCC_Clock bots.
+These libraries are used by both the Twitter and ActivityPub bots.
 
 ### Cake
 
@@ -1162,9 +1162,9 @@ DEALINGS IN THE SOFTWARE.
 
 ## ActivityPub Credits
 
-These libraries are only used by [@HVCC_Clock@activitypub.shendrick.net](https://activitypub.shendrick.net/@HVCC_Clock), which is the ActivityPub bot.
+These libraries are only used by the ActivityPub bots such as [@HVCC_Clock@activitypub.shendrick.net](https://activitypub.shendrick.net/bots/clockbots/hvcc_clock/index.html).
 
-These only show the libraries used for the dynamic portions of the bot.  For the static website portions of the bot [click here](https://activitypub.shendrick.net/about/credits/).
+These only show the libraries used for the dynamic portions of the bot.  For the static website portions of the bot [click here](https://activitypub.shendrick.net/about/credits.html).
 
 ### ActivityPub.Inbox
 
