@@ -74,7 +74,9 @@ namespace HvccClock.ActivityPub.Api
     {
         // ---------------- Fields ----------------
 
-        public static readonly string ClockTowerConfigElementName = "ClockTowerConfig";
+        public static readonly string ClockTowerConfigRootName = "ClockTowerConfig";
+
+        public static readonly string ClockTowerConfigElementName = "ClockTower";
 
         // ---------------- Functions ----------------
 
@@ -92,6 +94,13 @@ namespace HvccClock.ActivityPub.Api
             string? id = null;
             ActivityPubSiteConfig? siteConfig = null;
 
+            string? baseKeyDirStr = Environment.GetEnvironmentVariable( "APP_BASE_KEY_DIRECTORY" );
+            DirectoryInfo? baseKeyDir = null;
+            if( baseKeyDirStr is not null )
+            {
+                baseKeyDir = new DirectoryInfo( baseKeyDirStr );
+            }
+
             foreach( XElement element in towerElement.Elements() )
             {
                 string name = element.Name.LocalName;
@@ -105,7 +114,10 @@ namespace HvccClock.ActivityPub.Api
                 }
                 else if( ActivityPubSiteConfigExtensions.SiteConfigElementName.EqualsIgnoreCase( name ) )
                 {
-                    siteConfig = ActivityPubSiteConfigExtensions.DeserializeSiteConfig( element );
+                    siteConfig = ActivityPubSiteConfigExtensions.DeserializeSiteConfig(
+                        element,
+                        baseKeyDir
+                    );
                 }
             }
 
@@ -145,6 +157,29 @@ namespace HvccClock.ActivityPub.Api
                 timeZone,
                 siteConfig
             );
+        }
+
+        public static IEnumerable<ClockTowerConfig> DeserializeConfigs( XElement configElement )
+        {
+            if( ClockTowerConfigRootName.EqualsIgnoreCase( configElement.Name.LocalName ) == false )
+            {
+                throw new ArgumentException(
+                    $"Passed in XML element doesn't have correct name.  Expected: {ClockTowerConfigRootName}, Got: {configElement.Name.LocalName}.",
+                    nameof( configElement )
+                );
+            }
+
+            var configs = new List<ClockTowerConfig>();
+            foreach( XElement child in configElement.Elements() )
+            {
+                if( ClockTowerConfigElementName.EqualsIgnoreCase( child.Name.LocalName ) )
+                {
+                    ClockTowerConfig clockTowerConfig = DeserializeConfig( child );
+                    configs.Add( clockTowerConfig );
+                }
+            }
+
+            return configs;
         }
     }
 }

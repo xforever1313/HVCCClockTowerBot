@@ -66,8 +66,8 @@ namespace HvccClock.ActivityPub.Web
                 );
             }
 
-            var inboxConfig = new HvccInboxConfig();
-            this.inboxApi = new ActivityPubInboxApi( inboxConfig, this.Log );
+            HvccActivityPubConfig actPubConfig = HvccActivityPubConfigConfigExtensions.FromEnvVar();
+            this.inboxApi = new ActivityPubInboxApi( actPubConfig, this.Log );
             this.api = new HvccClockApi( this.Log );
             builder.Services.AddSingleton( this.inboxApi );
             builder.Services.AddSingleton<IHvccClockApi>( this.api );
