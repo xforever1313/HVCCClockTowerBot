@@ -19,6 +19,7 @@
 using ActivityPub.Inbox.Common;
 using ActivityPub.WebBuilder;
 using HvccClock.ActivityPub.Api;
+using Quartz;
 
 namespace HvccClock.ActivityPub.Web
 {
@@ -72,6 +73,53 @@ namespace HvccClock.ActivityPub.Web
             builder.Services.AddSingleton( this.inboxApi );
             builder.Services.AddSingleton<IHvccClockApi>( this.api );
             builder.Services.AddSingleton( this.resources );
+
+            builder.Services.AddQuartz(
+                ( IServiceCollectionQuartzConfigurator q ) =>
+                {
+                    q.UseMicrosoftDependencyInjectionJobFactory();
+
+                    JobKey jobKey = JobKey.Create( $"Chime" );
+                    q.AddJob<UpdateJob>(
+                        jobKey,
+                        ( IJobConfigurator jobConfig ) =>
+                        {
+                        }
+                    );
+
+                    foreach( string timeZone in actPubConfig.ClockTowerConfigs.Values.Select( c => c.TimeZone ).Distinct() )
+                    {
+                        q.AddTrigger(
+                            ( ITriggerConfigurator triggerConfig ) =>
+                            {
+                                triggerConfig.WithCronSchedule(
+                                    $"0 0 * * * ?", // Fire every hour on the hour.
+                                    ( CronScheduleBuilder cronBuilder ) =>
+                                    {
+                                        cronBuilder.InTimeZone( TimeZoneInfo.FindSystemTimeZoneById( timeZone ) );
+                                        // If we misfire, just do nothing.  This isn't exactly
+                                        // the most important application
+                                        cronBuilder.WithMisfireHandlingInstructionDoNothing();
+                                        cronBuilder.Build();
+                                    }
+                                );
+                                triggerConfig.WithDescription( timeZone );
+                                triggerConfig.ForJob( jobKey );
+                                triggerConfig.StartNow();
+                            }
+                        );
+                    }
+                }
+            );
+
+            builder.Services.AddQuartzHostedService(
+                options =>
+                {
+                    options.AwaitApplicationStarted = true;
+                    options.WaitForJobsToComplete = true;
+                }
+            );
+
             base.ConfigureBuilder( builder );
         }
 
@@ -94,6 +142,8 @@ namespace HvccClock.ActivityPub.Web
         {
             this.api?.Dispose();
             this.inboxApi?.Dispose();
+
+            GC.SuppressFinalize( this );
         }
     }
 }

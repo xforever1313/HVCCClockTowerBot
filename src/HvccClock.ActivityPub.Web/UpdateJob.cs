@@ -16,12 +16,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
+using System.Diagnostics;
 using HvccClock.ActivityPub.Api;
 using HvccClock.Common;
+using Quartz;
 
 namespace HvccClock.ActivityPub.Web
 {
-    public class UpdateJob : BaseMessageJob
+    public class UpdateJob : IJob
     {
         // ---------------- Fields ----------------
 
@@ -29,17 +31,32 @@ namespace HvccClock.ActivityPub.Web
 
         // ---------------- Constructor ----------------
 
-        public UpdateJob( IHvccClockApi api ) :
-            base( api.Log )
+        public UpdateJob( IHvccClockApi api )
         {
             this.api = api;
         }
 
         // ---------------- Functions ----------------
 
-        protected override async Task SendMessage( DateTime utcTime, CancellationToken cancelToken )
+        public async Task Execute( IJobExecutionContext context )
         {
-            await Task.Delay( 0, cancelToken );
+            try
+            {
+                DateTime timeStamp = context.FireTimeUtc.DateTime;
+                string? timeZone = context.Trigger.Description;
+                if( timeZone is null )
+                {
+                    throw new InvalidOperationException(
+                        "Got null timezone during time update job"
+                    );
+                }
+
+                await this.api.Database.AddTimeAsync( timeZone, timeStamp );
+            }
+            catch( Exception e )
+            {
+                this.api.Log.Error( $"Error generating timestamp: {Environment.NewLine}{e}" );
+            }
         }
     }
 }
