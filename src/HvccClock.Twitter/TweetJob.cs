@@ -50,7 +50,7 @@ namespace HvccClock.Twitter
                 TimeZoneInfo.FindSystemTimeZoneById( "America/New_York" )
             );
 
-            string tweetText = GetMessageString( timeStamp );
+            string tweetText = GetMessageString( timeStamp, "HVCC" );
 
             var poster = new TweetsV2Poster( client );
 

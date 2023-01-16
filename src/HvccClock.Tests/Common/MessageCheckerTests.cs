@@ -352,11 +352,11 @@ namespace HvccClock.Tests.Common
 
 The time at HVCC currently is: {timestampPortion}.";
 
-            string actualMessage = BaseMessageJob.GetMessageString(expectedTime);
-            Assert.AreEqual(expectedMessage, actualMessage);
+            string actualMessage = BaseMessageJob.GetMessageString( expectedTime, "HVCC" );
+            Assert.AreEqual( expectedMessage, actualMessage );
 
             // Messages must be less than 160 characters.
-            Assert.IsTrue(actualMessage.Length <= 160);
+            Assert.IsTrue( actualMessage.Length <= 160 );
         }
     }
 }

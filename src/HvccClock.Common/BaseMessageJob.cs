@@ -57,7 +57,7 @@ namespace HvccClock.Common
 
                 stopWatch.Restart();
 
-                string tweet = GetMessageString( timeStamp );
+                string tweet = GetMessageString( timeStamp, "HVCC" );
                 await SendMessage( timeStamp, context.CancellationToken );
             }
             catch( Exception e )
@@ -68,7 +68,7 @@ namespace HvccClock.Common
 
         protected abstract Task SendMessage( DateTime utcTime, CancellationToken cancelToken );
 
-        public static string GetMessageString( DateTime time )
+        public static string GetMessageString( DateTime time, string location )
         {
             var tweet = new StringBuilder();
             int hour = time.Hour;
@@ -89,7 +89,7 @@ namespace HvccClock.Common
             tweet.Remove( tweet.Length - 1, 1 );
             tweet.AppendLine();
             tweet.AppendLine();
-            tweet.Append( $"The time at HVCC currently is: {time.ToString( "dddd, MMMM d yyyy, h:00tt" )}." );
+            tweet.Append( $"The time at {location} currently is: {time.ToString( "dddd, MMMM d yyyy, h:00tt" )}." );
 
             return tweet.ToString();
         }
