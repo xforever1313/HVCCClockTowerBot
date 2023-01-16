@@ -16,6 +16,9 @@ tools
 *.msi
 dist/
 
+#Debug
+launchSettings.json
+
 # globs
 Makefile.in
 *.DS_Store
