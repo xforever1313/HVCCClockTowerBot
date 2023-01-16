@@ -16,45 +16,38 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-namespace HvccClock.ActivityPub.Api
+using Microsoft.EntityFrameworkCore;
+
+namespace HvccClock.ActivityPub.Api.DatabaseSchema
 {
-    public interface IHvccClockApi
-    {
-        HvccActivityPubConfig ActivityPubConfig { get; }
-
-        HvccClockDatabase Database { get; }
-
-        Serilog.ILogger Log { get; }
-    }
-
-    public sealed class HvccClockApi : IHvccClockApi, IDisposable
+    internal sealed class DatabaseConnection : DbContext
     {
         // ---------------- Constructor ----------------
 
-        public HvccClockApi( HvccActivityPubConfig config, Serilog.ILogger log )
+        public DatabaseConnection( FileInfo databaseLocation )
         {
-            this.ActivityPubConfig = config;
-            this.Log = log;
+            this.DatabaseLocation = databaseLocation;
 
-            this.Database = new HvccClockDatabase(
-                this.ActivityPubConfig.DbFile,
-                this.Log
-            );
+            this.Database.EnsureCreated();
         }
 
         // ---------------- Properties ----------------
 
-        public HvccActivityPubConfig ActivityPubConfig { get; private set; }
+        public FileInfo DatabaseLocation { get; private set; }
 
-        public HvccClockDatabase Database { get; private set; }
-
-        public Serilog.ILogger Log { get; private set; }
+        public DbSet<DateTable>? Dates { get; set; }
 
         // ---------------- Functions ----------------
 
-        public void Dispose()
+        protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
         {
-            this.Database?.Dispose();
+            optionsBuilder.UseSqlite( $"Data Source={this.DatabaseLocation.FullName}" );
+            base.OnConfiguring( optionsBuilder );
+        }
+
+        protected override void OnModelCreating( ModelBuilder modelBuilder )
+        {
+            base.OnModelCreating( modelBuilder );
         }
     }
 }

@@ -16,34 +16,87 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
+using HvccClock.ActivityPub.Api.DatabaseSchema;
+
 namespace HvccClock.ActivityPub.Api
 {
     public class HvccClockDatabase : IDisposable
     {
         // ---------------- Fields ----------------
 
+        private readonly FileInfo dbFile;
+
         private readonly Serilog.ILogger log;
 
         // ---------------- Constructor ----------------
 
-        public HvccClockDatabase( Serilog.ILogger log )
+        public HvccClockDatabase( FileInfo dbFile, Serilog.ILogger log )
         {
             this.log = log;
+            this.dbFile = dbFile;
         }
 
         // ---------------- Functions ----------------
 
-        public void AddMessage( string message )
+        public int AddTime( string timeZone, DateTime dateTimeUtc )
         {
+            int id;
+            using( DatabaseConnection dbConnection = new DatabaseConnection( this.dbFile ) )
+            {
+                if( dbConnection.Dates is null )
+                {
+                    throw new InvalidOperationException(
+                        "Dates table somehow null"
+                    );
+                }
+
+                var newRow = new DateTable
+                {
+                    TimeStamp = dateTimeUtc,
+                    TimeZone = timeZone
+                };
+
+                dbConnection.Dates.Add( newRow );
+
+                dbConnection.SaveChanges();
+
+                id = newRow.Id;
+            }
+            
+            this.log.Debug( $"Added '{dateTimeUtc}' for timezone '{timeZone}'.  ID: {id}" );
+
+            return id;
         }
 
-        /// <summary>
-        /// Gets a list of times messages were sent out.
-        /// The index 0 is the newest one.
-        /// </summary>
-        public IList<string> GetAllMessageTimes()
+        public Task<int> AddTimeAsync( string timeZone, DateTime dateTime )
         {
-            return Array.Empty<string>();
+            return Task.Run(
+                () => AddTime( timeZone, dateTime )
+            );
+        }
+
+        public int GetTotalRowsForTimeZone( string timeZone )
+        {
+            using( DatabaseConnection dbConnection = new DatabaseConnection( this.dbFile ) )
+            {
+                if( dbConnection.Dates is null )
+                {
+                    throw new InvalidOperationException(
+                        "Dates table somehow null"
+                    );
+                }
+
+                return dbConnection.Dates.Where(
+                    d => d.TimeZone == timeZone
+                ).Count();
+            }
+        }
+
+        public Task<int> GetTotalRowsForTimeZoneAsync( string timeZone )
+        {
+            return Task.Run(
+                () => GetTotalRowsForTimeZone( timeZone )
+            );
         }
 
         public void Dispose()

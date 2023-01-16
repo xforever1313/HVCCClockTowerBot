@@ -28,12 +28,14 @@ namespace HvccClock.ActivityPub.Api
         // ---------------- Constructor ----------------
 
         public HvccActivityPubConfig() :
-            this( new List<ClockTowerConfig>() )
+            this( new FileInfo( "clockbots.db" ), new List<ClockTowerConfig>() )
         {
         }
 
-        public HvccActivityPubConfig( IEnumerable<ClockTowerConfig> clockTowerConfigs )
+        public HvccActivityPubConfig( FileInfo dbFile, IEnumerable<ClockTowerConfig> clockTowerConfigs )
         {
+            this.DbFile = dbFile;
+
             var dict = new Dictionary<string, ClockTowerConfig>();
             foreach( ClockTowerConfig config in clockTowerConfigs )
             {
@@ -43,6 +45,8 @@ namespace HvccClock.ActivityPub.Api
         }
 
         // ---------------- Properties ----------------
+
+        public FileInfo DbFile { get; private set; }
 
         public IReadOnlyDictionary<string, ClockTowerConfig> ClockTowerConfigs { get; private set; }
 
@@ -75,6 +79,8 @@ namespace HvccClock.ActivityPub.Api
 
         private const string clockbotFileEnvVarName = "APP_CLOCKBOT_CONFIG_FILE";
 
+        private const string clockBotDbFileEnvVarName = "APP_CLOCKBOT_DB_FILE";
+
         // ---------------- Functions -----------------
 
         public static HvccActivityPubConfig FromEnvVar()
@@ -82,38 +88,48 @@ namespace HvccClock.ActivityPub.Api
             string? clockFileEnvVar = Environment.GetEnvironmentVariable( clockbotFileEnvVarName );
             if( clockFileEnvVar is null )
             {
-                throw new InvalidOperationException(
+                throw new ValidationException(
                     $"{clockbotFileEnvVarName} environment variable not specified, please fill in."
                 );
             }
 
-            var fileInfo = new FileInfo( clockFileEnvVar );
-            return FromXmlFile( fileInfo );
-        }
-
-        public static HvccActivityPubConfig FromXmlFile( FileInfo file )
-        {
-            if( file.Exists == false )
+            string? dbFileEnvVar = Environment.GetEnvironmentVariable( clockBotDbFileEnvVarName );
+            if( dbFileEnvVar is null )
             {
-                throw new FileNotFoundException(
-                    $"Clock bot XML File '{file.FullName}' not found."
+                throw new ValidationException(
+                    $"{clockBotDbFileEnvVarName} environment varible not specified, please fill in."
                 );
             }
 
-            XDocument doc = XDocument.Load( file.FullName );
+            return FromXmlFile( 
+                new FileInfo( dbFileEnvVar ),
+                new FileInfo( clockFileEnvVar )
+            );
+        }
+
+        public static HvccActivityPubConfig FromXmlFile( FileInfo dbFile, FileInfo xmlFile )
+        {
+            if( xmlFile.Exists == false )
+            {
+                throw new FileNotFoundException(
+                    $"Clock bot XML File '{xmlFile.FullName}' not found."
+                );
+            }
+
+            XDocument doc = XDocument.Load( xmlFile.FullName );
 
             XElement? root = doc.Root;
             if( root is null )
             {
                 throw new ArgumentException(
-                    $"XML Root node is null in file '{file.FullName}'",
-                    nameof( file )
+                    $"XML Root node is null in file '{xmlFile.FullName}'",
+                    nameof( xmlFile )
                 );
             }
 
             IEnumerable<ClockTowerConfig> clockTowerConfigs = ClockTowerConfigExtensions.DeserializeConfigs( root );
 
-            return new HvccActivityPubConfig( clockTowerConfigs );
+            return new HvccActivityPubConfig( dbFile, clockTowerConfigs );
         }
     }
 }
