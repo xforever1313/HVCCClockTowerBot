@@ -163,7 +163,9 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
+            Assert.AreEqual( 0, result.StartIndex );
             Assert.AreEqual( index, result.Index );
+            Assert.AreEqual( index, result.EndIndex );
 
             // Just 1 entry, should be no indexes in both directions.
             Assert.IsNull( result.NextIndex );
@@ -207,7 +209,9 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
+            Assert.AreEqual( 0, result.StartIndex );
             Assert.AreEqual( index, result.Index );
+            Assert.AreEqual( index, result.EndIndex );
 
             // Just enough for 1 day, should be no indexes in both directions.
             Assert.IsNull( result.NextIndex );
@@ -255,7 +259,9 @@ namespace HvccClock.Tests.ActivityPub.Api
                 TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
                 // Check
+                Assert.AreEqual( 0, result.StartIndex );
                 Assert.AreEqual( index, result.Index );
+                Assert.AreEqual( 1, result.EndIndex );
 
                 // Beyond the first day, there should be no next index at all.
                 Assert.IsNull( result.NextIndex );
@@ -316,7 +322,9 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
+            Assert.AreEqual( 0, result.StartIndex );
             Assert.AreEqual( index, result.Index );
+            Assert.AreEqual( index, result.EndIndex );
 
             // Just enough for 1 day, should be no indexes in both directions.
             Assert.IsNull( result.NextIndex );
@@ -376,7 +384,9 @@ namespace HvccClock.Tests.ActivityPub.Api
                 TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
                 // Check
+                Assert.AreEqual( 0, result.StartIndex );
                 Assert.AreEqual( index, result.Index );
+                Assert.AreEqual( 1, result.EndIndex );
 
                 // Beyond the first day, there should be no next index at all.
                 Assert.IsNull( result.NextIndex );
@@ -448,7 +458,9 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
+            Assert.AreEqual( 0, result.StartIndex );
             Assert.AreEqual( index, result.Index );
+            Assert.AreEqual( 2, result.EndIndex );
 
             // There is more than 1 day's worth of indexes,
             // next index should not be null.
@@ -514,7 +526,9 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
+            Assert.AreEqual( 0, result.StartIndex );
             Assert.AreEqual( index, result.Index );
+            Assert.AreEqual( 1, result.EndIndex );
 
             // Just one day's worth of addresses,
             // there should be no next address, expecially
@@ -592,7 +606,9 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
+            Assert.AreEqual( 0, result.StartIndex );
             Assert.AreEqual( index, result.Index );
+            Assert.AreEqual( index, result.EndIndex );
 
             // There are only 2 days worth of dates,
             // so there should be no next index.
@@ -680,7 +696,9 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
+            Assert.AreEqual( 0, result.StartIndex );
             Assert.AreEqual( index, result.Index );
+            Assert.AreEqual( index, result.EndIndex );
 
             // There are only 2 days worth of dates,
             // so there should be no next index.
@@ -769,7 +787,9 @@ namespace HvccClock.Tests.ActivityPub.Api
                 TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
                 // Check
+                Assert.AreEqual( 0, result.StartIndex );
                 Assert.AreEqual( index, result.Index );
+                Assert.AreEqual( 2, result.EndIndex );
 
                 // Beyond the total number of days,
                 // next index should be null.
@@ -868,7 +888,9 @@ namespace HvccClock.Tests.ActivityPub.Api
                 TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
                 // Check
+                Assert.AreEqual( 0, result.StartIndex );
                 Assert.AreEqual( index, result.Index );
+                Assert.AreEqual( 2, result.EndIndex );
 
                 // Beyond the total number of days,
                 // next index should be null.
@@ -966,7 +988,9 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
+            Assert.AreEqual( 0, result.StartIndex );
             Assert.AreEqual( index, result.Index );
+            Assert.AreEqual( index, result.EndIndex );
 
             // There are only 2 days worth of dates,
             // so there should be no next index.
@@ -1073,7 +1097,9 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
+            Assert.AreEqual( 0, result.StartIndex );
             Assert.AreEqual( index, result.Index );
+            Assert.AreEqual( 3, result.EndIndex );
 
             // There are only just over 2 days worth of dates,
             // so there should be a next index.
@@ -1102,6 +1128,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
+            Assert.AreEqual( 0, result.StartIndex );
             Assert.AreEqual( index ?? 0, result.Index );
 
             // Index result, should not have a next index
@@ -1109,10 +1136,12 @@ namespace HvccClock.Tests.ActivityPub.Api
             if( shouldBeEmpty )
             {
                 Assert.IsNull( result.NextIndex );
+                Assert.AreEqual( 0, result.EndIndex );
             }
             else
             {
                 Assert.AreEqual( 1, result.NextIndex );
+                Assert.AreEqual( 1, result.EndIndex );
             }
             
             // Index result, should have no previous result.

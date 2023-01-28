@@ -52,9 +52,19 @@ namespace HvccClock.ActivityPub.Api
         public int? NextIndex { get; init; }
 
         /// <summary>
+        /// Index to the first record (usually 0)
+        /// </summary>
+        public int StartIndex { get; init; }
+
+        /// <summary>
         /// The index used to get the <see cref="TimeStamps"/> list.
         /// </summary>
         public int Index { get; init; }
+        
+        /// <summary>
+        /// Index to the last entry that contains days.
+        /// </summary>
+        public int EndIndex { get; init; }
 
         /// <summary>
         /// Total records within the timezone,

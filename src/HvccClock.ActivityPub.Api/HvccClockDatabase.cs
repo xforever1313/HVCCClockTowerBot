@@ -125,11 +125,17 @@ namespace HvccClock.ActivityPub.Api
                     // We just want the index record if no index is specified.
                     return new TimeResult
                     {
+                        StartIndex = 0,
+
                         // The index we selected is 0, the index record.
                         Index = 0,
 
-                        // The next index is 1, unless we have no records, then its zero.
+                        // The next index is 1, unless we have no records, then its null.
                         NextIndex = ( totalRecords != 0 ) ? 1 : null,
+
+                        // The end index is 1, unless we have no records, then its 0 since
+                        // we're already at the end.
+                        EndIndex = ( totalRecords != 0 ) ? 1 : 0,
 
                         // This is the index record, there is no previous record.
                         PreviousIndex = null,
@@ -185,6 +191,20 @@ namespace HvccClock.ActivityPub.Api
                     nextIndex = null;
                 }
 
+                int endIndex;
+                if( totalRecords == 0 )
+                {
+                    endIndex = 0;
+                }
+                else
+                {
+                    endIndex = ( totalRecords ) / TimeResult.TimeStampsPerIndex;
+                    if( ( totalRecords % TimeResult.TimeStampsPerIndex ) != 0 )
+                    {
+                        ++endIndex;
+                    }
+                }
+
                 int? previousIndex;
                 if( ( dayIndex <= 1 ) || ( totalRecords == 0 ) )
                 {
@@ -199,13 +219,9 @@ namespace HvccClock.ActivityPub.Api
                 else if( isEmpty )
                 {
                     // If we are empty, then our index may be too big.
-                    // Try to calculate the index that actually contains things.
-                    
-
-                    // Use mod to basically do a ceiling up to the next value
-                    // that's divisible by the total results per index.
-                    int modValue = ( totalRecords % TimeResult.TimeStampsPerIndex );
-                    previousIndex = ( totalRecords + modValue ) / TimeResult.TimeStampsPerIndex;
+                    // Try to calculate the index that actually contains things,
+                    // which is the last index
+                    previousIndex = endIndex;
                 }
                 else
                 {
@@ -216,7 +232,10 @@ namespace HvccClock.ActivityPub.Api
 
                 return new TimeResult
                 {
+                    // Start index is always zero.
+                    StartIndex = 0,
                     Index = dayIndex.Value,
+                    EndIndex = endIndex,
                     NextIndex = nextIndex,
                     PreviousIndex = previousIndex,
                     TimeStamps = timeStamps,
