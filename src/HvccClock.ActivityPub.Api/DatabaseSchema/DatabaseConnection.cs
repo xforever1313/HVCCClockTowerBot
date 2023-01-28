@@ -22,11 +22,16 @@ namespace HvccClock.ActivityPub.Api.DatabaseSchema
 {
     internal sealed class DatabaseConnection : DbContext
     {
+        // ---------------- Fields ----------------
+
+        private readonly bool pool;
+
         // ---------------- Constructor ----------------
 
-        public DatabaseConnection( FileInfo databaseLocation )
+        public DatabaseConnection( FileInfo databaseLocation, bool pool )
         {
             this.DatabaseLocation = databaseLocation;
+            this.pool = pool;
 
             this.Database.EnsureCreated();
         }
@@ -41,7 +46,13 @@ namespace HvccClock.ActivityPub.Api.DatabaseSchema
 
         protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
         {
-            optionsBuilder.UseSqlite( $"Data Source={this.DatabaseLocation.FullName}" );
+            string poolString = "";
+            if( this.pool == false )
+            {
+                poolString = ";Pooling=False";
+            }
+
+            optionsBuilder.UseSqlite( $"Data Source={this.DatabaseLocation.FullName}{poolString}" );
             base.OnConfiguring( optionsBuilder );
         }
 

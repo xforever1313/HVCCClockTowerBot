@@ -22,6 +22,7 @@ using Moq;
 namespace HvccClock.Tests.ActivityPub.Api
 {
     [TestClass]
+    [DoNotParallelize]
     public sealed class HvccClockDatabaseTests
     {
         // ---------------- Fields ----------------
@@ -58,7 +59,8 @@ namespace HvccClock.Tests.ActivityPub.Api
             this.mockLog = new Mock<Serilog.ILogger>( MockBehavior.Loose );
             this.uut = new HvccClockDatabase(
                 this.dbFile,
-                this.mockLog.Object
+                this.mockLog.Object,
+                false
             );
         }
 

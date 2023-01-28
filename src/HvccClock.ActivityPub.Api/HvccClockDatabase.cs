@@ -28,12 +28,20 @@ namespace HvccClock.ActivityPub.Api
 
         private readonly Serilog.ILogger log;
 
+        private readonly bool pool;
+
         // ---------------- Constructor ----------------
 
-        public HvccClockDatabase( FileInfo dbFile, Serilog.ILogger log )
+        public HvccClockDatabase( FileInfo dbFile, Serilog.ILogger log ) :
+            this( dbFile, log, true )
+        {
+        }
+
+        public HvccClockDatabase( FileInfo dbFile, Serilog.ILogger log, bool pool )
         {
             this.log = log;
             this.dbFile = dbFile;
+            this.pool = pool;
         }
 
         // ---------------- Functions ----------------
@@ -41,7 +49,7 @@ namespace HvccClock.ActivityPub.Api
         public int AddTime( string timeZone, DateTime dateTimeUtc )
         {
             int id;
-            using( DatabaseConnection dbConnection = new DatabaseConnection( this.dbFile ) )
+            using( DatabaseConnection dbConnection = Connect() )
             {
                 if( dbConnection.Dates is null )
                 {
@@ -77,7 +85,7 @@ namespace HvccClock.ActivityPub.Api
 
         public int GetTotalRowsForTimeZone( string timeZone )
         {
-            using( DatabaseConnection dbConnection = new DatabaseConnection( this.dbFile ) )
+            using( DatabaseConnection dbConnection = Connect() )
             {
                 if( dbConnection.Dates is null )
                 {
@@ -101,6 +109,12 @@ namespace HvccClock.ActivityPub.Api
 
         public void Dispose()
         {
+            GC.SuppressFinalize( this );
+        }
+
+        private DatabaseConnection Connect()
+        {
+            return new DatabaseConnection( this.dbFile, this.pool );
         }
     }
 }
