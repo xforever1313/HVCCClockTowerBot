@@ -32,8 +32,6 @@ namespace HvccClock.ActivityPub.Api.DatabaseSchema
         {
             this.DatabaseLocation = databaseLocation;
             this.pool = pool;
-
-            this.Database.EnsureCreated();
         }
 
         // ---------------- Properties ----------------
@@ -43,6 +41,11 @@ namespace HvccClock.ActivityPub.Api.DatabaseSchema
         public DbSet<DateTable>? Dates { get; set; }
 
         // ---------------- Functions ----------------
+
+        public void EnsureCreated()
+        {
+            this.Database.EnsureCreated();
+        }
 
         protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
         {

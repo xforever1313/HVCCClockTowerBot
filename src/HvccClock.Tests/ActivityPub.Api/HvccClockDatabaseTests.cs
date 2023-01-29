@@ -64,6 +64,7 @@ namespace HvccClock.Tests.ActivityPub.Api
                 this.mockLog.Object,
                 false
             );
+            this.uut.EnsureCreated();
         }
 
         [TestCleanup]

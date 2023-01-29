@@ -58,6 +58,11 @@ namespace HvccClock.ActivityPub.Api
 
         // ---------------- Functions ----------------
 
+        public void Init()
+        {
+            this.Database.EnsureCreated();
+        }
+
         public void Dispose()
         {
             this.Database?.Dispose();

@@ -48,6 +48,14 @@ namespace HvccClock.ActivityPub.Api
 
         // ---------------- Functions ----------------
 
+        public void EnsureCreated()
+        {
+            using( DatabaseConnection databaseConnection = Connect() )
+            {
+                databaseConnection.EnsureCreated();
+            }
+        }
+
         public int AddTime( string timeZone, DateTime dateTimeUtc )
         {
             int id;
