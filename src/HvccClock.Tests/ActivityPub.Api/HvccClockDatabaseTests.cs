@@ -27,7 +27,7 @@ namespace HvccClock.Tests.ActivityPub.Api
     {
         // ---------------- Fields ----------------
 
-        const string timeZone = "America/New_York";
+        private const string timeZone = "America/New_York";
 
         private FileInfo? dbFile;
 
