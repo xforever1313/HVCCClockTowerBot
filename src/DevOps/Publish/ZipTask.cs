@@ -23,14 +23,14 @@ using Cake.Frosting;
 
 namespace DevOps.Publish
 {
-    [TaskName( "publish_zip" )]
+    [TaskName( "publish_twitter_zip" )]
     public sealed class ZipTask : DevopsTask
     {
         // ---------------- Functions ----------------
 
         public override bool ShouldRun( BuildContext context )
         {
-            FilePath licenseFile = context.LooseFilesDistFolder.CombineWithFilePath( "LICENSE.txt" );
+            FilePath licenseFile = context.TwitterLooseFilesDistFolder.CombineWithFilePath( "LICENSE.txt" );
             if( context.FileExists( licenseFile ) == false )
             {
                 context.Information( $"Could not find license file in '{licenseFile}', please publish first" );
@@ -42,11 +42,11 @@ namespace DevOps.Publish
 
         public override void Run( BuildContext context )
         {
-            context.EnsureDirectoryExists( context.ZipFilesDistFolder );
-            context.CleanDirectory( context.ZipFilesDistFolder );
+            context.EnsureDirectoryExists( context.TwitterZipFilesDistFolder );
+            context.CleanDirectory( context.TwitterZipFilesDistFolder );
 
-            FilePath zipFile = context.ZipFilesDistFolder.CombineWithFilePath( "HvccClock.zip" );
-            context.Zip( context.LooseFilesDistFolder, zipFile );
+            FilePath zipFile = context.TwitterZipFilesDistFolder.CombineWithFilePath( "HvccClock.zip" );
+            context.Zip( context.TwitterLooseFilesDistFolder, zipFile );
         }
     }
 }

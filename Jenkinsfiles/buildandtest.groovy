@@ -26,14 +26,19 @@ def RunTests()
     CallDevops( "--target=run_tests" );
 }
 
-def Publish()
+def PublishTwitter()
 {
-    CallDevops( "--target=publish" );
+    CallDevops( "--target=publish_twitter" );
+}
+
+def PublishActPub()
+{
+    CallDevops( "--target=publish_actpub" );
 }
 
 def Zip()
 {
-    CallDevops( "--target=publish_zip" );
+    CallDevops( "--target=publish_twitter_zip" );
 }
 
 pipeline
@@ -111,11 +116,11 @@ pipeline
                         }
                     }
                 }
-                stage( "Publish" )
+                stage( "Publish Twitter" )
                 {
                     steps
                     {
-                        Publish();
+                        PublishTwitter();
                     }
                 }
                 stage( "Publish Zip" )
@@ -123,7 +128,16 @@ pipeline
                     steps
                     {
                         Zip();
-                        archiveArtifacts "checkout/dist/zip/*.*";
+                        archiveArtifacts "checkout/dist/twitter/zip/*.*";
+                    }
+                }
+                stage( "Publish Activity Pub" )
+                {
+                    steps
+                    {
+                        PublishActPub();
+                        archiveArtifacts "checkout/dist/actpub/HvccClock.ActivityPub.Web";
+                        archiveArtifacts "checkout/dist/actpub/*.so";
                     }
                 }
             }

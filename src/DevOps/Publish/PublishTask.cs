@@ -25,16 +25,16 @@ using Cake.Frosting;
 
 namespace DevOps.Publish
 {
-    [TaskName( "publish" )]
-    public sealed class PublishTask : DevopsTask
+    [TaskName( "publish_twitter" )]
+    public sealed class PublishTwitterTask : DevopsTask
     {
         // ---------------- Functions ----------------
 
         public override void Run( BuildContext context )
         {
-            context.EnsureDirectoryExists( context.DistFolder );
+            context.EnsureDirectoryExists( context.TwitterDistFolder );
 
-            DirectoryPath looseFilesDir = context.LooseFilesDistFolder;
+            DirectoryPath looseFilesDir = context.TwitterLooseFilesDistFolder;
             context.EnsureDirectoryExists( looseFilesDir );
             context.CleanDirectory( looseFilesDir );
 
@@ -59,11 +59,45 @@ namespace DevOps.Publish
             CopyRootFile( context, "LICENSE.txt" );
         }
 
+        [TaskName( "publish_actpub" )]
+        public sealed class PublishActPubTask : DevopsTask
+        {
+            public override void Run( BuildContext context )
+            {
+                context.EnsureDirectoryExists( context.ActivityPubDistFolder );
+
+                DirectoryPath actPubFolder = context.ActivityPubDistFolder;
+                context.EnsureDirectoryExists( actPubFolder );
+                context.CleanDirectory( actPubFolder );
+
+                context.Information( "Publishing App" );
+
+                var publishOptions = new DotNetPublishSettings
+                {
+                    Configuration = "Release",
+                    OutputDirectory = actPubFolder.ToString(),
+                    MSBuildSettings = context.GetBuildSettings(),
+                    SelfContained = true,
+                    PublishReadyToRun = true,
+                    PublishSingleFile = true,
+                    PublishTrimmed = false, // <- JSON library causes warnings if true.
+                    Runtime = "linux-x64"
+                };
+
+                FilePath servicePath = context.SrcDir.CombineWithFilePath(
+                    "HvccClock.ActivityPub.Web/HvccClock.ActivityPub.Web.csproj"
+                );
+
+                context.DotNetPublish( servicePath.ToString(), publishOptions );
+                context.Information( string.Empty );
+            }
+        }
+
         private void CopyRootFile( BuildContext context, FilePath fileName )
         {
             fileName = context.RepoRoot.CombineWithFilePath( fileName );
             context.Information( $"Copying '{fileName}' to dist" );
-            context.CopyFileToDirectory( fileName, context.LooseFilesDistFolder );
+            context.CopyFileToDirectory( fileName, context.TwitterLooseFilesDistFolder );
         }
     }
 }

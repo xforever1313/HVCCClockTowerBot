@@ -42,8 +42,10 @@ namespace DevOps
             this.SrcDir = this.RepoRoot.Combine( "src" );
             this.Solution = this.SrcDir.CombineWithFilePath( "HvccClock.sln" );
             this.DistFolder = this.RepoRoot.Combine( "dist" );
-            this.LooseFilesDistFolder = this.DistFolder.Combine( "files" );
-            this.ZipFilesDistFolder = this.DistFolder.Combine( "zip" );
+            this.TwitterDistFolder = this.DistFolder.Combine( "twitter" );
+            this.ActivityPubDistFolder = this.DistFolder.Combine( "actpub" );
+            this.TwitterLooseFilesDistFolder = this.TwitterDistFolder.Combine( "files" );
+            this.TwitterZipFilesDistFolder = this.TwitterDistFolder.Combine( "zip" );
             this.TestResultsFolder = this.RepoRoot.Combine( "TestResults" );
             this.TestCsProj = this.SrcDir.CombineWithFilePath( "HvccClock.Tests/HvccClock.Tests.csproj" );
         }
@@ -58,11 +60,15 @@ namespace DevOps
 
         public DirectoryPath DistFolder { get; private set; }
 
-        public DirectoryPath LooseFilesDistFolder { get; private set; }
+        public DirectoryPath TwitterDistFolder { get; private set; }
+
+        public DirectoryPath ActivityPubDistFolder { get; private set; }
+
+        public DirectoryPath TwitterLooseFilesDistFolder { get; private set; }
 
         public DirectoryPath TestResultsFolder { get; private set; }
 
-        public DirectoryPath ZipFilesDistFolder { get; private set; }
+        public DirectoryPath TwitterZipFilesDistFolder { get; private set; }
 
         public FilePath TestCsProj { get; private set; }
 
