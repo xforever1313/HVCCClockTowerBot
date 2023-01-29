@@ -16,7 +16,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-using System.Data;
 using System.Text.Json;
 using KristofferStrube.ActivityStreams;
 using KristofferStrube.ActivityStreams.JsonLD;
@@ -81,13 +80,17 @@ namespace HvccClock.ActivityPub.Api
                 );
             }
 
+            Uri outboxUrl = clockConfig.OutboxUrl;
+
             var actvities = new List<Activity>( timeResult.TimeStamps.Count );
             foreach( TimeStamp timeStamp in timeResult.TimeStamps )
             {
+                Uri id = new Uri( $"{clockConfig.PostUrl}?id={timeStamp.Id}" );
+
                 actvities.Add(
                     new Create
                     {
-                        // TODO: ID.
+                        Id = id.ToString(),
                         Type = new string[] { "Create" },
                         Actor = new Link[]
                         {
@@ -109,6 +112,7 @@ namespace HvccClock.ActivityPub.Api
                         {
                             new Note
                             {
+                                Id = id.ToString(),
                                 Type = new string[] { "Note" },
                                 Published = timeStamp.DateTime,
 
@@ -134,6 +138,11 @@ namespace HvccClock.ActivityPub.Api
                                     }
                                 },
 
+                                Content = new string[]
+                                { 
+                                    timeStamp.GetMessageString( clockConfig )
+                                },
+
                                 // No summary, it is the CW text.
                                 Summary = null,
 
@@ -146,8 +155,6 @@ namespace HvccClock.ActivityPub.Api
                     }
                 );
             }
-
-            Uri outboxUrl = clockConfig.OutboxUrl;
 
             var collection = new OrderedCollectionPage
             {

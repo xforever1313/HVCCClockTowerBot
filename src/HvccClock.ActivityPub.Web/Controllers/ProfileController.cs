@@ -92,6 +92,8 @@ namespace HvccClock.ActivityPub.Web.Controllers
                 index
             );
 
+            this.Response.ContentType = "application/activity+json";
+
             if( timeResult.Index == 0 )
             {
                 OrderedCollection collection =
@@ -118,6 +120,32 @@ namespace HvccClock.ActivityPub.Web.Controllers
         public IActionResult Followers( [FromRoute] string profileId )
         {
             return Ok( $"{profileId}/followers.json" );
+        }
+
+        [Route( "/Profile/{profileId}/Post" )]
+        public async Task<IActionResult> Post( [FromRoute] string profileId, [FromQuery] int? id )
+        {
+            if( this.clockBotApi.ActivityPubConfig.ClockTowerConfigs.ContainsKey( profileId ) == false )
+            {
+                return NotFound( "Clock Bot not found" );
+            }
+            else if( id is null )
+            {
+                return BadRequest( "ID must be specified" );
+            }
+
+            ClockTowerConfig clockConfig = this.clockBotApi.ActivityPubConfig.ClockTowerConfigs[profileId];
+
+            TimeStamp? timeStamp = 
+                await this.clockBotApi.Database.TryGetTimeStampByIdAsync( clockConfig.TimeZone, id.Value );
+
+            if( timeStamp is null )
+            {
+                return NotFound( "Can not find post of that timezone and id" );
+            }
+
+            this.Response.ContentType = "text/plain";
+            return Ok( timeStamp.GetMessageString( clockConfig ) );
         }
     }
 }

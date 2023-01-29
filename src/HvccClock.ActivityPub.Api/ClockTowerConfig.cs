@@ -27,7 +27,8 @@ namespace HvccClock.ActivityPub.Api
         string Id,
         string TimeZone,
         ActivityPubSiteConfig SiteConfig,
-        Uri OutboxUrl
+        Uri OutboxUrl,
+        Uri PostUrl
     )
     {
         public IEnumerable<string> TryValidate()
@@ -95,6 +96,7 @@ namespace HvccClock.ActivityPub.Api
             string? id = null;
             ActivityPubSiteConfig? siteConfig = null;
             Uri? outboxUri = null;
+            Uri postUri = null;
 
             string? baseKeyDirStr = Environment.GetEnvironmentVariable( "APP_BASE_KEY_DIRECTORY" );
             DirectoryInfo? baseKeyDir = null;
@@ -121,9 +123,13 @@ namespace HvccClock.ActivityPub.Api
                         baseKeyDir
                     );
                 }
-                else if( "OutboxUrl".EndsWithIgnoreCase( name ) )
+                else if( "OutboxUrl".EqualsIgnoreCase( name ) )
                 {
                     outboxUri = new Uri( element.Value );
+                }
+                else if( "PostUrl".EqualsIgnoreCase( name ) )
+                {
+                    postUri = new Uri( element.Value );
                 }
             }
 
@@ -144,7 +150,8 @@ namespace HvccClock.ActivityPub.Api
                 ( timeZone is null ) ||
                 ( siteConfig is null ) ||
                 ( id is null ) ||
-                ( outboxUri is null )
+                ( outboxUri is null ) ||
+                ( postUri is null )
             )
             {
                 var missing = new List<string>();
@@ -153,6 +160,7 @@ namespace HvccClock.ActivityPub.Api
                 if( siteConfig is null ) { missing.Add( nameof( siteConfig) ); }
                 if( id is null ) { missing.Add( nameof( id ) ); }
                 if( outboxUri is null ) { missing.Add( nameof( outboxUri ) ); }
+                if( postUri is null ) { missing.Add( nameof( postUri ) ); }
 
                 throw new ListedValidationException(
                     "Missing the following from the XML file for a clock tower.",
@@ -164,7 +172,8 @@ namespace HvccClock.ActivityPub.Api
                 id,
                 timeZone,
                 siteConfig,
-                outboxUri
+                outboxUri,
+                postUri
             );
         }
 

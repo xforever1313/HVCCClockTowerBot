@@ -16,6 +16,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
+using HvccClock.Common;
+
 namespace HvccClock.ActivityPub.Api
 {
     public class TimeStamp
@@ -33,5 +35,19 @@ namespace HvccClock.ActivityPub.Api
         public int Id { get; private set; }
 
         public DateTime DateTime { get; private set; }
+    }
+
+    public static class TimeStampExtensions
+    {
+        public static string GetMessageString(
+            this TimeStamp timeStamp,
+            ClockTowerConfig clockBotConfig
+        )
+        {
+            return BaseMessageJob.GetMessageString(
+                timeStamp.DateTime,
+                clockBotConfig.Id
+            );
+        }
     }
 }

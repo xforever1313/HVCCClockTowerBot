@@ -17,6 +17,7 @@
 //
 
 using System.Data;
+using System.Data.Common;
 using HvccClock.ActivityPub.Api.DatabaseSchema;
 
 namespace HvccClock.ActivityPub.Api
@@ -267,6 +268,35 @@ namespace HvccClock.ActivityPub.Api
         public Task<TimeResult> GetTimesForTimeZoneAsync( string timeZone, int? dayIndex )
         {
             return Task.Run( () => GetTimesForTimeZone( timeZone, dayIndex ) );
+        }
+
+        public TimeStamp? TryGetTimeStampById( string timeZone, int id )
+        {
+            using( DatabaseConnection dbConnection = Connect() )
+            {
+                if( dbConnection.Dates is null )
+                {
+                    throw new InvalidOperationException(
+                        "Dates table somehow null"
+                    );
+                }
+
+                DateTable? row = dbConnection.Dates.FirstOrDefault(
+                    d => ( d.Id == id ) && ( d.TimeZone == timeZone )
+                );
+
+                if( row is null )
+                {
+                    return null;
+                }
+
+                return new TimeStamp( row.Id, row.TimeStamp );
+            }
+        }
+
+        public Task<TimeStamp?> TryGetTimeStampByIdAsync( string timeZone, int id )
+        {
+            return Task.Run( () => TryGetTimeStampById( timeZone, id ) );
         }
 
         public void Dispose()
