@@ -125,17 +125,21 @@ namespace HvccClock.ActivityPub.Api
                     // We just want the index record if no index is specified.
                     return new TimeResult
                     {
-                        StartIndex = 0,
+                        // If we contain values, then our start index
+                        // should not be null and should point to
+                        // the first page.
+                        StartIndex = ( totalRecords != 0 ) ? 1 : null,
 
                         // The index we selected is 0, the index record.
                         Index = 0,
 
-                        // The next index is 1, unless we have no records, then its null.
-                        NextIndex = ( totalRecords != 0 ) ? 1 : null,
+                        // Index page, therefore there is no next or previous.
+                        // Go to the start page first.
+                        NextIndex = null,
 
-                        // The end index is 1, unless we have no records, then its 0 since
-                        // we're already at the end.
-                        EndIndex = ( totalRecords != 0 ) ? 1 : 0,
+                        // The end index is 1, unless we have no records, then its null
+                        // since there are no records at all.
+                        EndIndex = ( totalRecords != 0 ) ? 1 : null,
 
                         // This is the index record, there is no previous record.
                         PreviousIndex = null,
@@ -191,10 +195,10 @@ namespace HvccClock.ActivityPub.Api
                     nextIndex = null;
                 }
 
-                int endIndex;
+                int? endIndex;
                 if( totalRecords == 0 )
                 {
-                    endIndex = 0;
+                    endIndex = null;
                 }
                 else
                 {
@@ -232,8 +236,8 @@ namespace HvccClock.ActivityPub.Api
 
                 return new TimeResult
                 {
-                    // Start index is always zero.
-                    StartIndex = 0,
+                    // Start index is always one if we contain stuff.
+                    StartIndex = totalRecords != 0 ? 1 : null,
                     Index = dayIndex.Value,
                     EndIndex = endIndex,
                     NextIndex = nextIndex,

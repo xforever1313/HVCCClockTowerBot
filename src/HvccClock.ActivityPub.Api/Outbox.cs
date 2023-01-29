@@ -32,8 +32,48 @@ namespace HvccClock.ActivityPub.Api
 
         // ---------------- Functions ----------------
 
-        public OrderedCollectionPage GenerateOutbox( ClockTowerConfig clockConfig, TimeResult timeResult )
+        public OrderedCollection GenerateIndexPage( ClockTowerConfig clockConfig, TimeResult timeResult )
         {
+            if( timeResult.Index > 0 )
+            {
+                throw new ArgumentException(
+                    $"Got an index of not zero, {nameof( GenerateCollectionPage )} should have been called instead.",
+                    nameof( timeResult )
+                );
+            }
+
+            var collection = new OrderedCollection
+            {
+                JsonLDContext = new ITermDefinition[]
+                {
+                    new ReferenceTermDefinition( new Uri( "https://www.w3.org/ns/activitystreams" ) )
+                },
+                Id = clockConfig.OutboxUrl.ToString(),
+                Type = new string[] { "OrderedCollection" },
+                Current = GetStartUrl( clockConfig, timeResult ),
+                First = GetStartUrl( clockConfig, timeResult ),
+                Last = GetEndUrl( clockConfig, timeResult ),
+                TotalItems = (uint)timeResult.TotalRecords
+            };
+
+            return collection;
+        }
+
+        public Task<OrderedCollection> GenerateIndexPageAsync( ClockTowerConfig clockConfig, TimeResult timeResult )
+        {
+            return Task.Run( () => GenerateIndexPage( clockConfig, timeResult ) );
+        }
+
+        public OrderedCollectionPage GenerateCollectionPage( ClockTowerConfig clockConfig, TimeResult timeResult )
+        {
+            if( timeResult.Index <= 0 )
+            {
+                throw new ArgumentException(
+                    $"Got an index of zero, {nameof( GenerateIndexPage )} should have been called instead.",
+                    nameof( timeResult )
+                );
+            }
+
             Uri outboxUrl = clockConfig.OutboxUrl;
 
             var collection = new OrderedCollectionPage
@@ -42,37 +82,65 @@ namespace HvccClock.ActivityPub.Api
                 {
                     new ReferenceTermDefinition( new Uri( "https://www.w3.org/ns/activitystreams") )
                 },
-                Id = outboxUrl.ToString(),
+                Id = $"{outboxUrl}?index={timeResult.Index}",
                 Type = new string[]{ "OrderedCollectionPage" },
+                // Per the spec, the curent points to the page containing the items
+                // that have been created or updated the most recently.
+                // May as well make that the first page, which is the
+                // most recent messages.
+                Current = ( timeResult.StartIndex is null ) ? null : new Link
+                {
+                    Href = new Uri( $"{outboxUrl}?index={timeResult.StartIndex}" )
+                },
+                PartOf = new Link
+                {
+                    Href = outboxUrl
+                },
                 Prev = ( timeResult.PreviousIndex is null ) ? null : new Link
                 {
                     Href = new Uri( $"{outboxUrl}?index={timeResult.PreviousIndex}" )
-                },
-                Current = new Link
-                {
-                    Href = new Uri( $"{outboxUrl}?index={timeResult.Index}" )
                 },
                 Next = ( timeResult.NextIndex is null ) ? null : new Link
                 {
                     Href = new Uri( $"{outboxUrl}?index={timeResult.NextIndex}" )
                 },
-                First = new Link
-                {
-                    Href = new Uri( $"{outboxUrl}?index={timeResult.StartIndex}" )
-                },
-                Last = new Link
-                {
-                    Href = new Uri( $"{outboxUrl}?index={timeResult.EndIndex}" )
-                },
-                TotalItems = (uint)timeResult.TotalRecords
+                First = GetStartUrl( clockConfig, timeResult ),
+                Last = GetEndUrl( clockConfig, timeResult ),
+                TotalItems = (uint)timeResult.TotalRecords,
             };
 
             return collection;
         }
 
-        public Task<OrderedCollectionPage> GenerateOutboxAsync( ClockTowerConfig clockConfig, TimeResult timeResult )
+        public Task<OrderedCollectionPage> GenerateCollectionPageAsync( ClockTowerConfig clockConfig, TimeResult timeResult )
         {
-            return Task.Run( () => GenerateOutbox( clockConfig, timeResult ) );
+            return Task.Run( () => GenerateCollectionPage( clockConfig, timeResult ) );
+        }
+
+        private static Link? GetStartUrl( ClockTowerConfig clockConfig, TimeResult timeResult )
+        {
+            if( timeResult.StartIndex is null )
+            {
+                return null;
+            }
+
+            return new Link
+            {
+                Href = new Uri( $"{clockConfig.OutboxUrl}?index={timeResult.StartIndex}" )
+            };
+        }
+
+        private static Link? GetEndUrl( ClockTowerConfig clockConfig, TimeResult timeResult )
+        {
+            if( timeResult.EndIndex is null )
+            {
+                return null;
+            }
+
+            return new Link
+            {
+                Href = new Uri( $"{clockConfig.OutboxUrl}?index={timeResult.EndIndex}" )
+            };
         }
     }
 }

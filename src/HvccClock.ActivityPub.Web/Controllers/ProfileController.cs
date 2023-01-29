@@ -92,10 +92,20 @@ namespace HvccClock.ActivityPub.Web.Controllers
                 index
             );
 
-            OrderedCollectionPage collection =
-                await this.clockBotApi.Outbox.GenerateOutboxAsync( clockConfig, timeResult );
+            if( timeResult.Index == 0 )
+            {
+                OrderedCollection collection =
+                    await this.clockBotApi.Outbox.GenerateIndexPageAsync( clockConfig, timeResult );
 
-            return Json( collection );
+                return Json( collection );
+            }
+            else
+            {
+                OrderedCollectionPage collection =
+                    await this.clockBotApi.Outbox.GenerateCollectionPageAsync( clockConfig, timeResult );
+
+                return Json( collection );
+            }
         }
 
         [Route( "/Profile/{profileId}/inbox.json" )]

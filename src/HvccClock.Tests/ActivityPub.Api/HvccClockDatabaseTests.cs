@@ -163,7 +163,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
-            Assert.AreEqual( 0, result.StartIndex );
+            Assert.AreEqual( 1, result.StartIndex );
             Assert.AreEqual( index, result.Index );
             Assert.AreEqual( index, result.EndIndex );
 
@@ -209,7 +209,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
-            Assert.AreEqual( 0, result.StartIndex );
+            Assert.AreEqual( 1, result.StartIndex );
             Assert.AreEqual( index, result.Index );
             Assert.AreEqual( index, result.EndIndex );
 
@@ -259,7 +259,7 @@ namespace HvccClock.Tests.ActivityPub.Api
                 TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
                 // Check
-                Assert.AreEqual( 0, result.StartIndex );
+                Assert.AreEqual( 1, result.StartIndex );
                 Assert.AreEqual( index, result.Index );
                 Assert.AreEqual( 1, result.EndIndex );
 
@@ -322,7 +322,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
-            Assert.AreEqual( 0, result.StartIndex );
+            Assert.AreEqual( 1, result.StartIndex );
             Assert.AreEqual( index, result.Index );
             Assert.AreEqual( index, result.EndIndex );
 
@@ -384,7 +384,7 @@ namespace HvccClock.Tests.ActivityPub.Api
                 TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
                 // Check
-                Assert.AreEqual( 0, result.StartIndex );
+                Assert.AreEqual( 1, result.StartIndex );
                 Assert.AreEqual( index, result.Index );
                 Assert.AreEqual( 1, result.EndIndex );
 
@@ -458,7 +458,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
-            Assert.AreEqual( 0, result.StartIndex );
+            Assert.AreEqual( 1, result.StartIndex );
             Assert.AreEqual( index, result.Index );
             Assert.AreEqual( 2, result.EndIndex );
 
@@ -526,7 +526,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
-            Assert.AreEqual( 0, result.StartIndex );
+            Assert.AreEqual( 1, result.StartIndex );
             Assert.AreEqual( index, result.Index );
             Assert.AreEqual( 1, result.EndIndex );
 
@@ -606,7 +606,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
-            Assert.AreEqual( 0, result.StartIndex );
+            Assert.AreEqual( 1, result.StartIndex );
             Assert.AreEqual( index, result.Index );
             Assert.AreEqual( index, result.EndIndex );
 
@@ -696,7 +696,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
-            Assert.AreEqual( 0, result.StartIndex );
+            Assert.AreEqual( 1, result.StartIndex );
             Assert.AreEqual( index, result.Index );
             Assert.AreEqual( index, result.EndIndex );
 
@@ -787,7 +787,7 @@ namespace HvccClock.Tests.ActivityPub.Api
                 TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
                 // Check
-                Assert.AreEqual( 0, result.StartIndex );
+                Assert.AreEqual( 1, result.StartIndex );
                 Assert.AreEqual( index, result.Index );
                 Assert.AreEqual( 2, result.EndIndex );
 
@@ -888,7 +888,7 @@ namespace HvccClock.Tests.ActivityPub.Api
                 TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
                 // Check
-                Assert.AreEqual( 0, result.StartIndex );
+                Assert.AreEqual( 1, result.StartIndex );
                 Assert.AreEqual( index, result.Index );
                 Assert.AreEqual( 2, result.EndIndex );
 
@@ -988,7 +988,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
-            Assert.AreEqual( 0, result.StartIndex );
+            Assert.AreEqual( 1, result.StartIndex );
             Assert.AreEqual( index, result.Index );
             Assert.AreEqual( index, result.EndIndex );
 
@@ -1097,7 +1097,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
-            Assert.AreEqual( 0, result.StartIndex );
+            Assert.AreEqual( 1, result.StartIndex );
             Assert.AreEqual( index, result.Index );
             Assert.AreEqual( 3, result.EndIndex );
 
@@ -1128,23 +1128,26 @@ namespace HvccClock.Tests.ActivityPub.Api
             TimeResult result = this.uut.GetTimesForTimeZone( timeZone, index );
 
             // Check
-            Assert.AreEqual( 0, result.StartIndex );
             Assert.AreEqual( index ?? 0, result.Index );
 
-            // Index result, should not have a next index
-            // if we are an empty database.
+            // Index result.  If we contain no values,
+            // then there should be no start or end indexes.
+            // If we contain something, then start and end index
+            // should point to the first page.
             if( shouldBeEmpty )
             {
-                Assert.IsNull( result.NextIndex );
-                Assert.AreEqual( 0, result.EndIndex );
+                Assert.IsNull( result.StartIndex );
+                Assert.IsNull( result.EndIndex );
             }
             else
             {
-                Assert.AreEqual( 1, result.NextIndex );
+                Assert.AreEqual( 1, result.StartIndex );
                 Assert.AreEqual( 1, result.EndIndex );
             }
-            
-            // Index result, should have no previous result.
+
+            // Index result, should have no next or previous result.
+            // Index result should just point to the start or end.
+            Assert.IsNull( result.NextIndex );
             Assert.IsNull( result.PreviousIndex );
 
             // Index result, should contain no timestamps.
