@@ -26,7 +26,8 @@ namespace HvccClock.ActivityPub.Api
     public record class ClockTowerConfig(
         string Id,
         string TimeZone,
-        ActivityPubSiteConfig SiteConfig
+        ActivityPubSiteConfig SiteConfig,
+        Uri OutboxUrl
     )
     {
         public IEnumerable<string> TryValidate()
@@ -93,6 +94,7 @@ namespace HvccClock.ActivityPub.Api
             string? timeZone = null;
             string? id = null;
             ActivityPubSiteConfig? siteConfig = null;
+            Uri? outboxUri = null;
 
             string? baseKeyDirStr = Environment.GetEnvironmentVariable( "APP_BASE_KEY_DIRECTORY" );
             DirectoryInfo? baseKeyDir = null;
@@ -119,6 +121,10 @@ namespace HvccClock.ActivityPub.Api
                         baseKeyDir
                     );
                 }
+                else if( "OutboxUrl".EndsWithIgnoreCase( name ) )
+                {
+                    outboxUri = new Uri( element.Value );
+                }
             }
 
             foreach( XAttribute attr in towerElement.Attributes() )
@@ -137,7 +143,8 @@ namespace HvccClock.ActivityPub.Api
             if(
                 ( timeZone is null ) ||
                 ( siteConfig is null ) ||
-                ( id is null )
+                ( id is null ) ||
+                ( outboxUri is null )
             )
             {
                 var missing = new List<string>();
@@ -145,6 +152,7 @@ namespace HvccClock.ActivityPub.Api
                 if( timeZone is null ) { missing.Add( nameof( timeZone ) ); }
                 if( siteConfig is null ) { missing.Add( nameof( siteConfig) ); }
                 if( id is null ) { missing.Add( nameof( id ) ); }
+                if( outboxUri is null ) { missing.Add( nameof( outboxUri ) ); }
 
                 throw new ListedValidationException(
                     "Missing the following from the XML file for a clock tower.",
@@ -155,7 +163,8 @@ namespace HvccClock.ActivityPub.Api
             return new ClockTowerConfig(
                 id,
                 timeZone,
-                siteConfig
+                siteConfig,
+                outboxUri
             );
         }
 

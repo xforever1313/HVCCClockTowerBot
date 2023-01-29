@@ -18,6 +18,7 @@
 
 using ActivityPub.Inbox.Common;
 using HvccClock.ActivityPub.Api;
+using KristofferStrube.ActivityStreams;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HvccClock.ActivityPub.Web.Controllers
@@ -78,9 +79,23 @@ namespace HvccClock.ActivityPub.Web.Controllers
         }
 
         [Route( "/Profile/{profileId}/outbox.json" )]
-        public IActionResult Outbox( [FromRoute] string profileId )
+        public async Task<IActionResult> Outbox( [FromRoute] string profileId, [FromQuery] int? index )
         {
-            return Ok( $"{profileId}/outbox.json" );
+            if( this.clockBotApi.ActivityPubConfig.ClockTowerConfigs.ContainsKey( profileId ) == false )
+            {
+                return NotFound( "Clock Bot not found" );
+            }
+
+            ClockTowerConfig clockConfig = this.clockBotApi.ActivityPubConfig.ClockTowerConfigs[profileId];
+            TimeResult timeResult = await this.clockBotApi.Database.GetTimesForTimeZoneAsync(
+                clockConfig.TimeZone,
+                index
+            );
+
+            OrderedCollectionPage collection =
+                await this.clockBotApi.Outbox.GenerateOutboxAsync( clockConfig, timeResult );
+
+            return Json( collection );
         }
 
         [Route( "/Profile/{profileId}/inbox.json" )]

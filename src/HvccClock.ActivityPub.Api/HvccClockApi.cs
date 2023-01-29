@@ -25,6 +25,8 @@ namespace HvccClock.ActivityPub.Api
         HvccClockDatabase Database { get; }
 
         Serilog.ILogger Log { get; }
+
+        Outbox Outbox { get; }
     }
 
     public sealed class HvccClockApi : IHvccClockApi, IDisposable
@@ -40,6 +42,8 @@ namespace HvccClock.ActivityPub.Api
                 this.ActivityPubConfig.DbFile,
                 this.Log
             );
+
+            this.Outbox = new Outbox();
         }
 
         // ---------------- Properties ----------------
@@ -49,6 +53,8 @@ namespace HvccClock.ActivityPub.Api
         public HvccClockDatabase Database { get; private set; }
 
         public Serilog.ILogger Log { get; private set; }
+
+        public Outbox Outbox { get; private set; }
 
         // ---------------- Functions ----------------
 
