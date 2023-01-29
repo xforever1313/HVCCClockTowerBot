@@ -173,7 +173,7 @@ namespace HvccClock.Tests.ActivityPub.Api
 
             Assert.AreEqual( timeZone, result.TimeZone );
             Assert.AreEqual( 1, result.TimeStamps.Count );
-            Assert.AreEqual( result.TimeStamps[0], d1 );
+            Assert.AreEqual( d1, result.TimeStamps[0].DateTime );
             Assert.AreEqual( 1, result.TotalRecords );
         }
 
@@ -221,7 +221,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             Assert.AreEqual( dateTimeArray.Length, result.TimeStamps.Count );
             for( int i = 0; i < dateTimeArray.Length; ++i )
             {
-                Assert.AreEqual( dateTimeArray[i], result.TimeStamps[i] );
+                Assert.AreEqual( dateTimeArray[i], result.TimeStamps[i].DateTime );
             }
             Assert.AreEqual( dateTimeArray.Length, result.TotalRecords );
         }
@@ -334,7 +334,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             Assert.AreEqual( dateTimeArray.Length, result.TimeStamps.Count );
             for( int i = 0; i < dateTimeArray.Length; ++i )
             {
-                Assert.AreEqual( dateTimeArray[i], result.TimeStamps[i] );
+                Assert.AreEqual( dateTimeArray[i], result.TimeStamps[i].DateTime );
             }
             Assert.AreEqual( dateTimeArray.Length, result.TotalRecords );
         }
@@ -473,7 +473,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             Assert.AreEqual( expectedLength, result.TimeStamps.Count );
             for( int i = 0; i < expectedLength; ++i )
             {
-                Assert.AreEqual( firstDayList[i], result.TimeStamps[i] );
+                Assert.AreEqual( firstDayList[i], result.TimeStamps[i].DateTime );
             }
 
             // Total records should include the additional date.
@@ -621,7 +621,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             Assert.AreEqual( expectedLength, result.TimeStamps.Count );
             for( int i = 0; i < expectedLength; ++i )
             {
-                Assert.AreEqual( secondDayList[i], result.TimeStamps[i] );
+                Assert.AreEqual( secondDayList[i], result.TimeStamps[i].DateTime );
             }
 
             // Total records should include the additional dates.
@@ -711,7 +711,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             Assert.AreEqual( expectedLength, result.TimeStamps.Count );
             for( int i = 0; i < expectedLength; ++i )
             {
-                Assert.AreEqual( secondDayList[i], result.TimeStamps[i] );
+                Assert.AreEqual( secondDayList[i], result.TimeStamps[i].DateTime );
             }
 
             // Total records should include the additional dates.
@@ -1003,7 +1003,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             Assert.AreEqual( expectedLength, result.TimeStamps.Count );
             for( int i = 0; i < expectedLength; ++i )
             {
-                Assert.AreEqual( secondDayList[i], result.TimeStamps[i] );
+                Assert.AreEqual( secondDayList[i], result.TimeStamps[i].DateTime );
             }
 
             // Total records should include the additional dates.
@@ -1112,7 +1112,7 @@ namespace HvccClock.Tests.ActivityPub.Api
             Assert.AreEqual( expectedLength, result.TimeStamps.Count );
             for( int i = 0; i < expectedLength; ++i )
             {
-                Assert.AreEqual( secondDayList[i], result.TimeStamps[i] );
+                Assert.AreEqual( secondDayList[i], result.TimeStamps[i].DateTime );
             }
 
             // Total records should include the additional dates.

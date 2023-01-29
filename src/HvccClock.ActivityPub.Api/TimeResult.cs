@@ -85,6 +85,6 @@ namespace HvccClock.ActivityPub.Api
         /// The list of timestamps at the given index.
         /// An empty list means no times were found.
         /// </summary>
-        public IReadOnlyList<DateTime> TimeStamps { get; init; } = Array.Empty<DateTime>();
+        public IReadOnlyList<TimeStamp> TimeStamps { get; init; } = Array.Empty<TimeStamp>();
     }
 }

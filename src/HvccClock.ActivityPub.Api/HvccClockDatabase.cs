@@ -145,14 +145,14 @@ namespace HvccClock.ActivityPub.Api
                         PreviousIndex = null,
 
                         // Index record contains no dates.
-                        TimeStamps = Array.Empty<DateTime>(),
+                        TimeStamps = Array.Empty<TimeStamp>(),
 
                         TimeZone = timeZone,
                         TotalRecords = totalRecords
                     };
                 }
 
-                IReadOnlyList<DateTime> timeStamps = GetTimeStampsInternal(
+                IReadOnlyList<TimeStamp> timeStamps = GetTimeStampsInternal(
                     dbConnection,
                     timeZone,
                     dayIndex.Value
@@ -293,7 +293,7 @@ namespace HvccClock.ActivityPub.Api
             ).Count();
         }
 
-        private IReadOnlyList<DateTime> GetTimeStampsInternal(
+        private IReadOnlyList<TimeStamp> GetTimeStampsInternal(
             DatabaseConnection dbConnection,
             string timeZone,
             int dayIndex
@@ -311,7 +311,7 @@ namespace HvccClock.ActivityPub.Api
                 .Take( TimeResult.TimeStampsPerIndex )
                 .Where( d => d.TimeZone == timeZone )
                 .OrderBy( d => d )
-                .Select( d => d.TimeStamp )
+                .Select( d => new TimeStamp( d.Id, d.TimeStamp ) )
                 .ToList()
                 .AsReadOnly();
         }

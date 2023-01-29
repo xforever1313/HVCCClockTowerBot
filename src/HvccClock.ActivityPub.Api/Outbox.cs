@@ -82,7 +82,7 @@ namespace HvccClock.ActivityPub.Api
             }
 
             var actvities = new List<Activity>( timeResult.TimeStamps.Count );
-            foreach( DateTime timeStamp in timeResult.TimeStamps )
+            foreach( TimeStamp timeStamp in timeResult.TimeStamps )
             {
                 actvities.Add(
                     new Create
@@ -97,7 +97,7 @@ namespace HvccClock.ActivityPub.Api
                                 Href = clockConfig.SiteConfig.ProfileUrl
                             }
                         },
-                        Published = timeStamp,
+                        Published = timeStamp.DateTime,
                         To = new Link[]
                         {
                             new Link
@@ -110,7 +110,7 @@ namespace HvccClock.ActivityPub.Api
                             new Note
                             {
                                 Type = new string[] { "Note" },
-                                Published = timeStamp,
+                                Published = timeStamp.DateTime,
 
                                 // Used to determine the profile which
                                 // authored the status.
