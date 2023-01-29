@@ -17,6 +17,7 @@
 //
 
 using System.Data;
+using System.Text.Json;
 using KristofferStrube.ActivityStreams;
 using KristofferStrube.ActivityStreams.JsonLD;
 
@@ -24,6 +25,12 @@ namespace HvccClock.ActivityPub.Api
 {
     public class Outbox
     {
+        // ---------------- Fields ----------------
+
+        private static readonly Uri publicStream = new Uri(
+            "https://www.w3.org/ns/activitystreams#Public"
+        );
+
         // ---------------- Constructor ----------------
 
         public Outbox()
@@ -74,6 +81,72 @@ namespace HvccClock.ActivityPub.Api
                 );
             }
 
+            var actvities = new List<Activity>( timeResult.TimeStamps.Count );
+            foreach( DateTime timeStamp in timeResult.TimeStamps )
+            {
+                actvities.Add(
+                    new Create
+                    {
+                        // TODO: ID.
+                        Type = new string[] { "Create" },
+                        Actor = new Link[]
+                        {
+                            // Actor must be the profile link.
+                            new Link
+                            {
+                                Href = clockConfig.SiteConfig.ProfileUrl
+                            }
+                        },
+                        Published = timeStamp,
+                        To = new Link[]
+                        {
+                            new Link
+                            {
+                                Href = publicStream
+                            }
+                        },
+                        Object = new Note[]
+                        {
+                            new Note
+                            {
+                                Type = new string[] { "Note" },
+                                Published = timeStamp,
+
+                                // Used to determine the profile which
+                                // authored the status.
+                                // So, needs the profile URL.
+                                AttributedTo = new Link[]
+                                {
+                                    new Link
+                                    {
+                                        Href = clockConfig.SiteConfig.ProfileUrl
+                                    }
+                                },
+                                // Per mastodon's docs, this should be "as:Public"
+                                // to show public status.
+                                // Per this URL, it appears as though it needs to be this.
+                                // https://blog.joinmastodon.org/2018/06/how-to-implement-a-basic-activitypub-server/
+                                To = new Link[]
+                                {
+                                    new Link
+                                    {
+                                        Href = publicStream
+                                    }
+                                },
+
+                                // No summary, it is the CW text.
+                                Summary = null,
+
+                                ExtensionData = new Dictionary<string, JsonElement>
+                                {
+                                    ["sensitive"] = JsonSerializer.SerializeToElement( false )
+                                }
+                            }
+                        }
+                    }
+                );
+            }
+
             Uri outboxUrl = clockConfig.OutboxUrl;
 
             var collection = new OrderedCollectionPage
@@ -107,6 +180,7 @@ namespace HvccClock.ActivityPub.Api
                 First = GetStartUrl( clockConfig, timeResult ),
                 Last = GetEndUrl( clockConfig, timeResult ),
                 TotalItems = (uint)timeResult.TotalRecords,
+                OrderedItems = actvities
             };
 
             return collection;
