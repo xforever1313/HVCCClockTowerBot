@@ -298,7 +298,7 @@ namespace HvccClock.ActivityPub.Api
                     return null;
                 }
 
-                return new TimeStamp( row.Id, row.TimeStamp );
+                return new TimeStamp( row.Id, row.TimeStamp, timeZone );
             }
         }
 
@@ -349,7 +349,7 @@ namespace HvccClock.ActivityPub.Api
                 .Take( TimeResult.TimeStampsPerIndex )
                 .Where( d => d.TimeZone == timeZone )
                 .OrderBy( d => d )
-                .Select( d => new TimeStamp( d.Id, d.TimeStamp ) )
+                .Select( d => new TimeStamp( d.Id, d.TimeStamp, timeZone ) )
                 .ToList()
                 .AsReadOnly();
         }

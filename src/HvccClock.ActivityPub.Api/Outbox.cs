@@ -100,7 +100,7 @@ namespace HvccClock.ActivityPub.Api
                                 Href = clockConfig.SiteConfig.ProfileUrl
                             }
                         },
-                        Published = timeStamp.DateTime,
+                        Published = timeStamp.DateTimeUtc,
                         To = new Link[]
                         {
                             new Link
@@ -114,7 +114,7 @@ namespace HvccClock.ActivityPub.Api
                             {
                                 Id = id.ToString(),
                                 Type = new string[] { "Note" },
-                                Published = timeStamp.DateTime,
+                                Published = timeStamp.DateTimeUtc,
 
                                 // Used to determine the profile which
                                 // authored the status.

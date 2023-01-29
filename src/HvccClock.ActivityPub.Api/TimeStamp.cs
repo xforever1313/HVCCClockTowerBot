@@ -24,17 +24,30 @@ namespace HvccClock.ActivityPub.Api
     {
         // ---------------- Constructor ----------------
 
-        public TimeStamp( int id, DateTime timeStamp )
+        public TimeStamp( int id, DateTime timeStampUtc, string timezone )
+            : this(
+                  id,
+                  timeStampUtc,
+                  TimeZoneInfo.ConvertTimeFromUtc( timeStampUtc, TimeZoneInfo.FindSystemTimeZoneById( timezone ) )
+              )
+        {
+
+        }
+
+        public TimeStamp( int id, DateTime timeStampUtc, DateTime timeStampLocal )
         {
             this.Id = id;
-            this.DateTime = timeStamp;
+            this.DateTimeUtc = timeStampUtc;
+            this.TimeStampLocal = timeStampLocal;
         }
 
         // ---------------- Properties ----------------
 
         public int Id { get; private set; }
 
-        public DateTime DateTime { get; private set; }
+        public DateTime DateTimeUtc { get; private set; }
+
+        public DateTime TimeStampLocal { get; private set; }
     }
 
     public static class TimeStampExtensions
@@ -45,7 +58,7 @@ namespace HvccClock.ActivityPub.Api
         )
         {
             return BaseMessageJob.GetMessageString(
-                timeStamp.DateTime,
+                timeStamp.TimeStampLocal,
                 clockBotConfig.Id
             );
         }
