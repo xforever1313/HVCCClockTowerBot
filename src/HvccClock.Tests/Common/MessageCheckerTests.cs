@@ -350,7 +350,7 @@ namespace HvccClock.Tests.Common
             string expectedMessage =
 @$"{bongPortion}
 
-The time at HVCC currently is: {timestampPortion}.";
+The time in HVCC currently is: {timestampPortion}.";
 
             string actualMessage = BaseMessageJob.GetMessageString( expectedTime, "HVCC" );
             Assert.AreEqual( expectedMessage, actualMessage );

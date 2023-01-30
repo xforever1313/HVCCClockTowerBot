@@ -28,7 +28,8 @@ namespace HvccClock.ActivityPub.Api
         string TimeZone,
         ActivityPubSiteConfig SiteConfig,
         Uri OutboxUrl,
-        Uri PostUrl
+        Uri PostUrl,
+        string Location
     )
     {
         public IEnumerable<string> TryValidate()
@@ -96,7 +97,8 @@ namespace HvccClock.ActivityPub.Api
             string? id = null;
             ActivityPubSiteConfig? siteConfig = null;
             Uri? outboxUri = null;
-            Uri postUri = null;
+            Uri? postUri = null;
+            string? location = null;
 
             string? baseKeyDirStr = Environment.GetEnvironmentVariable( "APP_BASE_KEY_DIRECTORY" );
             DirectoryInfo? baseKeyDir = null;
@@ -131,6 +133,10 @@ namespace HvccClock.ActivityPub.Api
                 {
                     postUri = new Uri( element.Value );
                 }
+                else if( "Location".EqualsIgnoreCase( name ) )
+                {
+                    location = element.Value;
+                }
             }
 
             foreach( XAttribute attr in towerElement.Attributes() )
@@ -151,7 +157,8 @@ namespace HvccClock.ActivityPub.Api
                 ( siteConfig is null ) ||
                 ( id is null ) ||
                 ( outboxUri is null ) ||
-                ( postUri is null )
+                ( postUri is null ) ||
+                ( location is null )
             )
             {
                 var missing = new List<string>();
@@ -161,6 +168,7 @@ namespace HvccClock.ActivityPub.Api
                 if( id is null ) { missing.Add( nameof( id ) ); }
                 if( outboxUri is null ) { missing.Add( nameof( outboxUri ) ); }
                 if( postUri is null ) { missing.Add( nameof( postUri ) ); }
+                if( location is null ) { missing.Add( nameof( location ) ); }
 
                 throw new ListedValidationException(
                     "Missing the following from the XML file for a clock tower.",
@@ -173,7 +181,8 @@ namespace HvccClock.ActivityPub.Api
                 timeZone,
                 siteConfig,
                 outboxUri,
-                postUri
+                postUri,
+                location
             );
         }
 

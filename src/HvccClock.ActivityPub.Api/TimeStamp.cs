@@ -59,7 +59,7 @@ namespace HvccClock.ActivityPub.Api
         {
             return BaseMessageJob.GetMessageString(
                 timeStamp.TimeStampLocal,
-                clockBotConfig.Id
+                clockBotConfig.Location
             );
         }
     }

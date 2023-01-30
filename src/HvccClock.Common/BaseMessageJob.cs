@@ -89,7 +89,7 @@ namespace HvccClock.Common
             tweet.Remove( tweet.Length - 1, 1 );
             tweet.AppendLine();
             tweet.AppendLine();
-            tweet.Append( $"The time at {location} currently is: {time.ToString( "dddd, MMMM d yyyy, h:00tt" )}." );
+            tweet.Append( $"The time in {location} currently is: {time.ToString( "dddd, MMMM d yyyy, h:00tt" )}." );
 
             return tweet.ToString();
         }
