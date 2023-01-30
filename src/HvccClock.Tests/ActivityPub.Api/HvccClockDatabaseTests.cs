@@ -185,18 +185,18 @@ namespace HvccClock.Tests.ActivityPub.Api
             const int index = 1;
             var dateTimeArray = new DateTime[]
             {
-                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
                 new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc )
+                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc )
             };
 
 
@@ -220,9 +220,12 @@ namespace HvccClock.Tests.ActivityPub.Api
 
             Assert.AreEqual( timeZone, result.TimeZone );
             Assert.AreEqual( dateTimeArray.Length, result.TimeStamps.Count );
-            for( int i = 0; i < dateTimeArray.Length; ++i )
+
+            // Newest should come first.
+            DateTime[] reverseArrary = dateTimeArray.Reverse().ToArray();
+            for( int i = 0; i < reverseArrary.Length; ++i )
             {
-                Assert.AreEqual( dateTimeArray[i], result.TimeStamps[i].DateTimeUtc );
+                Assert.AreEqual( reverseArrary[i], result.TimeStamps[i].DateTimeUtc );
             }
             Assert.AreEqual( dateTimeArray.Length, result.TotalRecords );
         }
@@ -233,18 +236,18 @@ namespace HvccClock.Tests.ActivityPub.Api
             // Setup
             var dateTimeArray = new DateTime[]
             {
-                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
                 new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc )
+                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc )
             };
 
             Assert.IsNotNull( this.uut );
@@ -284,30 +287,30 @@ namespace HvccClock.Tests.ActivityPub.Api
             const int index = 1;
             var dateTimeArray = new DateTime[]
             {
-                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 18, 0, 0, DateTimeKind.Utc ),
                 new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 18, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc )
             };
 
             // Sanity check
@@ -333,9 +336,12 @@ namespace HvccClock.Tests.ActivityPub.Api
 
             Assert.AreEqual( timeZone, result.TimeZone );
             Assert.AreEqual( dateTimeArray.Length, result.TimeStamps.Count );
-            for( int i = 0; i < dateTimeArray.Length; ++i )
+            
+            // Newest should come first.
+            DateTime[] reverseArrary = dateTimeArray.Reverse().ToArray();
+            for( int i = 0; i < reverseArrary.Length; ++i )
             {
-                Assert.AreEqual( dateTimeArray[i], result.TimeStamps[i].DateTimeUtc );
+                Assert.AreEqual( reverseArrary[i], result.TimeStamps[i].DateTimeUtc );
             }
             Assert.AreEqual( dateTimeArray.Length, result.TotalRecords );
         }
@@ -346,30 +352,30 @@ namespace HvccClock.Tests.ActivityPub.Api
             // Setup
             var dateTimeArray = new DateTime[]
             {
-                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 18, 0, 0, DateTimeKind.Utc ),
                 new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 18, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc )
             };
 
             Assert.IsNotNull( this.uut );
@@ -409,35 +415,35 @@ namespace HvccClock.Tests.ActivityPub.Api
             const int index = 1;
             var firstDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc ),
                 new DateTime( 2023, 1, 27, 18, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc )
+                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc )
             };
 
             var secondDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 27, 16, 0, 0, DateTimeKind.Utc )
+                new DateTime( 2023, 1, 28, 17, 0, 0, DateTimeKind.Utc )
             };
 
             int expectedLength = firstDayList.Length;
@@ -472,9 +478,12 @@ namespace HvccClock.Tests.ActivityPub.Api
 
             Assert.AreEqual( timeZone, result.TimeZone );
             Assert.AreEqual( expectedLength, result.TimeStamps.Count );
-            for( int i = 0; i < expectedLength; ++i )
+
+            // Newest should come first.
+            DateTime[] reverseArrary = firstDayList.Reverse().ToArray();
+            for( int i = 0; i < reverseArrary.Length; ++i )
             {
-                Assert.AreEqual( firstDayList[i], result.TimeStamps[i].DateTimeUtc );
+                Assert.AreEqual( reverseArrary[i], result.TimeStamps[i].DateTimeUtc );
             }
 
             // Total records should include the additional date.
@@ -488,30 +497,30 @@ namespace HvccClock.Tests.ActivityPub.Api
             const int index = 2;
             var dateTimeArray = new DateTime[]
             {
-                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc ),
                 new DateTime( 2023, 1, 27, 18, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc )
+                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc )
             };
 
             // Sanity check
@@ -557,35 +566,35 @@ namespace HvccClock.Tests.ActivityPub.Api
             const int index = 2;
             var firstDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc ),
                 new DateTime( 2023, 1, 27, 18, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc )
+                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc )
             };
 
             var secondDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 27, 16, 0, 0, DateTimeKind.Utc )
+                new DateTime( 2023, 1, 28, 17, 0, 0, DateTimeKind.Utc )
             };
 
             int expectedLength = secondDayList.Length;
@@ -620,9 +629,12 @@ namespace HvccClock.Tests.ActivityPub.Api
 
             Assert.AreEqual( timeZone, result.TimeZone );
             Assert.AreEqual( expectedLength, result.TimeStamps.Count );
+
+            // Latest date should come first.
+            DateTime[] reverseDateArray = secondDayList.Reverse().ToArray();
             for( int i = 0; i < expectedLength; ++i )
             {
-                Assert.AreEqual( secondDayList[i], result.TimeStamps[i].DateTimeUtc );
+                Assert.AreEqual( reverseDateArray[i], result.TimeStamps[i].DateTimeUtc );
             }
 
             // Total records should include the additional dates.
@@ -636,46 +648,46 @@ namespace HvccClock.Tests.ActivityPub.Api
             const int index = 2;
             var firstDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc ),
                 new DateTime( 2023, 1, 27, 18, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc )
+                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc )
             };
 
             var secondDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 27, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 17, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 18, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 4, 0, 0, DateTimeKind.Utc ),
             };
 
             int expectedLength = secondDayList.Length;
@@ -710,9 +722,12 @@ namespace HvccClock.Tests.ActivityPub.Api
 
             Assert.AreEqual( timeZone, result.TimeZone );
             Assert.AreEqual( expectedLength, result.TimeStamps.Count );
+
+            // Latest date should come first.
+            DateTime[] reverseDateArray = secondDayList.Reverse().ToArray();
             for( int i = 0; i < expectedLength; ++i )
             {
-                Assert.AreEqual( secondDayList[i], result.TimeStamps[i].DateTimeUtc );
+                Assert.AreEqual( reverseDateArray[i], result.TimeStamps[i].DateTimeUtc );
             }
 
             // Total records should include the additional dates.
@@ -725,46 +740,46 @@ namespace HvccClock.Tests.ActivityPub.Api
             // Setup
             var firstDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc ),
                 new DateTime( 2023, 1, 27, 18, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc )
+                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc )
             };
 
             var secondDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 27, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 17, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 18, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 4, 0, 0, DateTimeKind.Utc ),
             };
 
             // Sanity check
@@ -813,58 +828,58 @@ namespace HvccClock.Tests.ActivityPub.Api
             // Setup
             var firstDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc ),
                 new DateTime( 2023, 1, 27, 18, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc )
+                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc )
             };
 
             var secondDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 27, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 19, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 18, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 17, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 17, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 18, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 16, 0, 0, DateTimeKind.Utc ),
             };
 
             // Sanity check
@@ -915,58 +930,58 @@ namespace HvccClock.Tests.ActivityPub.Api
             const int index = 2;
             var firstDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc ),
                 new DateTime( 2023, 1, 27, 18, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc )
+                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc )
             };
 
             var secondDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 27, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 19, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 18, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 17, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 17, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 18, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 16, 0, 0, DateTimeKind.Utc ),
             };
 
             int expectedLength = secondDayList.Length;
@@ -1002,9 +1017,12 @@ namespace HvccClock.Tests.ActivityPub.Api
 
             Assert.AreEqual( timeZone, result.TimeZone );
             Assert.AreEqual( expectedLength, result.TimeStamps.Count );
+
+            // Latest date should come first.
+            DateTime[] reverseDateArray = secondDayList.Reverse().ToArray();
             for( int i = 0; i < expectedLength; ++i )
             {
-                Assert.AreEqual( secondDayList[i], result.TimeStamps[i].DateTimeUtc );
+                Assert.AreEqual( reverseDateArray[i], result.TimeStamps[i].DateTimeUtc );
             }
 
             // Total records should include the additional dates.
@@ -1018,63 +1036,63 @@ namespace HvccClock.Tests.ActivityPub.Api
             const int index = 2;
             var firstDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc ),
                 new DateTime( 2023, 1, 27, 18, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 17, 0, 0, DateTimeKind.Utc )
+                new DateTime( 2023, 1, 27, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 27, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 16, 0, 0, DateTimeKind.Utc )
             };
 
             var secondDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 27, 16, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 15, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 14, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 13, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 12, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 11, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 10, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 9, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 8, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 7, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 6, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 5, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 4, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 3, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 2, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 1, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 27, 0, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 23, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 22, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 21, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 20, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 19, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 18, 0, 0, DateTimeKind.Utc ),
-                new DateTime( 2023, 1, 26, 17, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 17, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 18, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 19, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 20, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 21, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 22, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 28, 23, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 0, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 1, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 2, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 3, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 4, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 5, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 6, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 7, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 8, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 9, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 10, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 11, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 12, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 13, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 14, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 15, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 16, 0, 0, DateTimeKind.Utc ),
             };
 
             var thirdDayList = new DateTime[]
             {
-                new DateTime( 2023, 1, 26, 16, 0, 0, DateTimeKind.Utc ),
+                new DateTime( 2023, 1, 29, 17, 0, 0, DateTimeKind.Utc ),
             };
 
             int expectedLength = secondDayList.Length;
@@ -1111,9 +1129,12 @@ namespace HvccClock.Tests.ActivityPub.Api
 
             Assert.AreEqual( timeZone, result.TimeZone );
             Assert.AreEqual( expectedLength, result.TimeStamps.Count );
+
+            // Latest date should come first.
+            DateTime[] reverseDateArray = secondDayList.Reverse().ToArray();
             for( int i = 0; i < expectedLength; ++i )
             {
-                Assert.AreEqual( secondDayList[i], result.TimeStamps[i].DateTimeUtc );
+                Assert.AreEqual( reverseDateArray[i], result.TimeStamps[i].DateTimeUtc );
             }
 
             // Total records should include the additional dates.

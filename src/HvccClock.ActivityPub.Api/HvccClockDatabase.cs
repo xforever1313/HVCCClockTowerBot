@@ -348,7 +348,7 @@ namespace HvccClock.ActivityPub.Api
                 .Skip( ( dayIndex - 1 ) * TimeResult.TimeStampsPerIndex )
                 .Take( TimeResult.TimeStampsPerIndex )
                 .Where( d => d.TimeZone == timeZone )
-                .OrderBy( d => d )
+                .OrderByDescending( d => d )
                 .Select( d => new TimeStamp( d.Id, d.TimeStamp, timeZone ) )
                 .ToList()
                 .AsReadOnly();
