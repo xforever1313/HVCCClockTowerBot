@@ -21,7 +21,7 @@ using Cake.Common.Diagnostics;
 using Cake.Common.IO;
 //
 // HvccClock - A bot that chimes the time every hour.
-// Copyright (C) 2022 Seth Hendrick
+// Copyright (C) 2022-2024 Seth Hendrick
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
