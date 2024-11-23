@@ -53,7 +53,7 @@ namespace HvccClock.Bsky
 
             // For some reason, need at least one hash tag for the message to get
             // sent to BlueSky?
-            string postText = GetMessageString( timeStamp, "HVCC" ) + Environment.NewLine + "#HVCC";
+            string postText = GetMessageString( timeStamp, "HVCC" ) + Environment.NewLine + Environment.NewLine + "#HVCC";
 
             await this.client.Post( postText );
         }
