@@ -24,7 +24,7 @@ pipeline
 {
     agent
     {
-        label "ubuntu && docker && x64";
+        label "ubuntu && docker";
     }
     environment
     {
