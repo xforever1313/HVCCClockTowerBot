@@ -1,11 +1,18 @@
 <Project>
-  <Import Project="$(MSBuildThisFileDirectory)\..\ActivityPub.Inbox\src\Directory.Build.targets"/>
+  <Import Project="$(MSBuildThisFileDirectory)\..\sethcs\Directory.Build.targets"/>
   
   <ItemGroup>
+    <PackageReference Update="dotenv.net" Version="3.1.1" />
     <PackageReference Update="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Update="Mono.Options" Version="6.12.0.148" />
     <PackageReference Update="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Update="prometheus-net.AspNetCore" Version="7.0.0" />
     <PackageReference Update="Quartz.Extensions.Hosting" Version="3.4.0" />
+    <PackageReference Update="Serilog" Version="2.12.0" />
+    <PackageReference Update="Serilog.AspNetCore" Version="6.0.1" />
+    <PackageReference Update="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Update="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Update="Serilog.Sinks.Telegram.Alternative" Version="1.0.17" />
     <PackageReference Update="TweetinviAPI" Version="5.0.4" />
   </ItemGroup>
 </Project>

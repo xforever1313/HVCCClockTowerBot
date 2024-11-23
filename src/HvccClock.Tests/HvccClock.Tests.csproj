@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HvccClock.ActivityPub.Api\HvccClock.ActivityPub.Api.csproj" />
     <ProjectReference Include="..\HvccClock.Common\HvccClock.Common.csproj" />
   </ItemGroup>
 
