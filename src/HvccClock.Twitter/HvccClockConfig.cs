@@ -62,19 +62,19 @@ namespace HvccClock.Twitter
 
         public int Port => 9100;
 
-        public string ConsumerKey { get; private set; }
+        public string ConsumerKey { get; }
 
-        public string ConsumerSecret { get; private set; }
+        public string ConsumerSecret { get; }
 
-        public string AccessToken { get; private set; }
+        public string AccessToken { get; }
 
-        public string AccessTokenSecret { get; private set; }
+        public string AccessTokenSecret { get; }
 
-        public FileInfo? LogFile { get; private set; }
+        public FileInfo? LogFile { get; }
 
-        public string? TelegramBotToken { get; private set; }
+        public string? TelegramBotToken { get; }
 
-        public string? TelegramChatId { get; private set; }
+        public string? TelegramChatId { get; }
 
         public string ApplicationContext => "HVCC Twitter Bot";
 

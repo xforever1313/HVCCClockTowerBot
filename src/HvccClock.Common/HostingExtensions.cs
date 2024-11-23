@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Serilog;
 using Serilog.Sinks.Telegram;
+using Serilog.Sinks.Telegram.Alternative;
 
 namespace HvccClock.Common
 {
