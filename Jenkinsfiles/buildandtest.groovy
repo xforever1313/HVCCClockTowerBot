@@ -1,24 +1,13 @@
 @Library( "X13JenkinsLib" )_
 
-def CallCake( String arguments )
-{
-    X13Cmd( "./Cake/dotnet-cake ./checkout/build.cake ${arguments}" );
-}
-
 def CallDevops( String arguments )
 {
-    X13Cmd( "dotnet ./checkout/src/DevOps/bin/Debug/net6.0/DevOps.dll ${arguments}" );
-}
-
-def Prepare()
-{
-    X13Cmd( 'dotnet tool update Cake.Tool --tool-path ./Cake' )
-    CallCake( "--showdescription" )
+    X13Cmd( "dotnet ./checkout/src/DevOps/bin/Debug/net8.0/DevOps.dll ${arguments}" );
 }
 
 def Build()
 {
-    CallCake( "--target=build" );
+    CallDevops( "--target=build" );
 }
 
 def RunTests()
@@ -26,19 +15,9 @@ def RunTests()
     CallDevops( "--target=run_tests" );
 }
 
-def PublishTwitter()
+def Publish()
 {
-    CallDevops( "--target=publish_twitter" );
-}
-
-def PublishActPub()
-{
-    CallDevops( "--target=publish_actpub" );
-}
-
-def Zip()
-{
-    CallDevops( "--target=publish_twitter_zip" );
+    CallDevops( "--target=publish" );
 }
 
 pipeline
@@ -78,20 +57,13 @@ pipeline
             {
                 docker
                 {
-                    image 'mcr.microsoft.com/dotnet/sdk:6.0'
+                    image 'mcr.microsoft.com/dotnet/sdk:8.0'
                     args "-e HOME='${env.WORKSPACE}'"
                     reuseNode true
                 }
             }
             stages
             {
-                stage( "Prepare" )
-                {
-                    steps
-                    {
-                        Prepare();
-                    }
-                }
                 stage( "Build" )
                 {
                     steps
@@ -116,28 +88,19 @@ pipeline
                         }
                     }
                 }
-                stage( "Publish Twitter" )
+                stage( "Publish" )
                 {
                     steps
                     {
-                        PublishTwitter();
+                        Publish();
                     }
                 }
-                stage( "Publish Zip" )
+                stage( "Archive" )
                 {
                     steps
                     {
-                        Zip();
                         archiveArtifacts "checkout/dist/twitter/zip/*.*";
-                    }
-                }
-                stage( "Publish Activity Pub" )
-                {
-                    steps
-                    {
-                        PublishActPub();
-                        archiveArtifacts "checkout/dist/actpub/HvccClock.ActivityPub.Web";
-                        archiveArtifacts "checkout/dist/actpub/*.so";
+                        archiveArtifacts "checkout/dist/bluesky/zip/*.*";
                     }
                 }
             }

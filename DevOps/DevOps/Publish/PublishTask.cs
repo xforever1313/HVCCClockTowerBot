@@ -25,6 +25,13 @@ using Cake.Frosting;
 
 namespace DevOps.Publish
 {
+    [TaskName( "publish" )]
+    [IsDependentOn( typeof( PublishTwitterTask ) )]
+    [IsDependentOn( typeof( PublishBlueSkyTask ) )]
+    public sealed class PublishAllTask : DevopsTask
+    {
+    }
+
     [TaskName( "publish_twitter" )]
     public sealed class PublishTwitterTask : DevopsTask
     {
@@ -56,7 +63,13 @@ namespace DevOps.Publish
 
             CopyRootFile( context, "Readme.md" );
             CopyRootFile( context, "Credits.md" );
-            CopyRootFile( context, "LICENSE.txt" );
+            CopyRootFile( context, "License.md" );
+
+            context.EnsureDirectoryExists( context.TwitterZipFilesDistFolder );
+            context.CleanDirectory( context.TwitterZipFilesDistFolder );
+
+            FilePath zipFile = context.TwitterZipFilesDistFolder.CombineWithFilePath( "HvccClock_Twitter.zip" );
+            context.Zip( context.TwitterLooseFilesDistFolder, zipFile );
         }
 
         private void CopyRootFile( BuildContext context, FilePath fileName )
@@ -67,9 +80,51 @@ namespace DevOps.Publish
         }
     }
 
-    [TaskName( "publish" )]
-    [IsDependentOn( typeof( PublishTwitterTask ) )]
-    public sealed class PublishAllTask : DevopsTask
+    [TaskName( "publish_bluesky" )]
+    public sealed class PublishBlueSkyTask : DevopsTask
     {
+        // ---------------- Functions ----------------
+
+        public override void Run( BuildContext context )
+        {
+            context.EnsureDirectoryExists( context.BlueSkyDistFolder );
+
+            DirectoryPath looseFilesDir = context.BlueSkyLooseFilesDistFolder;
+            context.EnsureDirectoryExists( looseFilesDir );
+            context.CleanDirectory( looseFilesDir );
+
+            context.Information( "Publishing App" );
+
+            var publishOptions = new DotNetPublishSettings
+            {
+                Configuration = "Release",
+                OutputDirectory = looseFilesDir.ToString(),
+                MSBuildSettings = context.GetBuildSettings()
+            };
+
+            FilePath servicePath = context.SrcDir.CombineWithFilePath(
+                "HvccClock.Bsky/HvccClock.Bsky.csproj"
+            );
+
+            context.DotNetPublish( servicePath.ToString(), publishOptions );
+            context.Information( string.Empty );
+
+            CopyRootFile( context, "Readme.md" );
+            CopyRootFile( context, "Credits.md" );
+            CopyRootFile( context, "License.md" );
+
+            context.EnsureDirectoryExists( context.BlueSkyZipFilesDistFolder );
+            context.CleanDirectory( context.BlueSkyZipFilesDistFolder );
+
+            FilePath zipFile = context.BlueSkyZipFilesDistFolder.CombineWithFilePath( "HvccClock_BlueSky.zip" );
+            context.Zip( context.BlueSkyLooseFilesDistFolder, zipFile );
+        }
+
+        private void CopyRootFile( BuildContext context, FilePath fileName )
+        {
+            fileName = context.RepoRoot.CombineWithFilePath( fileName );
+            context.Information( $"Copying '{fileName}' to dist" );
+            context.CopyFileToDirectory( fileName, context.BlueSkyLooseFilesDistFolder );
+        }
     }
 }
