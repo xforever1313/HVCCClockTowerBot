@@ -2,9 +2,9 @@
 
 def CallDevops( String arguments )
 {
-    dir( "checkout" )
+    dir( "checkout/DevOps/DevOps" )
     {
-        X13Cmd( "dotnet run --project='./DevOps/DevOps/DevOps.csproj' -- ${arguments}" );
+        X13Cmd( "dotnet run --project='./DevOps.csproj' -- ${arguments}" );
     }
 }
 
