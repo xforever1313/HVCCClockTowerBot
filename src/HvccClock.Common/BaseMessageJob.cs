@@ -57,8 +57,9 @@ namespace HvccClock.Common
 
                 stopWatch.Restart();
 
-                string tweet = GetMessageString( timeStamp, "HVCC" );
+                log.Information( "Sending Message..." );
                 await SendMessage( timeStamp, context.CancellationToken );
+                log.Information( "Sending Message...Done!" );
             }
             catch( Exception e )
             {

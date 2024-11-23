@@ -19,7 +19,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Serilog;
-using Serilog.Sinks.Telegram;
 using Serilog.Sinks.Telegram.Alternative;
 
 namespace HvccClock.Common
@@ -88,8 +87,6 @@ namespace HvccClock.Common
             services.AddQuartz(
                 q =>
                 {
-                    q.UseMicrosoftDependencyInjectionJobFactory();
-
                     JobKey jobKey = JobKey.Create( typeof( TJob ).Name );
                     q.AddJob<TJob>( jobKey );
 

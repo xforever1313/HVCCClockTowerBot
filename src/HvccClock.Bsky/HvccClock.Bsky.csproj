@@ -15,6 +15,7 @@
 	<PackageReference Include="Serilog" />
 	<PackageReference Include="Serilog.AspNetCore" />
 	<PackageReference Include="TweetinviAPI" />
+	<PackageReference Include="X.Bluesky" />
   </ItemGroup>
 
   <ItemGroup>

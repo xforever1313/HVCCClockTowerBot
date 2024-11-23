@@ -17,23 +17,45 @@
 //
 
 using HvccClock.Common;
+using Serilog.Extensions.Logging;
+using X.Bluesky;
 
 namespace HvccClock.Bsky
 {
     public sealed class SkeetJob : BaseMessageJob
     {
+        // ---------------- Fields ----------------
+
+        private readonly BlueskyClient client;
+
         // ---------------- Constructor ----------------
 
-        public SkeetJob( Serilog.ILogger log ) :
+        public SkeetJob( Serilog.ILogger log, HvccClockConfig hvccConfig ) :
             base( log )
         {
+            var microsoftLogger = new SerilogLoggerFactory( log );
+            this.client = new BlueskyClient(
+                hvccConfig.BlueSkyUser,
+                hvccConfig.BlueSkyPassword,
+                true,
+                microsoftLogger.CreateLogger<BlueskyClient>()
+            );
         }
 
         // ---------------- Methods ----------------
 
-        protected override Task SendMessage( DateTime utcTime, CancellationToken cancelToken )
+        protected override async Task SendMessage( DateTime utcTime, CancellationToken cancelToken )
         {
-            return Task.Delay( 100 );
+            DateTime timeStamp = TimeZoneInfo.ConvertTimeFromUtc(
+                utcTime,
+                TimeZoneInfo.FindSystemTimeZoneById( "America/New_York" )
+            );
+
+            // For some reason, need at least one hash tag for the message to get
+            // sent to BlueSky?
+            string postText = GetMessageString( timeStamp, "HVCC" ) + Environment.NewLine + "#HVCC";
+
+            await this.client.Post( postText );
         }
     }
 }

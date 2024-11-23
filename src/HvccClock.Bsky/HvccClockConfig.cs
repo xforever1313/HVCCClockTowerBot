@@ -28,6 +28,9 @@ namespace HvccClock.Bsky
 
         public HvccClockConfig()
         {
+            this.BlueSkyUser = Environment.GetEnvironmentVariable( "BSKY_USER" ) ?? string.Empty;
+            this.BlueSkyPassword = Environment.GetEnvironmentVariable( "BSKY_PASSWORD" ) ?? string.Empty;
+
             {
                 string logFile = Environment.GetEnvironmentVariable( "LOG_FILE" ) ?? string.Empty;
                 if( string.IsNullOrWhiteSpace( logFile ) == false )
@@ -57,6 +60,10 @@ namespace HvccClock.Bsky
 
         public int Port => 9100;
 
+        public string BlueSkyUser { get; }
+
+        public string BlueSkyPassword { get; }
+
         public FileInfo? LogFile { get; }
 
         public string? TelegramBotToken { get; }
@@ -70,6 +77,16 @@ namespace HvccClock.Bsky
         public bool TryValidate( out string error )
         {
             var errors = new List<string>();
+
+            if( string.IsNullOrWhiteSpace( this.BlueSkyUser ) )
+            {
+                errors.Add( "BSKY_USER env var not specfied" );
+            }
+
+            if( string.IsNullOrEmpty( this.BlueSkyPassword ) )
+            {
+                errors.Add( "BSKY_PASSWORD env var not specified" );
+            }
 
             if( errors.Any() )
             {
