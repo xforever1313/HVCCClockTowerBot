@@ -2,7 +2,7 @@
 
 def CallDevops( String arguments )
 {
-    X13Cmd( "dotnet ./checkout/src/DevOps/bin/Debug/net8.0/DevOps.dll ${arguments}" );
+    X13Cmd( "dotnet run --project='./checkout/src/DevOps/DevOps/DevOps.csproj' -- ${arguments}" );
 }
 
 def Build()
