@@ -54,12 +54,19 @@ try
 
     WebApplication app = builder.Build();
     app.UseRouting();
+
+    // Per https://learn.microsoft.com/en-us/aspnet/core/diagnostics/asp0014?view=aspnetcore-8.0:
+    // Warnings from this rule can be suppressed if
+    // the target UseEndpoints invocation is invoked without
+    // any mappings as a strategy to organize middleware ordering.
+    #pragma warning disable ASP0014 // Suggest using top level route registrations
     app.UseEndpoints(
         endpoints =>
         {
             endpoints.MapMetrics( "/Metrics" );
         }
     );
+    #pragma warning restore ASP0014 // Suggest using top level route registrations
 
     log.Information( "Application Running..." );
 
