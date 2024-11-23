@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HvccClock.Twitter", "HvccCl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HvccClock.Tests", "HvccClock.Tests\HvccClock.Tests.csproj", "{BD93EBE7-4ACA-4C1A-9C41-195947174789}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevOps", "DevOps\DevOps.csproj", "{A3FCFF67-B434-4DC0-A028-6863CC0F86F4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HvccClock.Common", "HvccClock.Common\HvccClock.Common.csproj", "{90D7F236-580D-4B12-AC1F-C42F9F89C295}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibSethCS", "..\sethcs\LibSethCS\LibSethCS.csproj", "{0E9BEEF0-BC56-473F-8A9F-7CC07FBD214E}"
@@ -16,8 +14,6 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SethCS", "..\sethcs\SethCS\SethCS.shproj", "{52089274-B9A2-4A47-A221-C321DEE1CE7F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seth.Analyzer", "..\sethcs\Seth.Analyzer\Seth.Analyzer.csproj", "{A27D27F7-32E9-4527-9A5B-925AEC10ACBF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seth.CakeLib", "..\sethcs\Seth.CakeLib\Seth.CakeLib.csproj", "{5AE6B6FF-F245-42A2-9914-08511F55AF90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +29,6 @@ Global
 		{BD93EBE7-4ACA-4C1A-9C41-195947174789}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD93EBE7-4ACA-4C1A-9C41-195947174789}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD93EBE7-4ACA-4C1A-9C41-195947174789}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3FCFF67-B434-4DC0-A028-6863CC0F86F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3FCFF67-B434-4DC0-A028-6863CC0F86F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3FCFF67-B434-4DC0-A028-6863CC0F86F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3FCFF67-B434-4DC0-A028-6863CC0F86F4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{90D7F236-580D-4B12-AC1F-C42F9F89C295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{90D7F236-580D-4B12-AC1F-C42F9F89C295}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90D7F236-580D-4B12-AC1F-C42F9F89C295}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,10 +41,6 @@ Global
 		{A27D27F7-32E9-4527-9A5B-925AEC10ACBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A27D27F7-32E9-4527-9A5B-925AEC10ACBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A27D27F7-32E9-4527-9A5B-925AEC10ACBF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5AE6B6FF-F245-42A2-9914-08511F55AF90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5AE6B6FF-F245-42A2-9914-08511F55AF90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5AE6B6FF-F245-42A2-9914-08511F55AF90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5AE6B6FF-F245-42A2-9914-08511F55AF90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

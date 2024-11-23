@@ -25,14 +25,6 @@ namespace DevOps
 {
     public class BuildContext : FrostingContext
     {
-        // ---------------- Fields ----------------
-
-        /// <summary>
-        /// This is the version of this software,
-        /// update before making a new release.
-        /// </summary>
-        public static readonly string Version = "1.0.0";
-
         // ---------------- Constructor ----------------
 
         public BuildContext( ICakeContext context ) :
@@ -78,10 +70,7 @@ namespace DevOps
         {
             var settings = new DotNetMSBuildSettings();
 
-            settings.WithProperty( "Version", Version )
-                .WithProperty( "AssemblyVersion", Version )
-                .SetMaxCpuCount( System.Environment.ProcessorCount )
-                .WithProperty( "FileVersion", Version );
+            settings.SetMaxCpuCount( System.Environment.ProcessorCount );
 
             return settings;
         }
