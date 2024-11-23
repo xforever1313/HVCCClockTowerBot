@@ -1,5 +1,5 @@
 <Project>
-  <Import Project="$(MSBuildThisFileDirectory)\..\sethcs\Directory.Build.targets"/>
+  <Import Project="$(MSBuildThisFileDirectory)\sethcs\Directory.Build.targets"/>
   
   <ItemGroup>
     <PackageReference Update="dotenv.net" Version="3.2.1" />

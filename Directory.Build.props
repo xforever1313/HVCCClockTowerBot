@@ -1,5 +1,5 @@
 <Project>
-  <Import Project="$(MSBuildThisFileDirectory)\..\sethcs\Directory.Build.props"/>
+  <Import Project="$(MSBuildThisFileDirectory)\sethcs\Directory.Build.props"/>
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
