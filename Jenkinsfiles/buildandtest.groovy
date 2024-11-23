@@ -2,7 +2,7 @@
 
 def CallDevops( String arguments )
 {
-    X13Cmd( "dotnet run --project='./checkout/src/DevOps/DevOps/DevOps.csproj' -- ${arguments}" );
+    X13Cmd( "dotnet run --project='./checkout/DevOps/DevOps/DevOps.csproj' -- ${arguments}" );
 }
 
 def Build()
@@ -44,7 +44,7 @@ pipeline
                 cleanWs();
             }
         }
-        stage( "checkout " )
+        stage( "checkout" )
         {
             steps
             {
