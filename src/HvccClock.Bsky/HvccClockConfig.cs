@@ -30,6 +30,10 @@ namespace HvccClock.Bsky
         {
             this.BlueSkyUser = Environment.GetEnvironmentVariable( "BSKY_USER" ) ?? string.Empty;
             this.BlueSkyPassword = Environment.GetEnvironmentVariable( "BSKY_PASSWORD" ) ?? string.Empty;
+            {
+                string pdsUrl = Environment.GetEnvironmentVariable( "PDS_URL" ) ?? "https://bsky.social";
+                this.PdsUrl = new Uri( pdsUrl );
+            }
 
             {
                 string logFile = Environment.GetEnvironmentVariable( "LOG_FILE" ) ?? string.Empty;
@@ -63,6 +67,8 @@ namespace HvccClock.Bsky
         public string BlueSkyUser { get; }
 
         public string BlueSkyPassword { get; }
+
+        public Uri PdsUrl { get; }
 
         public FileInfo? LogFile { get; }
 

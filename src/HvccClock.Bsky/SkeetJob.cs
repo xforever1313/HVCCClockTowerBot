@@ -35,9 +35,12 @@ namespace HvccClock.Bsky
         {
             var microsoftLogger = new SerilogLoggerFactory( log );
             this.client = new BlueskyClient(
+                new BlueskyHttpClientFactory(),
                 hvccConfig.BlueSkyUser,
                 hvccConfig.BlueSkyPassword,
+                new string[] { "en", "en-US" },
                 true,
+                hvccConfig.PdsUrl,
                 microsoftLogger.CreateLogger<BlueskyClient>()
             );
         }

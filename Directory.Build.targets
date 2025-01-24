@@ -14,6 +14,6 @@
     <PackageReference Update="Serilog.Sinks.File" Version="6.0.0" />
     <PackageReference Update="Serilog.Sinks.Telegram.Alternative" Version="1.4.2" />
     <PackageReference Update="TweetinviAPI" Version="5.0.4" />
-    <PackageReference Update="X.Bluesky" Version="1.2.1-pre" />
+    <PackageReference Update="X.Bluesky" Version="1.3.0" />
   </ItemGroup>
 </Project>
